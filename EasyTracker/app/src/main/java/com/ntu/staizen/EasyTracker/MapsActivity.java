@@ -1,8 +1,11 @@
 package com.ntu.staizen.EasyTracker;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,11 +14,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.greendao.BoxHelper;
+import com.ntu.staizen.EasyTracker.model.LocationData;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+    private static String TAG = MapsActivity.class.getSimpleName();
 
     private GoogleMap mMap;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +34,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        BoxHelper boxHelper = BoxHelper.getInstance(this);
+        LocationData locationData = new LocationData();
+        LocalDateTime localDateTime = LocalDateTime.now();
+        locationData.setDateTime(localDateTime);
+        ArrayList<LocationData> locationDataArrayList = new ArrayList<>();
+        locationDataArrayList.add(locationData);
+        boxHelper.addLocationData(locationDataArrayList);
+        locationDataArrayList = boxHelper.getLocationData();
+        Log.d(TAG,locationDataArrayList.toString());
     }
 
     /**
