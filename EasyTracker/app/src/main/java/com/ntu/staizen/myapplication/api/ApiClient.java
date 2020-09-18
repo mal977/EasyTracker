@@ -1,6 +1,4 @@
-package com.example.plantcare.api;
-
-import android.util.Log;
+package com.ntu.staizen.myapplication.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Malcom Teh on 26/2/2019.
+ * Created by Malcom Teh on 18/9/2020.
  * Any question on how to use, ask Malcom
  */
 

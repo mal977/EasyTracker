@@ -1,11 +1,12 @@
-package com.example.plantcare.api;
+package com.ntu.staizen.myapplication.api;
 
-import com.example.plantcare.api.response.BaseResponse;
+
+import com.ntu.staizen.myapplication.api.response.BaseResponse;
 
 import retrofit2.Call;
 
 /**
- * Created by Malcom Teh on 26/2/2019.
+ * Created by Malcom Teh on 18/9/2020.
  * Any question on how to use, ask Malcom
  */
 

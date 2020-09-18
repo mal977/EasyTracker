@@ -1,7 +1,7 @@
-package com.example.plantcare.api;
+package com.ntu.staizen.myapplication.api;
 
 /**
- * Created by Malcom Teh on 26/2/2019.
+ * Created by Malcom Teh on 18/9/2020.
  * Any question on how to use, ask Malcom
  */
 
@@ -18,11 +18,5 @@ public class ApiConstants {
 //
     public static final String SUNLIGHT_URL = "https://api.sunrise-sunset.org/";
 
-//    public static final String PLANT_URL = "https://trefle.io/api/plants/";
 
-//    public static final String WEATHER_URL = "https://api.data.gov.sg/v1/environment/2-hour-weather-forecast";
-//
-//    public static final String RAINFAILL_URL = "https://api.data.gov.sg/v1/environment/rainfall";
-//
-//    public static final String HUMIDITY_URL = "https://api.data.gov.sg/v1/environment/relative-humidity";
 }

@@ -1,9 +1,9 @@
-package com.example.plantcare.api.response;
+package com.ntu.staizen.myapplication.api.response;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by Malcom Teh on 26/2/2019.
+ * Created by Malcom Teh on 18/9/2020.
  * Any question on how to use, ask Malcom
  */
 
