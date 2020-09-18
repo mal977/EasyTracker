@@ -1,4 +1,4 @@
-package com.ntu.staizen.myapplication;
+package com.ntu.staizen.EasyTracker;
 
 import android.content.Context;
 

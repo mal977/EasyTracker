@@ -1,4 +1,4 @@
-package com.ntu.staizen.myapplication.api;
+package com.ntu.staizen.EasyTracker.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

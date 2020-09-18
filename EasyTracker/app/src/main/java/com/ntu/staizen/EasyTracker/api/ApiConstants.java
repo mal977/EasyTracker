@@ -1,4 +1,4 @@
-package com.ntu.staizen.myapplication.api;
+package com.ntu.staizen.EasyTracker.api;
 
 /**
  * Created by Malcom Teh on 18/9/2020.

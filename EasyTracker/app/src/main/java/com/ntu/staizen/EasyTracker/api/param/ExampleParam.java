@@ -1,4 +1,4 @@
-package com.ntu.staizen.myapplication.api.param;
+package com.ntu.staizen.EasyTracker.api.param;
 
 import com.google.gson.annotations.SerializedName;
 

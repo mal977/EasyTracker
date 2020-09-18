@@ -1,7 +1,7 @@
-package com.ntu.staizen.myapplication.api;
+package com.ntu.staizen.EasyTracker.api;
 
 
-import com.ntu.staizen.myapplication.api.response.BaseResponse;
+import com.ntu.staizen.EasyTracker.api.response.BaseResponse;
 
 import retrofit2.Call;
 
