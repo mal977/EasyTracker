@@ -1,8 +1,13 @@
 package com.ntu.staizen.EasyTracker;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +27,8 @@ import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static String TAG = MapsActivity.class.getSimpleName();
-
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted = false;
     private GoogleMap mMap;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -43,7 +49,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationDataArrayList.add(locationData);
         boxHelper.addLocationData(locationDataArrayList);
         locationDataArrayList = boxHelper.getLocationData();
-        Log.d(TAG,locationDataArrayList.toString());
+        for (LocationData loc : locationDataArrayList
+        ) {
+            Log.d(TAG, loc.toString());
+        }
+
+        if (!Utilities.isLocationEnabled(this)) {
+        }
+        getLocationPermission();
+
+    }
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true;
+                }
+            }
+        }
+        updateLocationUI();
+    }
+
+    private void updateLocationUI() {
+        try {
+            if (locationPermissionGranted) {
+                mMap.setMyLocationEnabled(true);
+            }
+        }catch (SecurityException e){
+            Log.e(TAG,"Exception: " + e.getMessage());
+        }
     }
 
     /**
@@ -58,9 +113,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMinZoomPreference(10f);
 
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(12f));
+        mMap.setMaxZoomPreference(18f);
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = new LatLng(1.347621, 103.683530);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }

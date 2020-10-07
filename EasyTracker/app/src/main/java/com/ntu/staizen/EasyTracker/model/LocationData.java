@@ -84,4 +84,9 @@ public class LocationData {
         }
     }
 
+    public String toString(){
+        return("ID: " + id.toString() +
+                " DateTime: " + dateTime.toString());
+    }
+
 }
