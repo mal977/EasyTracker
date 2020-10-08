@@ -19,8 +19,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.greendao.BoxHelper;
+import com.ntu.staizen.EasyTracker.location.LocationCollectingImplementation;
 import com.ntu.staizen.EasyTracker.model.LocationData;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -59,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         getLocationPermission();
 
     }
+
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -69,12 +76,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
+
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -95,9 +104,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (locationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
+                LocationCollectingImplementation locationCollectingImplementation = new LocationCollectingImplementation(this);
+                locationCollectingImplementation.createLocationRequest();
+                locationCollectingImplementation.createLocationSettingsRequest();
+                locationCollectingImplementation.startLocationUpdates();
             }
-        }catch (SecurityException e){
-            Log.e(TAG,"Exception: " + e.getMessage());
+        } catch (SecurityException e) {
+            Log.e(TAG, "Exception: " + e.getMessage());
         }
     }
 
@@ -121,5 +134,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(1.347621, 103.683530);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        updateLocationUI();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
+
+
+    @Override
+    public void onPause() {
+        EventBus.getDefault().unregister(this);
+        super.onPause();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleCurrentBusStopEvent(LocationChangedEvent event) {
+        Log.d(TAG, "LocationChangedEvent Success");
+        if (event != null && event.getNewLocation() != null) {
+            Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
+        }
+        if (event.getNewLocation() != null) {
+            LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        }
     }
 }

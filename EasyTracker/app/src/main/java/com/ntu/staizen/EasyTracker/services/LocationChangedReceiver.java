@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.EventBus;
 import androidx.annotation.Nullable;
 
 /**
- * Created by Malcom Teh on 28/6/2017.
+ * Created by Malcom Teh on 8/10/2020.
  */
 
 public class LocationChangedReceiver extends IntentService {
