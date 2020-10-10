@@ -3,12 +3,20 @@ package com.ntu.staizen.EasyTracker.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.Nullable;
 
@@ -42,10 +50,15 @@ public class LocationChangedReceiver extends IntentService {
 
         if (location != null) {
             Log.d(TAG, "Location Changed " + location.toString());
+            Date currentDateTime = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("E h:mm a");
+            Utilities.displayTrackingNotification(this, "Last Update: " +
+                    dateFormat.format(currentDateTime) + "\nCurrent Location Lat(" + location.getLatitude() + ") Lon(" + location.getLongitude() + ")");
+            EventBus.getDefault().post(new LocationChangedEvent(location));
         } else {
             Log.d(TAG, "Location Changed Null ");
 
         }
-        EventBus.getDefault().post(new LocationChangedEvent(location));
+
     }
 }
