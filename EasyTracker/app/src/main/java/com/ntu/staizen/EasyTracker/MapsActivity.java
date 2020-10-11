@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,10 +17,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
+import com.ntu.staizen.EasyTracker.firebase.Authentication;
+import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.greendao.BoxHelper;
 import com.ntu.staizen.EasyTracker.location.LocationCollectingImplementation;
+import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,12 +32,15 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private static String TAG = MapsActivity.class.getSimpleName();
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted = false;
     private GoogleMap mMap;
+
+    private Authentication mAuthentication;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -50,7 +55,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         BoxHelper boxHelper = BoxHelper.getInstance(this);
         LocationData locationData = new LocationData();
         LocalDateTime localDateTime = LocalDateTime.now();
-        locationData.setDateTime(localDateTime);
         ArrayList<LocationData> locationDataArrayList = new ArrayList<>();
         locationDataArrayList.add(locationData);
         boxHelper.addLocationData(locationDataArrayList);
@@ -63,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!Utilities.isLocationEnabled(this)) {
         }
         getLocationPermission();
+        mAuthentication = Authentication.getInstance(this);
+        mAuthentication.signInAnonymously(this);
 
     }
 
@@ -78,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             locationPermissionGranted = true;
 
         } else {
+
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
@@ -155,7 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleCurrentBusStopEvent(LocationChangedEvent event) {
+    public void handleLocationChangedEvent(LocationChangedEvent event) {
         Log.d(TAG, "LocationChangedEvent Success");
         if (event != null && event.getNewLocation() != null) {
             Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
@@ -164,5 +171,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void handleFirebaseAuthenticatedEvent(FirebaseAuthenticatedEvent event) {
+        Log.d(TAG, "FirebaseAuthenticatedEvent Success");
+        JobData jobData = new JobData("MalcomJob",
+                "MalcomCompany","69", System.currentTimeMillis(),System.currentTimeMillis());
+        List<LocationData> locationDataList = new ArrayList<>();
+        locationDataList.add(new LocationData(System.currentTimeMillis(),1.4544f,6.9999f));
+        jobData.setLocationDataList(locationDataList);
+//        FireStore.getInstance(this).sendNewJobToFireStore(mAuthentication.getUID(),jobData);
+        FireStore.getInstance(this).sendLocationUpdateToFireStore(mAuthentication.getUID(),new LocationData(System.currentTimeMillis(),2.0f,6.9999f));
+
     }
 }

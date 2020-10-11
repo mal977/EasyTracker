@@ -5,20 +5,67 @@
   "entities": [
     {
       "id": "1:5549463085697718457",
-      "lastPropertyId": "1:949810409908213183",
+      "lastPropertyId": "2:5165324219502621858",
       "name": "LocationData",
       "properties": [
         {
           "id": "1:949810409908213183",
           "name": "dateTime",
           "type": 6,
+          "flags": 2
+        },
+        {
+          "id": "2:5165324219502621858",
+          "name": "id",
+          "type": 6,
           "flags": 3
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:5919657489653267433",
+      "lastPropertyId": "6:8043468564935625009",
+      "name": "JobData",
+      "properties": [
+        {
+          "id": "1:8981574192711809042",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:4116465965904212668",
+          "name": "jobName",
+          "type": 9
+        },
+        {
+          "id": "3:7451354969130085992",
+          "name": "companyName",
+          "type": 9
+        },
+        {
+          "id": "4:774726230967703838",
+          "name": "phoneNo",
+          "type": 9
+        },
+        {
+          "id": "5:5265947788347586371",
+          "name": "dateTimeStart",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "6:8043468564935625009",
+          "name": "dateTimeEnd",
+          "type": 6,
+          "flags": 4
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:5549463085697718457",
+  "lastEntityId": "2:5919657489653267433",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
