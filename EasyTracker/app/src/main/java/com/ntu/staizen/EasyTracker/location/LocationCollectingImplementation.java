@@ -43,7 +43,7 @@ public class LocationCollectingImplementation implements LocationCollectingInter
 
     private FusedLocationProviderClient mFusedLocationClient = null;
 
-    private int gpsTrackingInterval = 5000;     //In milliseconds
+    private int gpsTrackingInterval = 30000;     //In milliseconds
 
     private boolean isTracking = false;
 

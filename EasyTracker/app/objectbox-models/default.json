@@ -4,71 +4,39 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:5549463085697718457",
-      "lastPropertyId": "5:6503571117356884225",
-      "name": "LocationData",
-      "properties": [
-        {
-          "id": "2:5165324219502621858",
-          "name": "id",
-          "type": 6,
-          "flags": 3
-        },
-        {
-          "id": "3:480830092388785941",
-          "name": "dateTimeStamp",
-          "type": 6,
-          "flags": 4
-        },
-        {
-          "id": "4:5382245241994693526",
-          "name": "lat",
-          "type": 7,
-          "flags": 4
-        },
-        {
-          "id": "5:6503571117356884225",
-          "name": "lon",
-          "type": 7,
-          "flags": 4
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "2:5919657489653267433",
-      "lastPropertyId": "6:8043468564935625009",
+      "id": "1:3021445577780301804",
+      "lastPropertyId": "6:8238758568847161742",
       "name": "JobData",
       "properties": [
         {
-          "id": "1:8981574192711809042",
+          "id": "1:5240496243792681364",
           "name": "id",
           "type": 6,
           "flags": 3
         },
         {
-          "id": "2:4116465965904212668",
+          "id": "2:7278115561463234575",
           "name": "jobName",
           "type": 9
         },
         {
-          "id": "3:7451354969130085992",
+          "id": "3:5682812533103407565",
           "name": "companyName",
           "type": 9
         },
         {
-          "id": "4:774726230967703838",
+          "id": "4:1628457179305805860",
           "name": "phoneNo",
           "type": 9
         },
         {
-          "id": "5:5265947788347586371",
+          "id": "5:4917347596215825105",
           "name": "dateTimeStart",
           "type": 6,
           "flags": 4
         },
         {
-          "id": "6:8043468564935625009",
+          "id": "6:8238758568847161742",
           "name": "dateTimeEnd",
           "type": 6,
           "flags": 4
@@ -76,24 +44,54 @@
       ],
       "relations": [
         {
-          "id": "1:2836982613084602376",
+          "id": "1:3593078030275490048",
           "name": "locationDataList",
-          "targetId": "1:5549463085697718457"
+          "targetId": "2:1652377220734748186"
         }
       ]
+    },
+    {
+      "id": "2:1652377220734748186",
+      "lastPropertyId": "4:2115176252736460841",
+      "name": "LocationData",
+      "properties": [
+        {
+          "id": "1:5405418164569456595",
+          "name": "id",
+          "type": 6,
+          "flags": 3
+        },
+        {
+          "id": "2:6141325311801698699",
+          "name": "dateTimeStamp",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "3:3752120676486272329",
+          "name": "lat",
+          "type": 8,
+          "flags": 4
+        },
+        {
+          "id": "4:2115176252736460841",
+          "name": "lon",
+          "type": 8,
+          "flags": 4
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:5919657489653267433",
+  "lastEntityId": "2:1652377220734748186",
   "lastIndexId": "0:0",
-  "lastRelationId": "1:2836982613084602376",
+  "lastRelationId": "1:3593078030275490048",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [
-    949810409908213183
-  ],
+  "retiredPropertyUids": [],
   "retiredRelationUids": [],
   "version": 1
 }

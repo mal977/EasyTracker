@@ -21,8 +21,8 @@ import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
-import com.ntu.staizen.EasyTracker.greendao.BoxHelper;
 import com.ntu.staizen.EasyTracker.location.LocationCollectingImplementation;
+import com.ntu.staizen.EasyTracker.manager.LocationManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 
@@ -52,23 +52,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        BoxHelper boxHelper = BoxHelper.getInstance(this);
-        LocationData locationData = new LocationData();
-        LocalDateTime localDateTime = LocalDateTime.now();
-        ArrayList<LocationData> locationDataArrayList = new ArrayList<>();
-        locationDataArrayList.add(locationData);
-        boxHelper.addLocationData(locationDataArrayList);
-        locationDataArrayList = boxHelper.getLocationData();
-        for (LocationData loc : locationDataArrayList
-        ) {
-            Log.d(TAG, loc.toString());
-        }
-
         if (!Utilities.isLocationEnabled(this)) {
         }
         getLocationPermission();
         mAuthentication = Authentication.getInstance(this);
         mAuthentication.signInAnonymously(this);
+        LocationManager locationManager = LocationManager.getInstance(this);
 
     }
 
@@ -177,12 +166,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void handleFirebaseAuthenticatedEvent(FirebaseAuthenticatedEvent event) {
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");
         JobData jobData = new JobData("MalcomJob",
-                "MalcomCompany","69", System.currentTimeMillis(),System.currentTimeMillis());
-        List<LocationData> locationDataList = new ArrayList<>();
-        locationDataList.add(new LocationData(System.currentTimeMillis(),1.4544f,6.9999f));
-        jobData.setLocationDataList(locationDataList);
-//        FireStore.getInstance(this).sendNewJobToFireStore(mAuthentication.getUID(),jobData);
-        FireStore.getInstance(this).sendLocationUpdateToFireStore(mAuthentication.getUID(),new LocationData(System.currentTimeMillis(),2.0f,6.9999f));
+                "MalcomCompany","69999999", System.currentTimeMillis(),System.currentTimeMillis()+10000);
+        FireStore.getInstance(this).sendNewJobToFireStore(mAuthentication.getUID(),jobData);
 
     }
 }

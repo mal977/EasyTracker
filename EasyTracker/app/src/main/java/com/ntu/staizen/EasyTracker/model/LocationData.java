@@ -35,12 +35,12 @@ public class LocationData {
 //    public LocalDateTime dateTime;
 
     private long dateTimeStamp;
-    private float lat;
-    private float lon;
+    private double lat;
+    private double lon;
 
     public LocationData() {}
 
-    public LocationData(long dateTimeStamp, float lat, float lon) {
+    public LocationData(long dateTimeStamp, double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
         this.dateTimeStamp = dateTimeStamp;
@@ -56,19 +56,19 @@ public class LocationData {
         this.id = id;
     }
 
-    public float getLat() {
+    public double getLat() {
         return this.lat;
     }
 
-    public void setLat(float lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return this.lon;
     }
 
-    public void setLon(float lon) {
+    public void setLon(double lon) {
         this.lon = lon;
     }
 
