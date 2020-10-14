@@ -1,12 +1,11 @@
 package com.ntu.staizen.EasyTracker.manager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.ntu.staizen.EasyTracker.MapsActivity;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
@@ -16,9 +15,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import static com.ntu.staizen.EasyTracker.MapsActivity.JOB_REFERENCE;
+
 /**
- *  Created by Malcom on 11 Oct 2020
- *  This class is responsible for managing location data and sending it to the appropriate jobs.
+ * Created by Malcom on 11 Oct 2020
+ * This class is responsible for managing location data and sending it to the appropriate jobs.
  */
 public class LocationManager {
 
@@ -46,8 +47,9 @@ public class LocationManager {
 
     }
 
-    public void newLocationUpdate(LocationData locationData){
+    public void newLocationUpdate(LocationData locationData) {
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleLocationChangedEvent(LocationChangedEvent event) {
         Log.d(TAG, "LocationChangedEvent Success");
@@ -56,8 +58,10 @@ public class LocationManager {
         }
         if (event.getNewLocation() != null) {
             LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
-            LocationData locationData = new LocationData(System.currentTimeMillis(), loc.latitude,loc.longitude);
-            mFireStore.sendLocationUpdateToFireStore(mAuthentication.getUID(),locationData);
+            LocationData locationData = new LocationData(System.currentTimeMillis(), loc.latitude, loc.longitude);
+            if (JOB_REFERENCE != null) {
+                mFireStore.sendLocationUpdateToFireStore(JOB_REFERENCE, locationData);
+            }
         }
     }
 

@@ -14,11 +14,9 @@ import io.objectbox.annotation.Id;
 public class JobData {
 
     @Id
-    private Long id;
+    private long id=0;
 
-    private String jobName;
     private String companyName;
-    private String phoneNo;
     private long dateTimeStart;
     private long dateTimeEnd;
     private List<LocationData> locationDataList;
@@ -26,30 +24,20 @@ public class JobData {
     public JobData() {
     }
 
-    public JobData(String jobName, String companyName, String phoneNo, long dateTimeStart, long dateTimeEnd) {
-        this.jobName = jobName;
+    public JobData( String companyName,  long dateTimeStart, long dateTimeEnd) {
         this.companyName = companyName;
-        this.phoneNo = phoneNo;
         this.dateTimeStart = dateTimeStart;
         this.dateTimeEnd = dateTimeEnd;
     }
 
-    public JobData(String jobName, String companyName, String phoneNo, long dateTimeStart, long dateTimeEnd, List<LocationData> locationDataList) {
-        this.jobName = jobName;
+    public JobData( String companyName, long dateTimeStart, long dateTimeEnd, List<LocationData> locationDataList) {
         this.companyName = companyName;
-        this.phoneNo = phoneNo;
         this.dateTimeStart = dateTimeStart;
         this.dateTimeEnd = dateTimeEnd;
         this.locationDataList = locationDataList;
     }
 
-    public String getJobName() {
-        return jobName;
-    }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
 
     public String getCompanyName() {
         return companyName;
@@ -59,13 +47,7 @@ public class JobData {
         this.companyName = companyName;
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
-    }
 
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
 
     public long getDateTimeStart() {
         return dateTimeStart;
@@ -84,21 +66,19 @@ public class JobData {
     }
 
     public String toString() {
-        return ("ID: " + (id == null ? "0" : id.toString())
-                + " jobName: " + jobName.toString()
-                + " companyName: " + jobName.toString()
-                + " phoneNo: " + jobName.toString()
-                + " dateTimeStart: " + jobName.toString()
-                + " dateTimeEnd: " + jobName.toString()
+        return ("ID: " + id
+                + " companyName: " + companyName
+                + " dateTimeStart: " + dateTimeStart
+                + " dateTimeEnd: " + dateTimeEnd
         );
     }
 
     @Exclude
-    public Long getId() {
+    public long getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

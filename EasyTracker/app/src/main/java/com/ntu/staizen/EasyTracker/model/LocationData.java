@@ -28,7 +28,7 @@ import io.objectbox.converter.PropertyConverter;
 public class LocationData {
 
     @Id
-    private Long id;
+    private long id=0;
 
 //    @Exclude
 //    @Convert(converter = DateTimeConverter.class, dbType = Long.class)
@@ -48,11 +48,11 @@ public class LocationData {
 
 
     @Exclude
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -113,7 +113,7 @@ public class LocationData {
 //    }
 
     public String toString(){
-        return("ID: " + id.toString()
+        return("ID: " + id
                 + " DateTime: " + dateTimeStamp
                 + " Lat: " + lat
                 + " Lon: " + lon);
