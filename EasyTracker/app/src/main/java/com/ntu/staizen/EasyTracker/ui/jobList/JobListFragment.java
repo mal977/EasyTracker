@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.model.JobData;
 
 import java.util.ArrayList;
@@ -43,6 +47,13 @@ public class JobListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NavController navController = Navigation.findNavController(view);
+        Authentication authentication = Authentication.getInstance(getContext());
+        if(authentication.getmAuth().getCurrentUser()==null){
+            navController.navigate(R.id.loginFragment);
+        }else{
+            Toast.makeText(getContext(), authentication.getmAuth().getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
+        }
         jobDataArrayList = new ArrayList<>();
         jobDataArrayList.add(new JobData("MalCo1",System.currentTimeMillis(),System.currentTimeMillis()+1000));
         JobData j = new JobData("MalCo2",System.currentTimeMillis(),System.currentTimeMillis()+1000);

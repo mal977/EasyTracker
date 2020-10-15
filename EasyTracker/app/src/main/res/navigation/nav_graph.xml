@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/jobListFragment">
     <activity
         android:id="@+id/mainActivity"
         android:name="com.ntu.staizen.EasyTracker.MainActivity"
@@ -15,11 +15,26 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_jobListFragment"
-            app:destination="@id/jobListFragment" />
+            app:destination="@id/jobListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/jobListFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/jobListFragment"
         android:name="com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment"
         android:label="JobListFragment"
-        tools:layout="@layout/fragment_job_list"/>
+        tools:layout="@layout/fragment_job_list">
+        <action
+            android:id="@+id/action_jobListFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/loginFragment" />
+    </fragment>
 </navigation>
