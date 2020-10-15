@@ -28,7 +28,6 @@ import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
-import com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,7 +54,7 @@ public class LoginFragment extends Fragment {
 
         final EditText usernameEditText = view.findViewById(R.id.et_name);
         final EditText passwordEditText = view.findViewById(R.id.et_password);
-        final Button loginButton = (Button) view.findViewById(R.id.btn_start_new_jobs);
+        final Button loginButton = (Button) view.findViewById(R.id.btn_login);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.pb_login);
 
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(), new Observer<LoginFormState>() {

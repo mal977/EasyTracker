@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
         <ImageView
@@ -146,14 +146,14 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
         <Button
-            android:id="@+id/btn_start_new_jobs"
+            android:id="@+id/btn_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:background="@android:color/background_dark"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="Start New Job"
+            android:text="@string/login"
             android:textColor="@android:color/background_light"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="@+id/cardView3"
@@ -170,7 +170,7 @@
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_start_new_jobs" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

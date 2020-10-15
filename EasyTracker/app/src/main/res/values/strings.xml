@@ -21,6 +21,9 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 
+    //Login Fragment
+    <string name="login">Login</string>
+
     //Job List Fragment
     <string name="hello_contractor">Hello, Contractor!</string>
     <string name="all_jobs">All Jobs</string>

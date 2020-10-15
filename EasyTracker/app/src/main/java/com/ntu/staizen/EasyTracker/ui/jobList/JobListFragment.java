@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
@@ -33,10 +35,10 @@ public class JobListFragment extends Fragment {
     private RecyclerView jobListRecyclerView;
     private ArrayList<JobData> jobDataArrayList;
 
+
     public JobListFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -49,27 +51,37 @@ public class JobListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         NavController navController = Navigation.findNavController(view);
         Authentication authentication = Authentication.getInstance(getContext());
-        if(authentication.getmAuth().getCurrentUser()==null){
+        if (authentication.getmAuth().getCurrentUser() == null) {
             navController.navigate(R.id.loginFragment);
-        }else{
-            Toast.makeText(getContext(), authentication.getmAuth().getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
+        } else {
+            TextView tvUID = view.findViewById(R.id.tv_uid);
+            tvUID.setText("UID: " + authentication.getmAuth().getCurrentUser().getUid());
         }
         jobDataArrayList = new ArrayList<>();
-        jobDataArrayList.add(new JobData("MalCo1",System.currentTimeMillis(),System.currentTimeMillis()+1000));
-        JobData j = new JobData("MalCo2",System.currentTimeMillis(),System.currentTimeMillis()+1000);
+        jobDataArrayList.add(new JobData("MalCo1", System.currentTimeMillis(), System.currentTimeMillis() + 1000));
+        JobData j = new JobData("MalCo2", System.currentTimeMillis(), System.currentTimeMillis() + 1000);
         j.setUID("123124sad12sad");
         jobDataArrayList.add(j);
         jobDataArrayList.add(j);
         jobDataArrayList.add(j);
         jobDataArrayList.add(j);
         jobDataArrayList.add(j);
-        jobDataArrayList.add(new JobData("MalCo3",System.currentTimeMillis(),System.currentTimeMillis()+1000));
+        jobDataArrayList.add(new JobData("MalCo3", System.currentTimeMillis(), System.currentTimeMillis() + 1000));
 
         jobListRecyclerView = view.findViewById(R.id.rv_job_list);
         jobListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        jobListAdapter = new JobListAdapter(getContext(),jobDataArrayList);
+        jobListAdapter = new JobListAdapter(getContext(), jobDataArrayList);
         jobListRecyclerView.setAdapter(jobListAdapter);
-        jobListRecyclerView.addItemDecoration(new DividerItemDecoration(jobListRecyclerView.getContext(),DividerItemDecoration.VERTICAL));
+        jobListRecyclerView.addItemDecoration(new DividerItemDecoration(jobListRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
+        start_new_job.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "LOLOLOLOLO", Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
     @Override
