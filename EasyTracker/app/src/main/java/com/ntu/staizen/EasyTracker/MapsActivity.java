@@ -162,10 +162,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (locationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
-                LocationCollectingImplementation locationCollectingImplementation = new LocationCollectingImplementation(this);
-                locationCollectingImplementation.createLocationRequest();
-                locationCollectingImplementation.createLocationSettingsRequest();
-                locationCollectingImplementation.startLocationUpdates();
+                LocationManager locationManager = LocationManager.getInstance(this);
+                locationManager.startLocationUpdates(this);
             }
         } catch (SecurityException e) {
             Log.e(TAG, "Exception: " + e.getMessage());
@@ -221,7 +219,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");
         ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
         FireStore.getInstance(this).sendNewContractorToFireStore(mAuthentication.getUID(), contractorInfo, false);
-        JOB_REFERENCE =  FireStore.getInstance(this).sendNewJobToFireStore(mAuthentication.getUID(),new JobData("MalcomCompany2", System.currentTimeMillis(),System.currentTimeMillis()+1000));
+        LocationManager locationManager = LocationManager.getInstance(this);
+        locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
 
 //        JobData jobData = new JobData("MalcomJob",
 //                "MalcomCompany","69999999", System.currentTimeMillis(),System.currentTimeMillis()+10000);

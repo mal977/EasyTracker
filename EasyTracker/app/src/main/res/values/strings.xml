@@ -33,4 +33,6 @@
     <string name="time">TIME:</string>
     <string name="location">LOCATION:</string>
     <string name="status">STATUS</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

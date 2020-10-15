@@ -63,11 +63,13 @@ public class Authentication {
                             Log.d(TAG, "signInAnonymously:success, UID: " + mAuth.getCurrentUser().getUid());
                             isAuthenticated = true;
                             mUser = mAuth.getCurrentUser();
-                            EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent());
+                            EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(1));
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInAnonymously:failure", task.getException());
+                            EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(0,task.getException().toString()));
+
                             Toast.makeText(mContext, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }

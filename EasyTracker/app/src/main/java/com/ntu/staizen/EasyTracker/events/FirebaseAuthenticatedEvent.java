@@ -7,7 +7,24 @@ import android.location.Location;
  */
 
 public class FirebaseAuthenticatedEvent {
-    public FirebaseAuthenticatedEvent(){
+
+    private Integer authenticatedStatus;    //0=FAILED, 1 = Sucesss
+    private String errorMessage;
+
+    public FirebaseAuthenticatedEvent(Integer authenticatedStatus){
+        this.authenticatedStatus = authenticatedStatus;
     }
 
+    public FirebaseAuthenticatedEvent(Integer authenticatedStatus, String errorMessage){
+        this.authenticatedStatus = authenticatedStatus;
+        this.errorMessage = errorMessage;
+    }
+
+    public Integer getAuthenticatedStatus() {
+        return authenticatedStatus;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
 }

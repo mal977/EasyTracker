@@ -16,6 +16,7 @@ public class JobData {
     @Id
     private long id=0;
 
+    private String UID;
     private String companyName;
     private long dateTimeStart;
     private long dateTimeEnd;
@@ -37,7 +38,23 @@ public class JobData {
         this.locationDataList = locationDataList;
     }
 
+    @Exclude
+    public long getId() {
+        return this.id;
+    }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Exclude
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
 
     public String getCompanyName() {
         return companyName;
@@ -65,23 +82,6 @@ public class JobData {
         this.dateTimeEnd = dateTimeEnd;
     }
 
-    public String toString() {
-        return ("ID: " + id
-                + " companyName: " + companyName
-                + " dateTimeStart: " + dateTimeStart
-                + " dateTimeEnd: " + dateTimeEnd
-        );
-    }
-
-    @Exclude
-    public long getId() {
-        return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public List<LocationData> getLocationDataList() {
         return locationDataList;
     }
@@ -96,4 +96,16 @@ public class JobData {
         }
         locationDataList.add(locationData);
     }
+
+
+
+    public String toString() {
+        return ("ID: " + id
+                + " UID: " + UID
+                + " companyName: " + companyName
+                + " dateTimeStart: " + dateTimeStart
+                + " dateTimeEnd: " + dateTimeEnd
+        );
+    }
+
 }

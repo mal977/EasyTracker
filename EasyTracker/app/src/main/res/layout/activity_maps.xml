@@ -6,21 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello"
-        android:textSize="@dimen/primary_text_size"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toTopOf="parent" />
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        map:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:context="com.ntu.staizen.EasyTracker.MapsActivity"></fragment>
+        tools:context="com.ntu.staizen.EasyTracker.MapsActivity"
+        tools:layout_editor_absoluteY="22dp"></fragment>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,7 +44,7 @@
                 tools:text="08/10/2020" />
 
             <TextView
-                android:id="@+id/tv_job_id"
+                android:id="@+id/tv_title_job_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

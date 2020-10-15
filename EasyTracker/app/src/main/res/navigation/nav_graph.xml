@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.ntu.staizen.EasyTracker.MainActivity"
+        android:label="MainActivity" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ntu.staizen.EasyTracker.ui.login.LoginFragment"
+        android:label="fragment_login2"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_jobListFragment"
+            app:destination="@id/jobListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobListFragment"
+        android:name="com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment"
+        android:label="JobListFragment"
+        tools:layout="@layout/fragment_job_list"/>
+</navigation>

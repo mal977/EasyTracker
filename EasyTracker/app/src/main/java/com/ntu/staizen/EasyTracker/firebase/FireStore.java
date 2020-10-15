@@ -87,10 +87,12 @@ public class FireStore {
         return databaseReference;
     }
 
-    public void sendLocationUpdateToFireStore(String UID, LocationData locationData) {
+    public DatabaseReference sendLocationUpdateToFireStore(String UID, LocationData locationData) {
         Log.d(TAG, "Adding a new location: " + locationData.toString() + " to UID : " + UID);
 
-        mReference.child("jobs/" + UID).child("locationDataList").push().setValue(locationData);
+        DatabaseReference reference = mReference.child("jobs/" + UID).child("locationDataList").push();
+        reference.setValue(locationData);
+        return reference;
     }
 
     public void sendLocationUpdateToFireStore(DatabaseReference databaseReference, LocationData locationData) {
