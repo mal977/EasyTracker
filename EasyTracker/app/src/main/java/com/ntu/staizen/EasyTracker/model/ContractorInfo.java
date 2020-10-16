@@ -1,5 +1,6 @@
 package com.ntu.staizen.EasyTracker.model;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class ContractorInfo {
         this.jobList = jobList;
     }
 
+    @Exclude
     public long getId() {
         return id;
     }

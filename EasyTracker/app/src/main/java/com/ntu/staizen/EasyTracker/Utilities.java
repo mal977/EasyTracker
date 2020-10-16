@@ -25,6 +25,7 @@ public class Utilities {
     private static final String TAG = Utilities.class.getSimpleName();
     public static String NOTIFICATION_CHANNEL_ID = "easy_tracker_notification_channel";
     public static String TRACKING_NOTIFICATION_CHANNEL_ID = "tracking_notification";
+    public static String PREFERENCE_FILE_KEY = "com.ntu.staizen.EasyTracker";
 
     public static boolean checkPermission(AppCompatActivity activity, String appPermission) {
         int permissionEnabled = ActivityCompat.checkSelfPermission(activity, appPermission);
@@ -99,4 +100,5 @@ public class Utilities {
         notificationManager.notify(1,n );
 
     }
+
 }

@@ -220,7 +220,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
         FireStore.getInstance(this).sendNewContractorToFireStore(mAuthentication.getUID(), contractorInfo, false);
         LocationManager locationManager = LocationManager.getInstance(this);
-        locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
+//        locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
 
 //        JobData jobData = new JobData("MalcomJob",
 //                "MalcomCompany","69999999", System.currentTimeMillis(),System.currentTimeMillis()+10000);

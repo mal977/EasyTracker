@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3021445577780301804",
-      "lastPropertyId": "6:8238758568847161742",
+      "lastPropertyId": "7:5638495734419654567",
       "name": "JobData",
       "properties": [
         {
@@ -30,6 +30,11 @@
           "name": "dateTimeEnd",
           "type": 6,
           "flags": 4
+        },
+        {
+          "id": "7:5638495734419654567",
+          "name": "UID",
+          "type": 9
         }
       ],
       "relations": [

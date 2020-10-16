@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3021445577780301804",
-      "lastPropertyId": "7:5638495734419654567",
+      "lastPropertyId": "8:5389131629214587487",
       "name": "JobData",
       "properties": [
         {
@@ -13,11 +13,6 @@
           "name": "id",
           "type": 6,
           "flags": 1
-        },
-        {
-          "id": "3:5682812533103407565",
-          "name": "companyName",
-          "type": 9
         },
         {
           "id": "5:4917347596215825105",
@@ -35,12 +30,17 @@
           "id": "7:5638495734419654567",
           "name": "UID",
           "type": 9
+        },
+        {
+          "id": "8:5389131629214587487",
+          "name": "company",
+          "type": 9
         }
       ],
       "relations": [
         {
-          "id": "1:3593078030275490048",
-          "name": "locationDataList",
+          "id": "3:5029079915745915829",
+          "name": "location",
           "targetId": "2:1652377220734748186"
         }
       ]
@@ -110,7 +110,7 @@
   ],
   "lastEntityId": "3:7158050853191890715",
   "lastIndexId": "0:0",
-  "lastRelationId": "2:1303202616921716689",
+  "lastRelationId": "3:5029079915745915829",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
@@ -118,8 +118,11 @@
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     7278115561463234575,
-    1628457179305805860
+    1628457179305805860,
+    5682812533103407565
   ],
-  "retiredRelationUids": [],
+  "retiredRelationUids": [
+    3593078030275490048
+  ],
   "version": 1
 }

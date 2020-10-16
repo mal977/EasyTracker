@@ -1,5 +1,6 @@
 package com.ntu.staizen.EasyTracker.ui.jobList;
 
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
+import com.ntu.staizen.EasyTracker.firebase.FireStore;
+import com.ntu.staizen.EasyTracker.manager.LocationManager;
+import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 import com.ntu.staizen.EasyTracker.model.JobData;
+import com.ntu.staizen.EasyTracker.model.LocationData;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -75,11 +83,43 @@ public class JobListFragment extends Fragment {
         jobListRecyclerView.addItemDecoration(new DividerItemDecoration(jobListRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
+        Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
+
         start_new_job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "LOLOLOLOLO", Toast.LENGTH_LONG).show();
 
+            }
+        });
+
+        btn_temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FireStore fireStore = FireStore.getInstance(getContext());
+//                ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
+//                fireStore.sendNewContractorToFireStore(authentication.getmAuth().getUid(),contractorInfo,false);
+                LocationManager locationManager = LocationManager.getInstance(getContext());
+                JobData jobData = new JobData("MalcomCompany", System.currentTimeMillis(), System.currentTimeMillis() + 10000);
+                Location location = new Location("Test");
+                location.setLatitude(1.3);
+                location.setLongitude(1.2);
+                LocationData locationData = new LocationData(System.currentTimeMillis(), 1.69,1.69);
+                ArrayList<LocationData> locationArrayList = new ArrayList<>();
+                locationArrayList.add(locationData);
+                locationArrayList.add(locationData);
+
+                jobData.setLocation(locationArrayList);
+                locationManager.startNewJob(jobData);
+//                EventBus.getDefault().post(new LocationChangedEvent(location));
+//                EventBus.getDefault().post(new LocationChangedEvent(location));
+//                EventBus.getDefault().post(new LocationChangedEvent(location));
+
+
+//                locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
+
+
+//        FireStore.getInstance(this).sendNewJobToFireStore(mAuthentication.getUID(),jobData);
             }
         });
     }

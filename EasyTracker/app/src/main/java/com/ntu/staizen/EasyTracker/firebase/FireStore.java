@@ -87,18 +87,19 @@ public class FireStore {
         return databaseReference;
     }
 
-    public DatabaseReference sendLocationUpdateToFireStore(String UID, LocationData locationData) {
-        Log.d(TAG, "Adding a new location: " + locationData.toString() + " to UID : " + UID);
+    public DatabaseReference sendLocationUpdateToFireStore(String UID, String jobUID ,LocationData locationData) {
+        Log.d(TAG, "Adding a new location: " + locationData.toString() + " to UID : " + UID + " jobUID : " + jobUID);
 
-        DatabaseReference reference = mReference.child("jobs/" + UID).child("locationDataList").push();
+        DatabaseReference reference = mReference.child("contractors/" + UID).child("jobList/"+jobUID).child("location").push();
         reference.setValue(locationData);
         return reference;
     }
 
     public void sendLocationUpdateToFireStore(DatabaseReference databaseReference, LocationData locationData) {
         Log.d(TAG, "Adding a new location: " + locationData.toString() + " to path : " + databaseReference.getKey());
-        databaseReference.child("locationData").push().setValue(locationData);
+        databaseReference.child("location").push().setValue(locationData);
     }
+
     private void checkIfContractorExist(String UID) {
         ValueEventListener contractorListener = new ValueEventListener() {
             @Override

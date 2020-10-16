@@ -17,25 +17,25 @@ public class JobData {
     private long id=0;
 
     private String UID;
-    private String companyName;
+    private String company; //This is actually companyName, but nicholas is a dumbass and named the variable in firestore as comapny
     private long dateTimeStart;
     private long dateTimeEnd;
-    private List<LocationData> locationDataList;
+    private List<LocationData> location;
 
     public JobData() {
     }
 
     public JobData( String companyName,  long dateTimeStart, long dateTimeEnd) {
-        this.companyName = companyName;
+        this.company = companyName;
         this.dateTimeStart = dateTimeStart;
         this.dateTimeEnd = dateTimeEnd;
     }
 
     public JobData( String companyName, long dateTimeStart, long dateTimeEnd, List<LocationData> locationDataList) {
-        this.companyName = companyName;
+        this.company = companyName;
         this.dateTimeStart = dateTimeStart;
         this.dateTimeEnd = dateTimeEnd;
-        this.locationDataList = locationDataList;
+        this.location = locationDataList;
     }
 
     @Exclude
@@ -56,12 +56,12 @@ public class JobData {
         this.UID = UID;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
 
@@ -82,19 +82,19 @@ public class JobData {
         this.dateTimeEnd = dateTimeEnd;
     }
 
-    public List<LocationData> getLocationDataList() {
-        return locationDataList;
+    public List<LocationData> getLocation() {
+        return location;
     }
 
-    public void setLocationDataList(List<LocationData> locationDataList) {
-        this.locationDataList = locationDataList;
+    public void setLocation(List<LocationData> location) {
+        this.location = location;
     }
 
     public void addLocationData(LocationData locationData) {
-        if (this.locationDataList == null) {
-            locationDataList = new ArrayList<LocationData>();
+        if (this.location == null) {
+            location = new ArrayList<LocationData>();
         }
-        locationDataList.add(locationData);
+        location.add(locationData);
     }
 
 
@@ -102,7 +102,7 @@ public class JobData {
     public String toString() {
         return ("ID: " + id
                 + " UID: " + UID
-                + " companyName: " + companyName
+                + " companyName: " + company
                 + " dateTimeStart: " + dateTimeStart
                 + " dateTimeEnd: " + dateTimeEnd
         );

@@ -2,11 +2,13 @@ package com.ntu.staizen.EasyTracker.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
@@ -61,8 +63,12 @@ public class LocationManager {
 
     public void startNewJob(JobData jobData) {
         if (mAuthentication != null) {
-            if (currentRunningJobReference == null) {
-                currentRunningJobReference = mFireStore.sendNewJobToFireStore(mAuthentication.getUID(), jobData);
+            if (currentRunningJobReference == null) {       //Prevents user from starting new job while a currentJob is running
+                currentRunningJobReference = mFireStore.sendNewJobToFireStore(mAuthentication.getmAuth().getUid(), jobData);
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("Current_Running_Job", currentRunningJobReference.getKey());
+                editor.apply();
             }
         }
     }
@@ -76,7 +82,14 @@ public class LocationManager {
         if (event.getNewLocation() != null) {
             LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
             LocationData locationData = new LocationData(System.currentTimeMillis(), loc.latitude, loc.longitude);
-            if (currentRunningJobReference != null) {
+            if (currentRunningJobReference == null) {
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+                String storedRunningJobReference = sharedPreferences.getString("Current_Running_Job", "");
+                if (storedRunningJobReference != null & !storedRunningJobReference.isEmpty()) {
+                    Log.d(TAG, storedRunningJobReference);
+                    mFireStore.sendLocationUpdateToFireStore(mAuthentication.getmAuth().getUid(), storedRunningJobReference, locationData);
+                }
+            } else {
                 mFireStore.sendLocationUpdateToFireStore(currentRunningJobReference, locationData);
             }
         }

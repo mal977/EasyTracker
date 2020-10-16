@@ -75,7 +75,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
 
         public void updateData(JobData jobData, int position){
             jobID.setText(String.valueOf(jobData.getUID()));
-            companyName.setText(jobData.getCompanyName());
+            companyName.setText(jobData.getCompany());
             timeStart.setText(String.valueOf(jobData.getDateTimeStart()));
             timeEnd.setText(String.valueOf(jobData.getDateTimeEnd()));
 
