@@ -2,8 +2,7 @@ package com.ntu.staizen.EasyTracker.ui.newJobDetails;
 
 import android.util.Log;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
+import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.LocationManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
@@ -17,16 +16,26 @@ import java.util.Date;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NewJobDetailsModel extends ViewModel {
-    private static String TAG = NewJobDetailsModel.class.getSimpleName();
+public class JobDetailsModel extends ViewModel {
+    private static String TAG = JobDetailsModel.class.getSimpleName();
 
     private MutableLiveData<LocationChangedEvent> currentLocationEvent = new MutableLiveData<>();
 
-    public MutableLiveData<LocationChangedEvent> getCurrentLocationEvent() {return currentLocationEvent;}
+    public MutableLiveData<LocationChangedEvent> getCurrentLocationEvent() {
+        return currentLocationEvent;
+    }
 
-    public void setCurrentLocationEvent(MutableLiveData<LocationChangedEvent> currentLocationEvent) {this.currentLocationEvent = currentLocationEvent;}
+    public void setCurrentLocationEvent(MutableLiveData<LocationChangedEvent> currentLocationEvent) {
+        this.currentLocationEvent = currentLocationEvent;
+    }
 
-    public NewJobDetailsModel() {
+    private MutableLiveData<JobDetailState> jobDetailStateMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<JobDetailState> getJobDetailStateMutableLiveData() {
+        return jobDetailStateMutableLiveData;
+    }
+
+    public JobDetailsModel() {
         super();
         EventBus.getDefault().register(this);
 
@@ -39,14 +48,21 @@ public class NewJobDetailsModel extends ViewModel {
 
     }
 
-    public void startNewJob(String companyName, Date dateTime){
+    public String startNewJob(String companyName, Date dateTime) {
         JobData jobData = new JobData();
         jobData.setCompany(companyName);
         jobData.setDateTimeStart(dateTime.getTime());
-        LocationManager.getInstance().startNewJob(jobData);
+        return LocationManager.getInstance().startNewJob(jobData);
     }
 
-    public void setCurrentLocationEvent(LocationChangedEvent locationEvent){
+    public void getJobDetails(String UID){
+        BoxHelper boxHelper = BoxHelper.getInstance();
+        JobData jobData = boxHelper.getJobData(UID);
+
+        jobDetailStateMutableLiveData.setValue(new JobDetailState(jobData));
+    }
+
+    public void setCurrentLocationEvent(LocationChangedEvent locationEvent) {
         this.currentLocationEvent.setValue(locationEvent);
     }
 
@@ -57,7 +73,7 @@ public class NewJobDetailsModel extends ViewModel {
             Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
         }
         if (event.getNewLocation() != null) {
-           currentLocationEvent.setValue(event);
+            currentLocationEvent.setValue(event);
         }
     }
 

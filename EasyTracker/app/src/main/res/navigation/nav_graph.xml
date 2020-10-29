@@ -37,16 +37,41 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/loginFragment" />
         <action
-            android:id="@+id/action_jobListFragment_to_jobDetails"
-            app:destination="@id/jobDetails"
+            android:id="@+id/action_jobListFragment_to_new_JobDetails"
+            app:destination="@id/newJobDetails"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_jobListFragment_to_jobDetails2"
+            app:destination="@id/jobDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/newJobDetails"
+        android:name="com.ntu.staizen.EasyTracker.ui.newJobDetails.NewJobDetailsFragment"
+        android:label="fragment_new_job_details"
+        tools:layout="@layout/fragment_new_job_details">
+        <action
+            android:id="@+id/action_newJobDetails_to_jobDetails"
+            app:destination="@id/jobDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/newJobDetails"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/jobDetails"
-        android:name="com.ntu.staizen.EasyTracker.ui.newJobDetails.NewJobDetailsFragment"
-        android:label="fragment_job_details"
-        tools:layout="@layout/fragment_new_job_details" />
+        android:name="com.ntu.staizen.EasyTracker.ui.jobDetails.JobDetailsFragment"
+        android:label="JobDetails"
+        tools:layout="@layout/fragment_job_details">
+        <action
+            android:id="@+id/action_jobDetails_to_jobListFragment"
+            app:destination="@id/jobListFragment" />
+        <argument
+            android:name="job_uid"
+            app:argType="string" />
+    </fragment>
 </navigation>

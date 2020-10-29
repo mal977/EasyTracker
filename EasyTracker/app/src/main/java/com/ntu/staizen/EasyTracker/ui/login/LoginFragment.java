@@ -75,7 +75,7 @@ public class LoginFragment extends Fragment {
                 if (loginFormState.getPasswordError() != null) {
                     passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
-                if (loginFormState.getUsernameError() != null) {
+                if (loginFormState.getPhoneNumberError() != null) {
                     phoneNumberEditText.setError(getString(loginFormState.getPhoneNumberError()));
                 }
             }

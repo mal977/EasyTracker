@@ -35,13 +35,18 @@
     <string name="start_new_job">Start New Job</string>
     <string name="history">History</string>
 
-    <!-- Job Details Fragment -->
+    <!-- New Job Details Fragment -->
     <string name="start_job">Start Job</string>
     <string name="job_id">JOB ID</string>
-    <string name="time">TIME:</string>
+    <string name="time">Time</string>
     <string name="location">LOCATION:</string>
     <string name="status">STATUS</string>
     <string name="enter_company_name">Enter Company Name</string>
+    <string name="company_name">Company Name</string>
+
+    <!-- Job Details -->
+    <string name="end_job">End Job</string>
+    <string name="start">Start</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -14,7 +14,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         app:cardCornerRadius="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_start_job"
+        app:layout_constraintBottom_toTopOf="@+id/btn_end_job"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -55,11 +55,11 @@
                 tools:text="#6969" />
 
             <TextView
-                android:id="@+id/tv_title_job_name"
+                android:id="@+id/tv_title_company_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Job Name:"
+                android:text="@string/company_name"
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/tv_details_title_job_id"
@@ -73,8 +73,8 @@
                 android:ems="10"
                 android:hint="@string/enter_company_name"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_job_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_job_name" />
+                app:layout_constraintStart_toStartOf="@+id/tv_title_company_name"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_company_name" />
 
             <TextView
                 android:id="@+id/tv_title_time"
@@ -147,14 +147,14 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/btn_start_job"
+        android:id="@+id/btn_end_job"
         style="@style/AppTheme.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="86dp"
         android:layout_marginEnd="86dp"
         android:layout_marginBottom="62dp"
-        android:background="@drawable/custom_ripple"
+        android:background="@drawable/custom_ripple_new_job"
         android:text="@string/start_job"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

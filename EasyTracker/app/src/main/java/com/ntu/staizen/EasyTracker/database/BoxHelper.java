@@ -1,14 +1,17 @@
-package com.ntu.staizen.EasyTracker.greendao;
+package com.ntu.staizen.EasyTracker.database;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.ntu.staizen.EasyTracker.model.JobData;
+import com.ntu.staizen.EasyTracker.model.JobData_;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.model.MyObjectBox;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
 
@@ -35,6 +38,11 @@ public class BoxHelper {
         if (instance == null) {
             instance = new BoxHelper(context.getApplicationContext());
         }
+        return instance;
+    }
+
+    @Nullable
+    public static synchronized BoxHelper getInstance() {
         return instance;
     }
 
@@ -83,5 +91,34 @@ public class BoxHelper {
         }
 
         return locationDataArrayList;
+    }
+
+    public void addJobData(JobData jobData){
+        Log.d(TAG, "addJobData(JobData jobData)" + jobData.toString());
+
+        try{
+            Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
+            jobDataBox.put(jobData);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Nullable
+    public JobData getJobData(String UID){
+        Log.d(TAG, "getJobData(String UID)" + UID);
+
+        JobData jobData = null;
+        try{
+            Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
+            jobData = jobDataBox.query().equal(JobData_.UID,UID).build().find().get(0);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return jobData;
     }
 }

@@ -10,8 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.LocationManager;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -36,7 +36,7 @@ import java.util.Date;
 public class NewJobDetailsFragment extends Fragment {
     private static String TAG = NewJobDetailsFragment.class.getSimpleName();
 
-    private NewJobDetailsModel jobDetailsModel;
+    private JobDetailsModel jobDetailsModel;
 
     private LocationManager locationManager;
 
@@ -58,16 +58,17 @@ public class NewJobDetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NavController navController = Navigation.findNavController(view);
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        jobDetailsModel = new ViewModelProvider(this).get(NewJobDetailsModel.class);
+        jobDetailsModel = new ViewModelProvider(this).get(JobDetailsModel.class);
 
         locationManager = LocationManager.getInstance(getActivity());
 
         tvLatLon = view.findViewById(R.id.tv_lat_lon);
         etCompanyName = view.findViewById(R.id.et_company_name);
         etDateTime = view.findViewById(R.id.et_time);
-        btnStartNewJob = view.findViewById(R.id.btn_start_job);
+        btnStartNewJob = view.findViewById(R.id.btn_end_job);
 
 
         jobDetailsModel.getCurrentLocationEvent().observe(getViewLifecycleOwner(), new Observer<LocationChangedEvent>() {
@@ -118,7 +119,9 @@ public class NewJobDetailsFragment extends Fragment {
                 }
                 if (!validDetails)
                     return;
-                jobDetailsModel.startNewJob(etCompanyName.getText().toString(), date.getTime());
+                String uid = jobDetailsModel.startNewJob(etCompanyName.getText().toString(), date.getTime());
+                navController.navigate( NewJobDetailsFragmentDirections.actionNewJobDetailsToJobDetails(uid));
+
             }
         });
 

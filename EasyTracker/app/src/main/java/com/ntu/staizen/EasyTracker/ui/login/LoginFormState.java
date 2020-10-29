@@ -43,7 +43,7 @@ class LoginFormState {
     }
 
     @Nullable
-    public Integer getPhoneNumberError() {
+    Integer getPhoneNumberError() {
         return phoneNumberError;
     }
 }

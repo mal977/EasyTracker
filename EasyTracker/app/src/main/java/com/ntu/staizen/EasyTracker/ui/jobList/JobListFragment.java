@@ -57,8 +57,7 @@ public class JobListFragment extends Fragment {
     public void onStart() {
         super.onStart();
         jobListViewModel.updatePastJobHistory();
-        Log.d(TAG,"WTF");
-//        getLocationPermission();
+        getLocationPermission();
 
     }
 
@@ -102,7 +101,7 @@ public class JobListFragment extends Fragment {
         start_new_job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(JobListFragmentDirections.actionJobListFragmentToJobDetails());
+                navController.navigate(JobListFragmentDirections.actionJobListFragmentToNewJobDetails());
             }
         });
 
