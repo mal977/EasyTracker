@@ -1,53 +1,66 @@
 package com.ntu.staizen.EasyTracker.ui.jobList;
 
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
-import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.manager.LocationManager;
-import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
- * create an instance of this fragment.
+ *
  */
 public class JobListFragment extends Fragment {
+    private static String TAG = JobListFragment.class.getSimpleName();
 
+    static int counter = 0;
 
     private JobListAdapter jobListAdapter;
     private RecyclerView jobListRecyclerView;
-    private ArrayList<JobData> jobDataArrayList;
+    private ArrayList<JobData> jobDataArrayList = new ArrayList<>();
 
+    private JobListViewModel jobListViewModel;
+
+    private boolean locationPermissionGranted = false;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     public JobListFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        jobListViewModel.updatePastJobHistory();
+        Log.d(TAG,"WTF");
+//        getLocationPermission();
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,7 @@ public class JobListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        jobListViewModel = new ViewModelProvider(this).get(JobListViewModel.class);
         NavController navController = Navigation.findNavController(view);
         Authentication authentication = Authentication.getInstance(getContext());
         if (authentication.getmAuth().getCurrentUser() == null) {
@@ -65,22 +79,22 @@ public class JobListFragment extends Fragment {
             TextView tvUID = view.findViewById(R.id.tv_uid);
             tvUID.setText("UID: " + authentication.getmAuth().getCurrentUser().getUid());
         }
-        jobDataArrayList = new ArrayList<>();
-        jobDataArrayList.add(new JobData("MalCo1", System.currentTimeMillis(), System.currentTimeMillis() + 1000));
-        JobData j = new JobData("MalCo2", System.currentTimeMillis(), System.currentTimeMillis() + 1000);
-        j.setUID("123124sad12sad");
-        jobDataArrayList.add(j);
-        jobDataArrayList.add(j);
-        jobDataArrayList.add(j);
-        jobDataArrayList.add(j);
-        jobDataArrayList.add(j);
-        jobDataArrayList.add(new JobData("MalCo3", System.currentTimeMillis(), System.currentTimeMillis() + 1000));
 
         jobListRecyclerView = view.findViewById(R.id.rv_job_list);
-        jobListRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         jobListAdapter = new JobListAdapter(getContext(), jobDataArrayList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        jobListRecyclerView.setLayoutManager(linearLayoutManager);
         jobListRecyclerView.setAdapter(jobListAdapter);
-        jobListRecyclerView.addItemDecoration(new DividerItemDecoration(jobListRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+
+        jobListViewModel.getJobDataState().observe(getViewLifecycleOwner(), new Observer<ArrayList<JobData>>() {
+            @Override
+            public void onChanged(ArrayList<JobData> vmJobDataArrayList) {
+                jobDataArrayList = new ArrayList<>(vmJobDataArrayList);
+                jobListAdapter.setNewJobListData(jobDataArrayList);
+            }
+        });
 
         Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
         Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
@@ -88,14 +102,20 @@ public class JobListFragment extends Fragment {
         start_new_job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "LOLOLOLOLO", Toast.LENGTH_LONG).show();
-
+                navController.navigate(JobListFragmentDirections.actionJobListFragmentToJobDetails());
             }
         });
 
         btn_temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(true) {
+                    jobDataArrayList.add(new JobData("MalcomCompany"+counter, System.currentTimeMillis(), System.currentTimeMillis() + 10000));
+                    jobListAdapter.notifyItemChanged(counter);
+                    jobListRecyclerView.scrollToPosition(jobDataArrayList.size()-1);    //This is such a stupid hack
+                    counter++;
+                    return;
+                }
                 FireStore fireStore = FireStore.getInstance(getContext());
 //                ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
 //                fireStore.sendNewContractorToFireStore(authentication.getmAuth().getUid(),contractorInfo,false);
@@ -104,7 +124,7 @@ public class JobListFragment extends Fragment {
                 Location location = new Location("Test");
                 location.setLatitude(1.3);
                 location.setLongitude(1.2);
-                LocationData locationData = new LocationData(System.currentTimeMillis(), 1.69,1.69);
+                LocationData locationData = new LocationData(System.currentTimeMillis(), 1.69, 1.69);
                 ArrayList<LocationData> locationArrayList = new ArrayList<>();
                 locationArrayList.add(locationData);
                 locationArrayList.add(locationData);
@@ -129,5 +149,40 @@ public class JobListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_job_list, container, false);
+    }
+
+
+    private void getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        if (ContextCompat.checkSelfPermission(getContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+
+        } else {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationPermissionGranted = true;
+                }
+            }
+        }
     }
 }

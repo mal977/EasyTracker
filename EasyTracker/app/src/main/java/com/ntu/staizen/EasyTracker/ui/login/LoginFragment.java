@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,7 +29,9 @@ import android.widget.Toast;
 
 
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
+import com.ntu.staizen.EasyTracker.model.LocationData;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +58,7 @@ public class LoginFragment extends Fragment {
 
         final EditText usernameEditText = view.findViewById(R.id.et_name);
         final EditText passwordEditText = view.findViewById(R.id.et_password);
+        final EditText phoneNumberEditText = view.findViewById(R.id.et_number);
         final Button loginButton = (Button) view.findViewById(R.id.btn_login);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.pb_login);
 
@@ -70,6 +75,9 @@ public class LoginFragment extends Fragment {
                 if (loginFormState.getPasswordError() != null) {
                     passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
+                if (loginFormState.getUsernameError() != null) {
+                    phoneNumberEditText.setError(getString(loginFormState.getPhoneNumberError()));
+                }
             }
         });
 
@@ -77,7 +85,7 @@ public class LoginFragment extends Fragment {
             @Override
             public void onChanged(AuthenticatedState authenticatedState) {
 
-                switch ( authenticatedState.getAuthenticatedStatus()){
+                switch (authenticatedState.getAuthenticatedStatus()) {
                     case 0:
                         loadingProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), authenticatedState.getErrorMessage(), Toast.LENGTH_LONG).show();
@@ -123,20 +131,21 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
+                loginViewModel.loginDataChanged(usernameEditText.getText().toString(), phoneNumberEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+        phoneNumberEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString(), getActivity());
-                }
+//                if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                    loginViewModel.login(usernameEditText.getText().toString(),
+//                            passwordEditText.getText().toString(), getActivity());
+//                }
                 return false;
             }
         });
@@ -146,8 +155,8 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginButton.setEnabled(false);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString() , getActivity());
+                loginViewModel.login(usernameEditText.getText().toString(), phoneNumberEditText.getText().toString(),
+                        passwordEditText.getText().toString(), getActivity());
             }
         });
     }
@@ -186,6 +195,6 @@ public class LoginFragment extends Fragment {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void handleFirebaseAuthenticatedEvent(FirebaseAuthenticatedEvent event) {
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");
-        loginViewModel.setAuthenticated(1);
+        loginViewModel.setAuthenticated(1, null);
     }
 }

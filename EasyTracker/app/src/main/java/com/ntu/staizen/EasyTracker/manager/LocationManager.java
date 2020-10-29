@@ -20,6 +20,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.annotation.Nullable;
+
+import kotlin.jvm.Throws;
+
 import static com.ntu.staizen.EasyTracker.MapsActivity.JOB_REFERENCE;
 
 /**
@@ -35,6 +39,7 @@ public class LocationManager {
     private static LocationManager instance;
     private Authentication mAuthentication;
     private FireStore mFireStore;
+    private boolean tracking = false;
 
     private DatabaseReference currentRunningJobReference = null;
 
@@ -42,6 +47,11 @@ public class LocationManager {
         if (instance == null) {
             instance = new LocationManager(context.getApplicationContext());
         }
+        return instance;
+    }
+
+    @Nullable
+    public static synchronized LocationManager getInstance() {
         return instance;
     }
 
@@ -54,21 +64,26 @@ public class LocationManager {
 
     }
 
-    public void startLocationUpdates(Activity activity) {
-        LocationCollectingImplementation locationCollectingImplementation = new LocationCollectingImplementation(activity);
-        locationCollectingImplementation.createLocationRequest();
-        locationCollectingImplementation.createLocationSettingsRequest();
-        locationCollectingImplementation.startLocationUpdates();
+    public void startLocationUpdates(Context context) {
+        if(!tracking) {
+            LocationCollectingImplementation locationCollectingImplementation = new LocationCollectingImplementation(context);
+            locationCollectingImplementation.createLocationRequest();
+            locationCollectingImplementation.createLocationSettingsRequest();
+            locationCollectingImplementation.startLocationUpdates();
+        }else{
+            Log.d(TAG,"Already Tracking");
+        }
     }
 
     public void startNewJob(JobData jobData) {
         if (mAuthentication != null) {
             if (currentRunningJobReference == null) {       //Prevents user from starting new job while a currentJob is running
                 currentRunningJobReference = mFireStore.sendNewJobToFireStore(mAuthentication.getmAuth().getUid(), jobData);
-                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("Current_Running_Job", currentRunningJobReference.getKey());
-                editor.apply();
+//                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("Current_Running_Job", currentRunningJobReference.getKey());
+//                editor.apply();
+                startLocationUpdates(mContext);
             }
         }
     }
@@ -83,12 +98,12 @@ public class LocationManager {
             LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
             LocationData locationData = new LocationData(System.currentTimeMillis(), loc.latitude, loc.longitude);
             if (currentRunningJobReference == null) {
-                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-                String storedRunningJobReference = sharedPreferences.getString("Current_Running_Job", "");
-                if (storedRunningJobReference != null & !storedRunningJobReference.isEmpty()) {
-                    Log.d(TAG, storedRunningJobReference);
-                    mFireStore.sendLocationUpdateToFireStore(mAuthentication.getmAuth().getUid(), storedRunningJobReference, locationData);
-                }
+//                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+//                String storedRunningJobReference = sharedPreferences.getString("Current_Running_Job", "");
+//                if (storedRunningJobReference != null & !storedRunningJobReference.isEmpty()) {
+//                    Log.d(TAG, storedRunningJobReference);
+//                    mFireStore.sendLocationUpdateToFireStore(mAuthentication.getmAuth().getUid(), storedRunningJobReference, locationData);
+//                }
             } else {
                 mFireStore.sendLocationUpdateToFireStore(currentRunningJobReference, locationData);
             }

@@ -86,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         EventBus.getDefault().register(this);
 
         mAuthentication = Authentication.getInstance(this);
-        mAuthentication.signInAnonymously(this);
+//        mAuthentication.signInAnonymously(this);
 
         // Check if user is signed in (non-null) and update UI accordingly.
 //        FirebaseUser currentUser = mAuthentication.getmAuth().getCurrentUser();

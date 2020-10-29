@@ -15,8 +15,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserInfo;
 import com.ntu.staizen.EasyTracker.MapsActivity;
+import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
+import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,7 +55,7 @@ public class Authentication {
      *
      * @param activity
      */
-    public void signInAnonymously(Activity activity) {
+    public void signInAnonymously(Activity activity, String username, String phonenumber) {
         mAuth.signInAnonymously()
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -63,12 +65,15 @@ public class Authentication {
                             Log.d(TAG, "signInAnonymously:success, UID: " + mAuth.getCurrentUser().getUid());
                             isAuthenticated = true;
                             mUser = mAuth.getCurrentUser();
+                            SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_USERNAME, username, activity.getApplicationContext());
+                            SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_PHONE_NUMBER, phonenumber, activity.getApplicationContext());
+                            FireStore.getInstance(activity.getApplicationContext()).sendNewContractorToFireStore(mUser.getUid(),new ContractorInfo(username,phonenumber,null),false);
                             EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(1));
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInAnonymously:failure", task.getException());
-                            EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(0,task.getException().toString()));
+                            EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(0, task.getException().toString()));
 
                             Toast.makeText(mContext, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();

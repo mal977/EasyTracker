@@ -21,28 +21,38 @@ public class LoginViewModel extends ViewModel {
         return loginFormState;
     }
 
-    LiveData<AuthenticatedState> getAuthenticatedState(){
+    LiveData<AuthenticatedState> getAuthenticatedState() {
         return authenticated;
     }
 
 
-    public void login(String username, String password, Activity activity) {
-        Authentication mAuthenciation = Authentication.getInstance(activity);
-        mAuthenciation.signInAnonymously(activity);
+    public void login(String username, String phoneNumber, String password, Activity activity) {
+        if (getLoginFormState().getValue() == null) {
+            setAuthenticated(0, "Please enter your details!");
+            return;
+        }
+        if (getLoginFormState().getValue().isDataValid()) {
+            Authentication mAuthenciation = Authentication.getInstance(activity);
+            mAuthenciation.signInAnonymously(activity, username, phoneNumber);
+        } else {
+            setAuthenticated(0, "Please fix the following errors.");
+        }
     }
 
-    public void loginDataChanged(String username, String password) {
+    public void loginDataChanged(String username, String phoneNumber, String password) {
         if (!isUserNameValid(username)) {
-            loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
+            loginFormState.setValue(new LoginFormState(R.string.invalid_username, null, null));
+        } else if (!isPhoneNumberValid(phoneNumber)) {
+            loginFormState.setValue(new LoginFormState(null, R.string.invalid_phone_number, null));
         } else if (!isPasswordValid(password)) {
-            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password));
+            loginFormState.setValue(new LoginFormState(null, null, R.string.invalid_password));
         } else {
             loginFormState.setValue(new LoginFormState(true));
         }
     }
 
-    public void setAuthenticated(int authenticated){
-        this.authenticated.setValue(new AuthenticatedState(authenticated));
+    public void setAuthenticated(int authenticated, String errorMessage) {
+        this.authenticated.setValue(new AuthenticatedState(authenticated, errorMessage));
     }
 
     // A placeholder username validation check
@@ -54,6 +64,17 @@ public class LoginViewModel extends ViewModel {
             return Patterns.EMAIL_ADDRESS.matcher(username).matches();
         } else {
             return !username.trim().isEmpty();
+        }
+    }
+
+    private boolean isPhoneNumberValid(String phoneNumber) {
+        if (phoneNumber == null) {
+            return false;
+        }
+        if (phoneNumber.length() >= 8) {
+            return true;
+        } else {
+            return !phoneNumber.trim().isEmpty();
         }
     }
 

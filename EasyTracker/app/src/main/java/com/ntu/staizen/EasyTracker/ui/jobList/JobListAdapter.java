@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.ntu.staizen.EasyTracker.R;
@@ -29,6 +30,15 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         this.mJobList = jobDataArrayList;
     }
 
+    public void setNewJobListData(ArrayList<JobData> jobListData){
+        this.mJobList = jobListData;
+        notifyDataSetChanged();
+    }
+
+    public void addNewJobData(JobData jobData){
+        this.mJobList.add(jobData);
+        notifyItemInserted(mJobList.size());
+    }
 
     @NonNull
     @Override
@@ -42,6 +52,7 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.updateData(mJobList.get(position),position);
+
     }
 
     @Override

@@ -55,7 +55,7 @@ public class FireStore {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.getValue() == null) {
-                        Log.d(TAG, "ContractorInfo does not exist, adding new contractorInfo: " + contractorInfo.toString());
+                        Log.d(TAG, "ContractorInfo does not exist, adding new contractorInfo: " + contractorInfo.toString() + " UID:" + UID);
                         doesContractorExist = false;
                         mReference.removeEventListener(this);
                         sendNewContractorToFireStore(UID, contractorInfo, true);
