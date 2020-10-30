@@ -3,12 +3,16 @@ package com.ntu.staizen.EasyTracker.firebase;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ntu.staizen.EasyTracker.manager.LocationManager;
 import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
@@ -48,7 +52,7 @@ public class FireStore {
      * @param contractorInfo
      * @param checkedContractorInfo
      */
-    public void sendNewContractorToFireStore(String UID, ContractorInfo contractorInfo, boolean checkedContractorInfo) {
+    public void sendNewContractorToFireStore(String UID, ContractorInfo contractorInfo, boolean checkedContractorInfo ) {
 
         if (!checkedContractorInfo) {
             ValueEventListener contractorListener = new ValueEventListener() {
@@ -83,7 +87,13 @@ public class FireStore {
         Log.d(TAG, "Adding a new Job : " + jobData.toString() + " to UID : " + UID);
 
         DatabaseReference databaseReference = mReference.child("contractors/" + UID).child("jobList").push();
-        databaseReference.setValue(jobData);
+        databaseReference.setValue(jobData).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG,"firebase error: " + e.toString());
+                e.printStackTrace();
+            }
+        });
         return databaseReference;
     }
 

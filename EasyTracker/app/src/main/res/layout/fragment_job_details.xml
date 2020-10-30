@@ -51,11 +51,9 @@
                     android:id="@+id/tv_title_job_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_details_title_job_id"
                     app:layout_constraintStart_toEndOf="@+id/tv_details_title_job_id"
-                    app:layout_constraintTop_toTopOf="@+id/tv_details_title_job_id"
                     tools:text="#6969" />
 
                 <TextView

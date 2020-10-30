@@ -67,12 +67,13 @@
 
             <EditText
                 android:id="@+id/et_company_name"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:hint="@string/enter_company_name"
                 android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_title_company_name"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_company_name" />
 
@@ -89,7 +90,7 @@
 
             <EditText
                 android:id="@+id/et_time"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:clickable="true"
@@ -98,6 +99,7 @@
                 android:focusable="false"
                 android:hint="23:59"
                 android:inputType="time"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_title_time"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_time" />
 

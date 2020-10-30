@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.Utilities;
@@ -120,8 +121,11 @@ public class NewJobDetailsFragment extends Fragment {
                 if (!validDetails)
                     return;
                 String uid = jobDetailsModel.startNewJob(etCompanyName.getText().toString(), date.getTime());
-                navController.navigate( NewJobDetailsFragmentDirections.actionNewJobDetailsToJobDetails(uid));
-
+                if(uid!= null) {
+                    navController.navigate(NewJobDetailsFragmentDirections.actionNewJobDetailsToJobDetails(uid));
+                }else{
+                    Toast.makeText(getContext(),"Error adding Job",Toast.LENGTH_LONG).show();
+                }
             }
         });
 

@@ -84,4 +84,7 @@ public class JobDetailsViewModel extends ViewModel {
         }
     }
 
+    public void setJobDetails(JobData jobData) {
+        jobDetailStateMutableLiveData.postValue(new JobDetailState(jobData));
+    }
 }

@@ -1,11 +1,14 @@
 package com.ntu.staizen.EasyTracker.manager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
+import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
@@ -61,30 +64,42 @@ public class LocationManager {
     }
 
     public void startLocationUpdates(Context context) {
-        if(!tracking) {
+        if (!tracking) {
             LocationCollectingImplementation locationCollectingImplementation = new LocationCollectingImplementation(context);
             locationCollectingImplementation.createLocationRequest();
             locationCollectingImplementation.createLocationSettingsRequest();
             locationCollectingImplementation.startLocationUpdates();
-        }else{
-            Log.d(TAG,"Already Tracking");
+        } else {
+            Log.d(TAG, "Already Tracking");
         }
     }
 
+    @Nullable
     public String startNewJob(JobData jobData) {
         if (mAuthentication != null) {
             if (currentRunningJobReference == null) {       //Prevents user from starting new job while a currentJob is running
                 currentRunningJobReference = mFireStore.sendNewJobToFireStore(mAuthentication.getmAuth().getUid(), jobData);
-                jobData.setUID(currentRunningJobReference.getKey());
-                mBoxHelper.addJobData(jobData);
-//                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("Current_Running_Job", currentRunningJobReference.getKey());
-//                editor.apply();
-                startLocationUpdates(mContext);
+                if (currentRunningJobReference != null) {
+                    jobData.setUID(currentRunningJobReference.getKey());
+                    mBoxHelper.addJobData(jobData);
+                    startLocationUpdates(mContext);
+                    SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_RUNNING_JOB, currentRunningJobReference.getKey(), mContext);
+                }
             }
         }
         return currentRunningJobReference.getKey();
+    }
+
+    public boolean isCurrentJobTracking() {
+        return SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
+    }
+
+    @Nullable
+    public JobData getCurrentTrackingJob() {
+        JobData jobData = null;
+        String uid = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
+        jobData = BoxHelper.getInstance().getJobData(uid);
+        return jobData;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.ntu.staizen.EasyTracker"
-        minSdkVersion 17
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

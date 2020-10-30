@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -63,6 +65,12 @@ public class JobListFragment extends Fragment {
         jobListViewModel.updatePastJobHistory();
         getLocationPermission();
 
+        LocationManager locationManager = LocationManager.getInstance(getActivity());
+        if(locationManager.isCurrentJobTracking()){
+            JobData jobData = locationManager.getCurrentTrackingJob();
+            jobDetailsViewModel.setJobDetails(jobData);
+        }
+
     }
 
     @Override
@@ -73,6 +81,10 @@ public class JobListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.hide();
+
         jobListViewModel = new ViewModelProvider(this).get(JobListViewModel.class);
         jobDetailsViewModel = new ViewModelProvider(getActivity()).get(JobDetailsViewModel.class);
         NavController navController = Navigation.findNavController(view);
