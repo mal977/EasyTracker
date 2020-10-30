@@ -33,6 +33,7 @@
     <string name="hello_contractor">Hello, Contractor!</string>
     <string name="all_jobs">All Jobs</string>
     <string name="start_new_job">Start New Job</string>
+    <string name="resume_job">Resume Job</string>
     <string name="history">History</string>
 
     <!-- New Job Details Fragment -->

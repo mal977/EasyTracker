@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#CCE680">
+    android:color="@color/btn_end_job_highlight">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/holo_green_light" />
+            <solid android:color="@color/btn_end_job_main" />
             <corners android:radius="40dp" />
         </shape>
     </item>
 
     <item android:id="@android:id/background">
         <shape android:shape="rectangle">
-            <solid android:color="@android:color/holo_green_light"/>
+            <solid android:color="@color/btn_end_job_main"/>
             <corners android:radius="40dp" />
         </shape>
     </item>

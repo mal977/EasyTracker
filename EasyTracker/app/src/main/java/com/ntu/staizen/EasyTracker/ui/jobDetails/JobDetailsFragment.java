@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ntu.staizen.EasyTracker.R;
-import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailState;
-import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsModel;
+import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,12 +25,12 @@ import java.util.Date;
  *
  */
 public class JobDetailsFragment extends Fragment {
-    private static String TAG = JobDetailsModel.class.getSimpleName();
+    private static String TAG = JobDetailsViewModel.class.getSimpleName();
 
     private String jobUID;
     private JobData jobData;
 
-    private JobDetailsModel jobDetailsModel;
+    private JobDetailsViewModel jobDetailsModel;
 
     public JobDetailsFragment() {
         // Required empty public constructor
@@ -58,7 +57,7 @@ public class JobDetailsFragment extends Fragment {
         //Getting JobUID from arguements
         jobUID = JobDetailsFragmentArgs.fromBundle(getArguments()).getJobUid();
 
-        jobDetailsModel = new ViewModelProvider(requireActivity()).get(JobDetailsModel.class);
+        jobDetailsModel = new ViewModelProvider(requireActivity()).get(JobDetailsViewModel.class);
         jobDetailsModel.getJobDetails(jobUID);
 
         final TextView tvCompanyName = view.findViewById(R.id.tv_company_name);

@@ -16,7 +16,6 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,9 @@ import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.manager.LocationManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
+import com.ntu.staizen.EasyTracker.ui.jobDetails.JobDetailsFragment;
+import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailState;
+import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsViewModel;
 
 import java.util.ArrayList;
 
@@ -45,8 +47,10 @@ public class JobListFragment extends Fragment {
     private ArrayList<JobData> jobDataArrayList = new ArrayList<>();
 
     private JobListViewModel jobListViewModel;
+    private JobDetailsViewModel jobDetailsViewModel;
 
     private boolean locationPermissionGranted = false;
+    private boolean isJobRunning = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
     public JobListFragment() {
@@ -70,6 +74,7 @@ public class JobListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         jobListViewModel = new ViewModelProvider(this).get(JobListViewModel.class);
+        jobDetailsViewModel = new ViewModelProvider(getActivity()).get(JobDetailsViewModel.class);
         NavController navController = Navigation.findNavController(view);
         Authentication authentication = Authentication.getInstance(getContext());
         if (authentication.getmAuth().getCurrentUser() == null) {
@@ -87,6 +92,9 @@ public class JobListFragment extends Fragment {
         jobListRecyclerView.setLayoutManager(linearLayoutManager);
         jobListRecyclerView.setAdapter(jobListAdapter);
 
+        Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
+        Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
+
         jobListViewModel.getJobDataState().observe(getViewLifecycleOwner(), new Observer<ArrayList<JobData>>() {
             @Override
             public void onChanged(ArrayList<JobData> vmJobDataArrayList) {
@@ -95,23 +103,38 @@ public class JobListFragment extends Fragment {
             }
         });
 
-        Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
-        Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
+        jobDetailsViewModel.getJobDetailStateMutableLiveData().observe(getViewLifecycleOwner(), new Observer<JobDetailState>() {
+            @Override
+            public void onChanged(JobDetailState jobDetailState) {
+                if (jobDetailState != null && jobDetailState.getUID() != null) {
+                    start_new_job.setText(getString(R.string.resume_job));
+                    isJobRunning = true;
+                } else {
+                    start_new_job.setText(getString(R.string.start_new_job));
+                    isJobRunning = false;
+                }
+            }
+        });
+
 
         start_new_job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigate(JobListFragmentDirections.actionJobListFragmentToNewJobDetails());
+                if (isJobRunning) {
+                    navController.navigate(JobListFragmentDirections.actionJobListFragmentToJobDetails(jobDetailsViewModel.getUID()));
+                } else {
+                    navController.navigate(JobListFragmentDirections.actionJobListFragmentToNewJobDetails());
+                }
             }
         });
 
         btn_temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(true) {
-                    jobDataArrayList.add(new JobData("MalcomCompany"+counter, System.currentTimeMillis(), System.currentTimeMillis() + 10000));
+                if (true) {
+                    jobDataArrayList.add(new JobData("MalcomCompany" + counter, System.currentTimeMillis(), System.currentTimeMillis() + 10000));
                     jobListAdapter.notifyItemChanged(counter);
-                    jobListRecyclerView.scrollToPosition(jobDataArrayList.size()-1);    //This is such a stupid hack
+                    jobListRecyclerView.scrollToPosition(jobDataArrayList.size() - 1);    //This is such a stupid hack
                     counter++;
                     return;
                 }

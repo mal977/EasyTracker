@@ -36,7 +36,7 @@ import java.util.Calendar;
 public class NewJobDetailsFragment extends Fragment {
     private static String TAG = NewJobDetailsFragment.class.getSimpleName();
 
-    private JobDetailsModel jobDetailsModel;
+    private JobDetailsViewModel jobDetailsModel;
 
     private LocationManager locationManager;
 
@@ -61,7 +61,7 @@ public class NewJobDetailsFragment extends Fragment {
         NavController navController = Navigation.findNavController(view);
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        jobDetailsModel = new ViewModelProvider(this).get(JobDetailsModel.class);
+        jobDetailsModel = new ViewModelProvider(this).get(JobDetailsViewModel.class);
 
         locationManager = LocationManager.getInstance(getActivity());
 

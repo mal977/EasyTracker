@@ -3,4 +3,10 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="btn_start_job_highlight">#CCE680</color>
+    <color name="btn_start_job_main">#ff99cc00</color>
+
+    <color name="btn_end_job_highlight">#b30000</color>
+    <color name="btn_end_job_main">#ff3333</color>
 </resources>

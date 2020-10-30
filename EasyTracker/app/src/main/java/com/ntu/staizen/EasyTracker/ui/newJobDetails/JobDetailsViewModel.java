@@ -16,8 +16,10 @@ import java.util.Date;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class JobDetailsModel extends ViewModel {
-    private static String TAG = JobDetailsModel.class.getSimpleName();
+import javax.annotation.Nullable;
+
+public class JobDetailsViewModel extends ViewModel {
+    private static String TAG = JobDetailsViewModel.class.getSimpleName();
 
     private MutableLiveData<LocationChangedEvent> currentLocationEvent = new MutableLiveData<>();
 
@@ -35,7 +37,7 @@ public class JobDetailsModel extends ViewModel {
         return jobDetailStateMutableLiveData;
     }
 
-    public JobDetailsModel() {
+    public JobDetailsViewModel() {
         super();
         EventBus.getDefault().register(this);
 
@@ -59,7 +61,12 @@ public class JobDetailsModel extends ViewModel {
         BoxHelper boxHelper = BoxHelper.getInstance();
         JobData jobData = boxHelper.getJobData(UID);
 
-        jobDetailStateMutableLiveData.setValue(new JobDetailState(jobData));
+        jobDetailStateMutableLiveData.postValue(new JobDetailState(jobData));
+    }
+
+    @Nullable
+    public String getUID(){
+        return jobDetailStateMutableLiveData.getValue().getUID();
     }
 
     public void setCurrentLocationEvent(LocationChangedEvent locationEvent) {
