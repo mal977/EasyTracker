@@ -106,12 +106,18 @@ public class JobListFragment extends Fragment {
 
         Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
         Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
+        TextView tv_no_jobs = view.findViewById(R.id.tv_no_jobs);
 
         jobListViewModel.getJobDataState().observe(getViewLifecycleOwner(), new Observer<ArrayList<JobData>>() {
             @Override
             public void onChanged(ArrayList<JobData> vmJobDataArrayList) {
-                jobDataArrayList = new ArrayList<>(vmJobDataArrayList);
-                jobListAdapter.setNewJobListData(jobDataArrayList);
+                if(vmJobDataArrayList==null){
+                    tv_no_jobs.setVisibility(View.VISIBLE);
+                }else {
+                    tv_no_jobs.setVisibility(View.GONE);
+                    jobDataArrayList = new ArrayList<>(vmJobDataArrayList);
+                    jobListAdapter.setNewJobListData(jobDataArrayList);
+                }
             }
         });
 

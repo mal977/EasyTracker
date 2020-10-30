@@ -94,6 +94,7 @@ public class LocationManager {
         return SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
     }
 
+
     @Nullable
     public JobData getCurrentTrackingJob() {
         JobData jobData = null;

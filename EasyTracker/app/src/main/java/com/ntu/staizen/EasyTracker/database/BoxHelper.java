@@ -93,32 +93,47 @@ public class BoxHelper {
         return locationDataArrayList;
     }
 
-    public void addJobData(JobData jobData){
+    public void addJobData(JobData jobData) {
         Log.d(TAG, "addJobData(JobData jobData)" + jobData.toString());
 
-        try{
+        try {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
             jobDataBox.put(jobData);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     @Nullable
-    public JobData getJobData(String UID){
+    public JobData getJobData(String UID) {
         Log.d(TAG, "getJobData(String UID)" + UID);
 
         JobData jobData = null;
-        try{
+        try {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
-            jobData = jobDataBox.query().equal(JobData_.UID,UID).build().find().get(0);
+            jobData = jobDataBox.query().equal(JobData_.UID, UID).build().find().get(0);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return jobData;
+    }
+
+    @Nullable
+    public ArrayList<JobData> getAllJobData() {
+        Log.d(TAG, "getAllJobData()");
+        ArrayList<JobData> jobDataArrayList = null;
+        try {
+            Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
+            jobDataArrayList = new ArrayList<>(jobDataBox.getAll());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobDataArrayList;
     }
 }

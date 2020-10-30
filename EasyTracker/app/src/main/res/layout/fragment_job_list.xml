@@ -73,6 +73,15 @@
                 android:textColor="@color/design_default_color_on_secondary"
                 android:textSize="24sp" />
 
+            <TextView
+                android:id="@+id/tv_no_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No Job History!"
+                android:textSize="24sp"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_job_list"
                 android:layout_width="match_parent"
