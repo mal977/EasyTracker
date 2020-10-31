@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
@@ -167,28 +168,30 @@ public class JobListFragment extends Fragment {
         btn_temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (true) {
-                    jobDataArrayList.add(new JobData("MalcomCompany" + counter, System.currentTimeMillis(), System.currentTimeMillis() + 10000));
-                    jobListAdapter.notifyItemChanged(counter);
-                    jobListRecyclerView.scrollToPosition(jobDataArrayList.size() - 1);    //This is such a stupid hack
-                    counter++;
-                    return;
-                }
-                FireStore fireStore = FireStore.getInstance(getContext());
-//                ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
-//                fireStore.sendNewContractorToFireStore(authentication.getmAuth().getUid(),contractorInfo,false);
-                EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getContext());
-                JobData jobData = new JobData("MalcomCompany", System.currentTimeMillis(), System.currentTimeMillis() + 10000);
-                Location location = new Location("Test");
-                location.setLatitude(1.3);
-                location.setLongitude(1.2);
-                LocationData locationData = new LocationData(System.currentTimeMillis(), 1.69, 1.69);
-                ArrayList<LocationData> locationArrayList = new ArrayList<>();
-                locationArrayList.add(locationData);
-                locationArrayList.add(locationData);
+                throw new RuntimeException("Test Crash"); // Force a crash
 
-                jobData.setLocation(locationArrayList);
-                locationManager.startNewJob(jobData);
+//                if (true) {
+//                    jobDataArrayList.add(new JobData("MalcomCompany" + counter, System.currentTimeMillis(), System.currentTimeMillis() + 10000));
+//                    jobListAdapter.notifyItemChanged(counter);
+//                    jobListRecyclerView.scrollToPosition(jobDataArrayList.size() - 1);    //This is such a stupid hack
+//                    counter++;
+//                    return;
+//                }
+//                FireStore fireStore = FireStore.getInstance(getContext());
+////                ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
+////                fireStore.sendNewContractorToFireStore(authentication.getmAuth().getUid(),contractorInfo,false);
+//                EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getContext());
+//                JobData jobData = new JobData("MalcomCompany", System.currentTimeMillis(), System.currentTimeMillis() + 10000);
+//                Location location = new Location("Test");
+//                location.setLatitude(1.3);
+//                location.setLongitude(1.2);
+//                LocationData locationData = new LocationData(System.currentTimeMillis(), 1.69, 1.69);
+//                ArrayList<LocationData> locationArrayList = new ArrayList<>();
+//                locationArrayList.add(locationData);
+//                locationArrayList.add(locationData);
+//
+//                jobData.setLocation(locationArrayList);
+//                locationManager.startNewJob(jobData);
 //                EventBus.getDefault().post(new LocationChangedEvent(location));
 //                EventBus.getDefault().post(new LocationChangedEvent(location));
 //                EventBus.getDefault().post(new LocationChangedEvent(location));

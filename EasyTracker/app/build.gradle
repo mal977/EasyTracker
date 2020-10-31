@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.objectbox'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 29
@@ -17,7 +18,7 @@ android {
         multiDexEnabled true
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = [ eventBusIndex : 'com.example.myapp.MyEventBusIndex' ]
+                arguments = [eventBusIndex: 'com.example.myapp.MyEventBusIndex']
             }
         }
     }
@@ -47,6 +48,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.3.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -59,10 +61,12 @@ dependencies {
     implementation "org.greenrobot:eventbus:$eventbus_version"
     annotationProcessor "org.greenrobot:eventbus-annotation-processor:$eventbus_version"
 
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation platform('com.google.firebase:firebase-bom:26.0.0')
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 
     def nav_version = "2.3.1"
 
