@@ -23,17 +23,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
-import com.ntu.staizen.EasyTracker.location.LocationCollectingImplementation;
-import com.ntu.staizen.EasyTracker.manager.LocationManager;
+import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.ContractorInfo;
-import com.ntu.staizen.EasyTracker.model.JobData;
-import com.ntu.staizen.EasyTracker.model.LocationData;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -76,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
-        LocationManager locationManager = LocationManager.getInstance(this);
+        EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
 
     }
 
@@ -162,7 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             if (locationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
-                LocationManager locationManager = LocationManager.getInstance(this);
+                EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
                 locationManager.startLocationUpdates(this);
             }
         } catch (SecurityException e) {
@@ -219,7 +215,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");
         ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
         FireStore.getInstance(this).sendNewContractorToFireStore(mAuthentication.getUID(), contractorInfo, false);
-        LocationManager locationManager = LocationManager.getInstance(this);
+        EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
 //        locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
 
 //        JobData jobData = new JobData("MalcomJob",

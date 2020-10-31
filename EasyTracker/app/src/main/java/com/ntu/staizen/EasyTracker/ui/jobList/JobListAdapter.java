@@ -8,9 +8,11 @@ import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.model.JobData;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -87,9 +89,15 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
         public void updateData(JobData jobData, int position){
             jobID.setText(String.valueOf(jobData.getUID()));
             companyName.setText(jobData.getCompany());
-            timeStart.setText(String.valueOf(jobData.getDateTimeStart()));
-            timeEnd.setText(String.valueOf(jobData.getDateTimeEnd()));
-
+            Date date = new Date();
+            date.setTime(jobData.getDateTimeStart());
+            timeStart.setText(Utilities.jobDateFormatter(date));
+            if(jobData.getDateTimeEnd()==0){
+                timeEnd.setText("In Progress");
+            }else {
+                date.setTime(jobData.getDateTimeEnd());
+                timeEnd.setText(Utilities.jobDateFormatter(date));
+            }
         }
     }
 }

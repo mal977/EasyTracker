@@ -19,133 +19,120 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_details_title_job_id"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/job_id"
-                android:textSize="30sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_job_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/tv_details_title_job_id"
-                app:layout_constraintTop_toBottomOf="@id/tv_details_title_job_id"
-                tools:text="08/10/2020" />
+                <TextView
+                    android:id="@+id/tv_details_title_job_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/job_id"
+                    android:textSize="30sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_title_job_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_details_title_job_id"
-                app:layout_constraintStart_toEndOf="@+id/tv_details_title_job_id"
-                app:layout_constraintTop_toTopOf="@+id/tv_details_title_job_id"
-                tools:text="#6969" />
+                <TextView
+                    android:id="@+id/tv_job_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/tv_details_title_job_id"
+                    app:layout_constraintTop_toBottomOf="@id/tv_details_title_job_id"
+                    tools:text="08/10/2020" />
 
-            <TextView
-                android:id="@+id/tv_title_company_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/company_name"
-                android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_details_title_job_id"
-                app:layout_constraintTop_toBottomOf="@+id/tv_job_date" />
+                <TextView
+                    android:id="@+id/tv_title_job_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_details_title_job_id"
+                    app:layout_constraintStart_toEndOf="@+id/tv_details_title_job_id"
+                    app:layout_constraintTop_toTopOf="@+id/tv_details_title_job_id"
+                    tools:text="#6969" />
 
-            <EditText
-                android:id="@+id/et_company_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="@string/enter_company_name"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_company_name"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_company_name" />
+                <TextView
+                    android:id="@+id/tv_title_company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/company_name"
+                    android:textColor="@color/design_default_color_on_secondary"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_details_title_job_id"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_job_date" />
 
-            <TextView
-                android:id="@+id/tv_title_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/time"
-                android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@id/tv_details_title_job_id"
-                app:layout_constraintTop_toBottomOf="@+id/et_company_name" />
+                <EditText
+                    android:id="@+id/et_company_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:ems="10"
+                    android:hint="@string/enter_company_name"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_company_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_company_name" />
 
-            <EditText
-                android:id="@+id/et_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:editable="false"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="23:59"
-                android:inputType="time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_time"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_time" />
+                <TextView
+                    android:id="@+id/tv_title_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/time"
+                    android:textColor="@color/design_default_color_on_secondary"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_details_title_job_id"
+                    app:layout_constraintTop_toBottomOf="@+id/et_company_name" />
 
-            <TextView
-                android:id="@+id/tv_title_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/location"
-                android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_time"
-                app:layout_constraintTop_toBottomOf="@+id/et_time" />
+                <EditText
+                    android:id="@+id/et_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="23:59"
+                    android:inputType="time"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_time"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_time" />
 
-            <TextView
-                android:id="@+id/tv_lat_lon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Lat: Lon:"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_location"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_location"
-                tools:text="Lat: 1.33323 Lon:1.422232" />
+                <TextView
+                    android:id="@+id/tv_title_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/location"
+                    android:textColor="@color/design_default_color_on_secondary"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_time"
+                    app:layout_constraintTop_toBottomOf="@+id/et_time" />
 
-            <TextView
-                android:id="@+id/tv_title_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/status"
-                android:textColor="@color/design_default_color_on_secondary"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="@+id/tv_title_location"
-                app:layout_constraintTop_toBottomOf="@+id/tv_lat_lon" />
+                <TextView
+                    android:id="@+id/tv_lat_lon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Lat: Lon:"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_title_location"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_location"
+                    tools:text="Lat: 1.33323 Lon:1.422232" />
 
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintStart_toStartOf="@id/tv_title_status"
-                app:layout_constraintTop_toBottomOf="@id/tv_title_status"
-                tools:text="IN PROGRESS" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <Button

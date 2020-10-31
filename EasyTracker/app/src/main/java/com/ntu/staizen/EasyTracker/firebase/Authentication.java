@@ -47,7 +47,9 @@ public class Authentication {
     public Authentication(Context context) {
         this.mContext = context;
         mAuth = FirebaseAuth.getInstance();
-
+        if(mAuth.getCurrentUser() != null){
+            isAuthenticated = true;
+        }
     }
 
     /**
@@ -132,10 +134,8 @@ public class Authentication {
     }
 
     public String getUID() {
-        if (!isAuthenticated) {
-            return null;
-        }
-        return mUser.getUid();
+
+        return mAuth.getUid();
     }
 
 }

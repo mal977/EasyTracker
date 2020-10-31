@@ -136,4 +136,15 @@ public class BoxHelper {
 
         return jobDataArrayList;
     }
+
+    public void updateJobData(JobData jobData){
+        Log.d(TAG, "updateJobData(JobData jobData)");
+
+        try{
+            Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
+            jobDataBox.put(jobData);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -35,6 +35,7 @@ public class SharedPreferenceHelper {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(sharedPreferences.contains(key)){
             editor.remove(key);
+            editor.apply();
         }
     }
 }

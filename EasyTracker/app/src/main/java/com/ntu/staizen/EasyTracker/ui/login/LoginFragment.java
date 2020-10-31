@@ -57,7 +57,6 @@ public class LoginFragment extends Fragment {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         final EditText usernameEditText = view.findViewById(R.id.et_name);
-        final EditText passwordEditText = view.findViewById(R.id.et_password);
         final EditText phoneNumberEditText = view.findViewById(R.id.et_number);
         final Button loginButton = (Button) view.findViewById(R.id.btn_login);
         final ProgressBar loadingProgressBar = view.findViewById(R.id.pb_login);
@@ -71,9 +70,6 @@ public class LoginFragment extends Fragment {
                 loginButton.setEnabled(loginFormState.isDataValid());
                 if (loginFormState.getUsernameError() != null) {
                     usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
                 }
                 if (loginFormState.getPhoneNumberError() != null) {
                     phoneNumberEditText.setError(getString(loginFormState.getPhoneNumberError()));
@@ -131,24 +127,13 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(), phoneNumberEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                loginViewModel.loginDataChanged(usernameEditText.getText().toString(), phoneNumberEditText.getText().toString()
+                      );
             }
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
         phoneNumberEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    loginViewModel.login(usernameEditText.getText().toString(),
-//                            passwordEditText.getText().toString(), getActivity());
-//                }
-                return false;
-            }
-        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +141,7 @@ public class LoginFragment extends Fragment {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginButton.setEnabled(false);
                 loginViewModel.login(usernameEditText.getText().toString(), phoneNumberEditText.getText().toString(),
-                        passwordEditText.getText().toString(), getActivity());
+                         getActivity());
             }
         });
     }

@@ -14,6 +14,9 @@ import android.util.Log;
 
 import com.ntu.staizen.EasyTracker.services.LocationChangedReceiver;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -54,6 +57,16 @@ public class Utilities {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
+    }
+
+    public static String jobDateFormatter(Date date){
+        String output = "";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm EEEE dd/MM/yyyy");
+        try{
+            output = simpleDateFormat.format(date);
+        }catch (Exception e){
+            e.printStackTrace();
+        }return output;
     }
 
     /**

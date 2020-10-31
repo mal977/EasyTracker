@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
-import com.ntu.staizen.EasyTracker.manager.LocationManager;
+import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,6 +37,8 @@ public class JobDetailsViewModel extends ViewModel {
         return jobDetailStateMutableLiveData;
     }
 
+    private JobData mJobData;
+
     public JobDetailsViewModel() {
         super();
         EventBus.getDefault().register(this);
@@ -51,17 +53,23 @@ public class JobDetailsViewModel extends ViewModel {
     }
 
     public String startNewJob(String companyName, Date dateTime) {
-        JobData jobData = new JobData();
-        jobData.setCompany(companyName);
-        jobData.setDateTimeStart(dateTime.getTime());
-        return LocationManager.getInstance().startNewJob(jobData);
+        mJobData = new JobData();
+        mJobData.setCompany(companyName);
+        mJobData.setDateTimeStart(dateTime.getTime());
+        return EasyTrackerManager.getInstance().startNewJob(mJobData);
     }
 
     public void getJobDetails(String UID){
         BoxHelper boxHelper = BoxHelper.getInstance();
-        JobData jobData = boxHelper.getJobData(UID);
+        mJobData = boxHelper.getJobData(UID);
+        jobDetailStateMutableLiveData.postValue(new JobDetailState(mJobData));
+    }
 
-        jobDetailStateMutableLiveData.postValue(new JobDetailState(jobData));
+    public void endJob(long dateTimeEnd){
+        mJobData.setDateTimeEnd(dateTimeEnd);
+        jobDetailStateMutableLiveData.postValue(new JobDetailState(mJobData));
+        EasyTrackerManager easyTrackerManager = EasyTrackerManager.getInstance();
+        easyTrackerManager.endCurrentRunningJob(mJobData);
     }
 
     @Nullable
@@ -80,6 +88,9 @@ public class JobDetailsViewModel extends ViewModel {
             Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
         }
         if (event.getNewLocation() != null) {
+            if(currentLocationEvent.getValue()==null){
+                EasyTrackerManager.getInstance().stopLocationUpdates();
+            }
             currentLocationEvent.setValue(event);
         }
     }

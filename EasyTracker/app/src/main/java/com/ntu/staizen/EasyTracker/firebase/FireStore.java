@@ -1,18 +1,14 @@
 package com.ntu.staizen.EasyTracker.firebase;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.ntu.staizen.EasyTracker.manager.LocationManager;
 import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
@@ -28,6 +24,11 @@ public class FireStore {
     private static FireStore instance;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
+
+    public DatabaseReference getReference() {
+        return mReference;
+    }
+
     private boolean doesContractorExist = false;
 
 
@@ -52,7 +53,8 @@ public class FireStore {
      * @param contractorInfo
      * @param checkedContractorInfo
      */
-    public void sendNewContractorToFireStore(String UID, ContractorInfo contractorInfo, boolean checkedContractorInfo ) {
+    public void sendNewContractorToFireStore(String UID, ContractorInfo contractorInfo, boolean checkedContractorInfo) {
+        Log.d(TAG, "sendNewContractorToFireStore" + contractorInfo.toString() + " UID:" + UID);
 
         if (!checkedContractorInfo) {
             ValueEventListener contractorListener = new ValueEventListener() {
@@ -79,8 +81,6 @@ public class FireStore {
             mReference.child("contractors/" + UID).setValue(contractorInfo);
 
         }
-
-
     }
 
     public DatabaseReference sendNewJobToFireStore(String UID, JobData jobData) {
@@ -90,17 +90,29 @@ public class FireStore {
         databaseReference.setValue(jobData).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(TAG,"firebase error: " + e.toString());
+                Log.d(TAG, "firebase error: " + e.toString());
                 e.printStackTrace();
             }
         });
         return databaseReference;
     }
 
-    public DatabaseReference sendLocationUpdateToFireStore(String UID, String jobUID ,LocationData locationData) {
+    public void sendEndJobToFireStore(String UID, String jobUID, long endTime) {
+        Log.d(TAG, "sendEndJobToFireStore()" + " to UID : " + UID + " endTime : " + endTime);
+        mReference.child("contractors/" + UID).child("jobList/" + jobUID).child("dateTimeEnd").setValue(endTime);
+
+    }
+
+    public void sendEndJobToFireStore(DatabaseReference databaseReference, long endTime) {
+        Log.d(TAG, "sendEndJobToFireStore()" + " to UID : " + databaseReference.getKey() + " endTime : " + endTime);
+        databaseReference.child("dateTimeEnd").setValue(endTime);
+
+    }
+
+    public DatabaseReference sendLocationUpdateToFireStore(String UID, String jobUID, LocationData locationData) {
         Log.d(TAG, "Adding a new location: " + locationData.toString() + " to UID : " + UID + " jobUID : " + jobUID);
 
-        DatabaseReference reference = mReference.child("contractors/" + UID).child("jobList/"+jobUID).child("location").push();
+        DatabaseReference reference = mReference.child("contractors/" + UID).child("jobList/" + jobUID).child("location").push();
         reference.setValue(locationData);
         return reference;
     }

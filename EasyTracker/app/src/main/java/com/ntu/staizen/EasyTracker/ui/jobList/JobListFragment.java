@@ -25,12 +25,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ntu.staizen.EasyTracker.R;
+import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
-import com.ntu.staizen.EasyTracker.manager.LocationManager;
+import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
+import com.ntu.staizen.EasyTracker.model.ContractorInfo;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
-import com.ntu.staizen.EasyTracker.ui.jobDetails.JobDetailsFragment;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailState;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsViewModel;
 
@@ -65,11 +66,16 @@ public class JobListFragment extends Fragment {
         jobListViewModel.updatePastJobHistory();
         getLocationPermission();
 
-        LocationManager locationManager = LocationManager.getInstance(getActivity());
-        if(locationManager.isCurrentJobTracking()){
-            JobData jobData = locationManager.getCurrentTrackingJob();
-            jobDetailsViewModel.setJobDetails(jobData);
-        }
+        EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getActivity());
+        JobData jobData = locationManager.checkAndResumeTrackingJob();
+        jobDetailsViewModel.setJobDetails(jobData);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        jobListViewModel.updatePastJobHistory();
 
     }
 
@@ -89,9 +95,16 @@ public class JobListFragment extends Fragment {
         jobDetailsViewModel = new ViewModelProvider(getActivity()).get(JobDetailsViewModel.class);
         NavController navController = Navigation.findNavController(view);
         Authentication authentication = Authentication.getInstance(getContext());
+        FireStore fireStore = FireStore.getInstance(getContext());
         if (authentication.getmAuth().getCurrentUser() == null) {
+
             navController.navigate(R.id.loginFragment);
         } else {
+            ContractorInfo contractorInfo = new ContractorInfo();
+            contractorInfo.setPhoneNo(SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_PHONE_NUMBER,getActivity()));
+            contractorInfo.setName(SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_USERNAME,getActivity()));
+            fireStore.sendNewContractorToFireStore(authentication.getUID(), contractorInfo,false);
+
             TextView tvUID = view.findViewById(R.id.tv_uid);
             tvUID.setText("UID: " + authentication.getmAuth().getCurrentUser().getUid());
         }
@@ -107,6 +120,9 @@ public class JobListFragment extends Fragment {
         Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
         Button btn_temp = (Button) view.findViewById(R.id.btn_temp);
         TextView tv_no_jobs = view.findViewById(R.id.tv_no_jobs);
+        TextView tv_helloUser = view.findViewById(R.id.tv_title_hello);
+
+        tv_helloUser.setText("Hello " + SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_USERNAME,getContext()) + "!");
 
         jobListViewModel.getJobDataState().observe(getViewLifecycleOwner(), new Observer<ArrayList<JobData>>() {
             @Override
@@ -125,8 +141,10 @@ public class JobListFragment extends Fragment {
             @Override
             public void onChanged(JobDetailState jobDetailState) {
                 if (jobDetailState != null && jobDetailState.getUID() != null) {
-                    start_new_job.setText(getString(R.string.resume_job));
-                    isJobRunning = true;
+                    if(jobDetailState.getEnd() == 0) {
+                        start_new_job.setText(getString(R.string.resume_job));
+                        isJobRunning = true;
+                    }
                 } else {
                     start_new_job.setText(getString(R.string.start_new_job));
                     isJobRunning = false;
@@ -159,7 +177,7 @@ public class JobListFragment extends Fragment {
                 FireStore fireStore = FireStore.getInstance(getContext());
 //                ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
 //                fireStore.sendNewContractorToFireStore(authentication.getmAuth().getUid(),contractorInfo,false);
-                LocationManager locationManager = LocationManager.getInstance(getContext());
+                EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getContext());
                 JobData jobData = new JobData("MalcomCompany", System.currentTimeMillis(), System.currentTimeMillis() + 10000);
                 Location location = new Location("Test");
                 location.setLatitude(1.3);

@@ -1,21 +1,10 @@
 package com.ntu.staizen.EasyTracker.model;
 
-import android.os.Build;
-
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.TimeZone;
-
-import androidx.annotation.RequiresApi;
-import io.objectbox.annotation.Convert;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
-import io.objectbox.converter.PropertyConverter;
 
 /**
  * Created by Malcom Teh on 18/9/2020.
@@ -34,7 +23,7 @@ public class LocationData {
 //    @Convert(converter = DateTimeConverter.class, dbType = Long.class)
 //    public LocalDateTime dateTime;
 
-    private long dateTimeStamp;
+    private long dateTime;
     private double lat;
     private double lon;
 
@@ -43,7 +32,7 @@ public class LocationData {
     public LocationData(long dateTimeStamp, double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
-        this.dateTimeStamp = dateTimeStamp;
+        this.dateTime = dateTimeStamp;
     }
 
 
@@ -72,12 +61,12 @@ public class LocationData {
         this.lon = lon;
     }
 
-    public long getDateTimeStamp() {
-        return this.dateTimeStamp;
+    public long getDateTime() {
+        return this.dateTime;
     }
 
-    public void setDateTimeStamp(long dateTimeStamp) {
-        this.dateTimeStamp = dateTimeStamp;
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
     }
 //    public LocalDateTime getDateTime() {
 //        return dateTime;
@@ -114,7 +103,7 @@ public class LocationData {
 
     public String toString(){
         return("ID: " + id
-                + " DateTime: " + dateTimeStamp
+                + " DateTime: " + dateTime
                 + " Lat: " + lat
                 + " Lon: " + lon);
     }
