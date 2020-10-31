@@ -1,0 +1,129 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:3021445577780301804",
+      "lastPropertyId": "8:5389131629214587487",
+      "name": "JobData",
+      "properties": [
+        {
+          "id": "1:5240496243792681364",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "5:4917347596215825105",
+          "name": "dateTimeStart",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "6:8238758568847161742",
+          "name": "dateTimeEnd",
+          "type": 6,
+          "flags": 4
+        },
+        {
+          "id": "7:5638495734419654567",
+          "name": "UID",
+          "type": 9
+        },
+        {
+          "id": "8:5389131629214587487",
+          "name": "company",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "3:5029079915745915829",
+          "name": "location",
+          "targetId": "2:1652377220734748186"
+        }
+      ]
+    },
+    {
+      "id": "2:1652377220734748186",
+      "lastPropertyId": "5:8745526119112116534",
+      "name": "LocationData",
+      "properties": [
+        {
+          "id": "1:5405418164569456595",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "3:3752120676486272329",
+          "name": "lat",
+          "type": 8,
+          "flags": 4
+        },
+        {
+          "id": "4:2115176252736460841",
+          "name": "lon",
+          "type": 8,
+          "flags": 4
+        },
+        {
+          "id": "5:8745526119112116534",
+          "name": "dateTime",
+          "type": 6,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:7158050853191890715",
+      "lastPropertyId": "3:7013259686933678721",
+      "name": "ContractorInfo",
+      "properties": [
+        {
+          "id": "1:4453120809048090650",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8120170017033894718",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:7013259686933678721",
+          "name": "phoneNo",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:1303202616921716689",
+          "name": "jobList",
+          "targetId": "1:3021445577780301804"
+        }
+      ]
+    }
+  ],
+  "lastEntityId": "3:7158050853191890715",
+  "lastIndexId": "0:0",
+  "lastRelationId": "3:5029079915745915829",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    7278115561463234575,
+    1628457179305805860,
+    5682812533103407565,
+    6141325311801698699
+  ],
+  "retiredRelationUids": [
+    3593078030275490048
+  ],
+  "version": 1
+}

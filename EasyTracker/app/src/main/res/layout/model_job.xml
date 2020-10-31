@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_job"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:longClickable="true"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_title_job_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Job ID:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_job_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_job_id"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_job_id"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_job_id"
+        tools:text="213h123hdsas" />
+
+    <TextView
+        android:id="@+id/tv_title_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Company Name:"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_job_id"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_job_id" />
+
+    <TextView
+        android:id="@+id/tv_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_company_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_company_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_company_name"
+        tools:text="Malcoms Pizza Hut" />
+
+    <TextView
+        android:id="@+id/tv_title_time_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Start Time"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_company_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_company_name" />
+
+    <TextView
+        android:id="@+id/tv_time_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_time_start"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_time_start"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_time_start"
+        tools:text="26 June 2020 23:38" />
+
+    <TextView
+        android:id="@+id/tv_title_time_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="End Time"
+        app:layout_constraintStart_toStartOf="@+id/tv_title_time_start"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_time_start" />
+
+    <TextView
+        android:id="@+id/tv_time_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/design_default_color_on_secondary"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_title_time_end"
+        app:layout_constraintStart_toEndOf="@+id/tv_title_time_end"
+        app:layout_constraintTop_toTopOf="@+id/tv_title_time_end"
+        tools:text="26 June 2020 23:38" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
