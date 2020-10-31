@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "695901977975",
+    "firebase_url": "https://boxwood-chassis-171408.firebaseio.com",
+    "project_id": "boxwood-chassis-171408",
+    "storage_bucket": "boxwood-chassis-171408.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695901977975:android:486b3d3054c97a4b7c3572",
+        "android_client_info": {
+          "package_name": "com.ntu.staizen.EasyTracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695901977975-0b2kpk1dekb1hv3hbi802ihtmkjjionl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ntu.staizen.EasyTracker",
+            "certificate_hash": "e7afe7c42dde007255e6bcdb94989b3f30173e0e"
+          }
+        },
+        {
+          "client_id": "695901977975-4eq6mjbodh1tv36k8t8o85g8vdhljtos.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM7VK11nWoPFn_3EScXvY721hlyXNljqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695901977975-4eq6mjbodh1tv36k8t8o85g8vdhljtos.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
