@@ -48,3 +48,6 @@ Thumbs.db
 *.mov
 *.wmv
 EasyTracker/local.properties
+EasyTracker/app/build/generated/ap_generated_sources/debug/out/com/example/myapp/MyEventBusIndex.java
+EasyTracker/app/build/
+EasyTracker/.gradle/
