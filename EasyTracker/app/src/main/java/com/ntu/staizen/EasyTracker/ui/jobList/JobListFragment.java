@@ -134,6 +134,7 @@ public class JobListFragment extends Fragment {
                     tv_no_jobs.setVisibility(View.GONE);
                     jobDataArrayList = new ArrayList<>(vmJobDataArrayList);
                     jobListAdapter.setNewJobListData(jobDataArrayList);
+                    jobListRecyclerView.smoothScrollToPosition(jobDataArrayList.size()-1);
                 }
             }
         });

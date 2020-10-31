@@ -9,4 +9,6 @@
 
     <color name="btn_end_job_highlight">#b30000</color>
     <color name="btn_end_job_main">#ff3333</color>
+
+    <color name="gray">#DCDCDC</color>
 </resources>

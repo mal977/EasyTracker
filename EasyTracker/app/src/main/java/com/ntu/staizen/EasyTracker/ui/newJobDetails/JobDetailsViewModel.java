@@ -88,7 +88,7 @@ public class JobDetailsViewModel extends ViewModel {
             Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
         }
         if (event.getNewLocation() != null) {
-            if(currentLocationEvent.getValue()==null){
+            if(!EasyTrackerManager.getInstance().isCurrentJobTracking()){
                 EasyTrackerManager.getInstance().stopLocationUpdates();
             }
             currentLocationEvent.setValue(event);

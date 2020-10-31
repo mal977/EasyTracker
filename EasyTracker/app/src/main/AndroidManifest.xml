@@ -19,7 +19,8 @@
         android:theme="@style/EasyTrackerTheme">
         <activity android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/EasyTrackerTheme">
+            android:theme="@style/EasyTrackerTheme"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

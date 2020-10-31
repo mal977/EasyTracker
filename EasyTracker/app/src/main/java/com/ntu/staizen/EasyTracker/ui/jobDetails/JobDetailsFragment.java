@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -64,6 +65,7 @@ public class JobDetailsFragment extends Fragment {
         //ActionBar
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Job Details");
         actionBar.show();
 
         //Getting JobUID from arguements
@@ -104,6 +106,7 @@ public class JobDetailsFragment extends Fragment {
                 jobDetailsModel.endJob(System.currentTimeMillis());
                 btnEndJob.setText("Job Ended");
                 btnEndJob.setEnabled(false);
+                btnEndJob.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.custom_ripple_ended_job,null));
             }
         });
     }

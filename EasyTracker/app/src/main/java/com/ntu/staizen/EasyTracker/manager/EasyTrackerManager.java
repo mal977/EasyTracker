@@ -117,7 +117,7 @@ public class EasyTrackerManager {
         }
     }
 
-    private boolean isCurrentJobTracking() {
+    public boolean isCurrentJobTracking() {
         return SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
     }
 
