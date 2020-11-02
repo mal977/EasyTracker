@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
 
 import com.ntu.staizen.EasyTracker.R;
@@ -19,6 +18,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * Created by Malcom Teh on 01/11/2020
+ */
 public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
     public static final String TAG = RecyclerView.class.getSimpleName();
 

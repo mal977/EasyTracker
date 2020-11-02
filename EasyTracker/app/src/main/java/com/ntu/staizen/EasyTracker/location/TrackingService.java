@@ -71,6 +71,8 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     private int fastestInterval = 5 * 60 * 1000;
     private int maxWaitTime = 15 * 60 * 1000;
 
+    FusedLocationProviderClient mFusedLocationClient;
+
     public TrackingService() {
     }
 
@@ -82,6 +84,12 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     @Override
     public void onCreate() {
         super.onCreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        mFusedLocationClient.removeLocationUpdates(locationCallback);
+        super.onDestroy();
     }
 
     @Override
@@ -128,7 +136,7 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
         builder.build();
-        FusedLocationProviderClient mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         locationCallback = new LocationCallback() {
             @Override

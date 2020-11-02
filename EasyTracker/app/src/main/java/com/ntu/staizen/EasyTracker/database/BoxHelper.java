@@ -122,6 +122,23 @@ public class BoxHelper {
         return locationDataArrayList;
     }
 
+    /**
+     * Gets the latest location data matching jobID
+     */
+    public LocationData getLatestLocationDataMathingJob(String jobUID) {
+        Log.d(TAG, "getLatestLocationDataMathingJob(String jobUID)" + jobUID);
+        LocationData latestLocationData = new LocationData();
+        try {
+
+            Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
+            latestLocationData = locationDataBox.query().equal(LocationData_.jobID, jobUID).orderDesc(LocationData_.dateTime).build().find().get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return latestLocationData;
+    }
+
     public void addJobData(JobData jobData) {
         Log.d(TAG, "addJobData(JobData jobData)" + jobData.toString());
 

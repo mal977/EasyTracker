@@ -108,6 +108,8 @@ public class EasyTrackerManager {
         Log.d(TAG, "stopLocationUpdates()");
         if (tracking) {
             locationCollectingImplementation.stopLocationUpdates();
+            Intent intent = new Intent(mContext,TrackingService.class);
+            mContext.stopService(intent);
             tracking = false;
         }
     }

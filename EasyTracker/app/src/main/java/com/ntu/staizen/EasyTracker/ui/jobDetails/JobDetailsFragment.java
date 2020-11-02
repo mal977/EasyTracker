@@ -23,6 +23,7 @@ import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
+import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailState;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsViewModel;
 
@@ -30,14 +31,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Created by Malcom Teh on 01/11/2020
  *
+ * This fragment is responsible for displaying details of a job
+ * Gives the user the ability to end a job.
  */
 public class JobDetailsFragment extends Fragment {
     private static String TAG = JobDetailsViewModel.class.getSimpleName();
 
     private String jobUID;
-    private JobData jobData;
-
     private JobDetailsViewModel jobDetailsModel;
 
     public JobDetailsFragment() {
@@ -63,7 +65,7 @@ public class JobDetailsFragment extends Fragment {
         actionBar.setTitle("Job Details");
         actionBar.show();
 
-        //Getting JobUID from arguements
+        //Getting JobUID from arguments
         jobUID = JobDetailsFragmentArgs.fromBundle(getArguments()).getJobUid();
 
         jobDetailsModel = new ViewModelProvider(requireActivity()).get(JobDetailsViewModel.class);
@@ -87,11 +89,10 @@ public class JobDetailsFragment extends Fragment {
             }
         });
 
-        jobDetailsModel.getCurrentLocationEvent().observe(getViewLifecycleOwner(), new Observer<LocationChangedEvent>() {
+        jobDetailsModel.getCurrentLocationData().observe(getViewLifecycleOwner(), new Observer<LocationData>() {
             @Override
-            public void onChanged(LocationChangedEvent locationChangedEvent) {
-                Location location = locationChangedEvent.getNewLocation();
-                tvLocation.setText("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
+            public void onChanged(LocationData locationData) {
+                tvLocation.setText("Lat: " + locationData.getLat() + " Lon: " + locationData.getLon());
             }
         });
 

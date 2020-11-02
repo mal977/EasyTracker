@@ -6,6 +6,7 @@ import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.JobData;
+import com.ntu.staizen.EasyTracker.model.LocationData;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -21,14 +22,10 @@ import javax.annotation.Nullable;
 public class JobDetailsViewModel extends ViewModel {
     private static String TAG = JobDetailsViewModel.class.getSimpleName();
 
-    private MutableLiveData<LocationChangedEvent> currentLocationEvent = new MutableLiveData<>();
+    private MutableLiveData<LocationData> currentLocationData = new MutableLiveData<>();
 
-    public MutableLiveData<LocationChangedEvent> getCurrentLocationEvent() {
-        return currentLocationEvent;
-    }
-
-    public void setCurrentLocationEvent(MutableLiveData<LocationChangedEvent> currentLocationEvent) {
-        this.currentLocationEvent = currentLocationEvent;
+    public MutableLiveData<LocationData> getCurrentLocationData() {
+        return currentLocationData;
     }
 
     private MutableLiveData<JobDetailState> jobDetailStateMutableLiveData = new MutableLiveData<>();
@@ -62,6 +59,9 @@ public class JobDetailsViewModel extends ViewModel {
     public void getJobDetails(String UID){
         BoxHelper boxHelper = BoxHelper.getInstance();
         mJobData = boxHelper.getJobData(UID);
+        if(mJobData!=null){
+            currentLocationData.setValue(boxHelper.getLatestLocationDataMathingJob(UID));
+        }
         jobDetailStateMutableLiveData.postValue(new JobDetailState(mJobData));
     }
 
@@ -77,10 +77,6 @@ public class JobDetailsViewModel extends ViewModel {
         return jobDetailStateMutableLiveData.getValue().getUID();
     }
 
-    public void setCurrentLocationEvent(LocationChangedEvent locationEvent) {
-        this.currentLocationEvent.setValue(locationEvent);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void handleLocationChangedEvent(LocationChangedEvent event) {
         Log.d(TAG, "LocationChangedEvent Success");
@@ -91,7 +87,7 @@ public class JobDetailsViewModel extends ViewModel {
             if(!EasyTrackerManager.getInstance().isCurrentJobTracking()){
                 EasyTrackerManager.getInstance().stopLocationUpdates();
             }
-            currentLocationEvent.setValue(event);
+            currentLocationData.setValue(new LocationData(System.currentTimeMillis(),event.getNewLocation().getLatitude(),event.getNewLocation().getLongitude()));
         }
     }
 

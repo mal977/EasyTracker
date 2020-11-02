@@ -30,6 +30,7 @@ import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
+import com.ntu.staizen.EasyTracker.model.LocationData;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -83,11 +84,10 @@ public class NewJobDetailsFragment extends Fragment {
         date = new Date();
         etDateTime.setText(Utilities.jobDateFormatter(date));
 
-        jobDetailsModel.getCurrentLocationEvent().observe(getViewLifecycleOwner(), new Observer<LocationChangedEvent>() {
+        jobDetailsModel.getCurrentLocationData().observe(getViewLifecycleOwner(), new Observer<LocationData>() {
             @Override
-            public void onChanged(LocationChangedEvent locationChangedEvent) {
-                Location location = locationChangedEvent.getNewLocation();
-                tvLatLon.setText("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
+            public void onChanged(LocationData locationData) {
+                tvLatLon.setText("Lat: " + locationData.getLat() + " Lon: " + locationData.getLon());
             }
         });
 
