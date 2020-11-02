@@ -17,7 +17,6 @@ public class ContractorInfo {
 
     private String name;
     private String phoneNo;
-
     private List<JobData> jobList;
 
     public ContractorInfo(){}

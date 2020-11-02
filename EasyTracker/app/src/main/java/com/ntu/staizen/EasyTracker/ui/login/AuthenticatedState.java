@@ -26,7 +26,6 @@ public class AuthenticatedState {
         return authenticatedStatus;
     }
 
-
     @Nullable
     public String getErrorMessage() {
         return errorMessage;

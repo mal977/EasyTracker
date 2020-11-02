@@ -18,6 +18,7 @@ public class LocationData {
 
     @Id
     private long id=0;
+
     private String jobID;
     private long dateTime;
     private double lat;

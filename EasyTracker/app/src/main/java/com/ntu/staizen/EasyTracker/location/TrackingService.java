@@ -67,12 +67,12 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     private LocationCallback locationCallback;
     private PendingIntent pendingIntent;
 
-//    private int interval = 10 * 60 * 1000;
-//    private int fastestInterval = 5 * 60 * 1000;
-//    private int maxWaitTime = 15 * 60 * 1000;
-    private int interval = 5 * 60 * 1000;
-    private int fastestInterval = 1 * 60 * 1000;
-    private int maxWaitTime = 10 * 60 * 1000;
+    //    private int interval = 10 * 60 * 1000;        // 10 Mins
+//    private int fastestInterval = 5 * 60 * 1000;      // 5 Mins
+//    private int maxWaitTime = 15 * 60 * 1000;     // 15 Mins
+    private int interval = 5 * 60 * 1000;       // 5 Mins
+    private int fastestInterval = 1 * 60 * 1000;        // 1 Min
+    private int maxWaitTime = 10 * 60 * 1000;       // 10 Mins
 
     FusedLocationProviderClient mFusedLocationClient;
 
@@ -111,9 +111,9 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         arg.putString("job_uid", currentRunningJobReference.getKey());
         pendingIntent = new NavDeepLinkBuilder(this.getBaseContext()).setComponentName(MainActivity.class)
                 .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.mainActivity)
+                .setDestination(R.id.jobDetails)
+                .setArguments(arg)
                 .createPendingIntent();
-//        pendingIntent = PendingIntent.getActivity(this, 0, trackingIntent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
