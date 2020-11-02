@@ -32,6 +32,13 @@ public class LocationData {
         this.dateTime = dateTimeStamp;
     }
 
+    public LocationData(String jobID, long dateTimeStamp, double lat, double lon) {
+        this.jobID = jobID;
+        this.lat = lat;
+        this.lon = lon;
+        this.dateTime = dateTimeStamp;
+    }
+
     @Exclude
     public long getId() {
         return id;

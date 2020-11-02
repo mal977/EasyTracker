@@ -26,9 +26,8 @@ import io.objectbox.BoxStore;
 public class BoxHelper {
     private static String TAG = BoxHelper.class.getSimpleName();
 
-    private Context mContext;
-    private static BoxStore mBoxStore;
-    private static BoxHelper instance;
+    protected static BoxStore mBoxStore;
+    protected static BoxHelper instance;
 
     /*
     Call this method to get an instance of the DaoHelper class
@@ -47,14 +46,15 @@ public class BoxHelper {
         return instance;
     }
 
+    public BoxHelper(){}
+
     private BoxHelper(@NonNull Context context) {
 
         setUpBoxDatabase(context);
     }
 
     private void setUpBoxDatabase(Context context) {
-        this.mContext = context;
-        mBoxStore = MyObjectBox.builder().androidContext(mContext).build();
+        mBoxStore = MyObjectBox.builder().androidContext(context).build();
     }
 
     /**
@@ -159,7 +159,7 @@ public class BoxHelper {
         JobData jobData = null;
         try {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
-            jobData = jobDataBox.query().equal(JobData_.UID, UID).build().find().get(0);
+            jobData = jobDataBox.query().equal(JobData_.UID, UID).build().findFirst();
 
         } catch (Exception e) {
             e.printStackTrace();
