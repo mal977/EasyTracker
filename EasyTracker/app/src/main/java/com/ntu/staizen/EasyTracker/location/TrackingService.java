@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
+import com.ntu.staizen.EasyTracker.MainActivity;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.Utilities;
@@ -39,6 +41,8 @@ import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.LocationData;
+import com.ntu.staizen.EasyTracker.ui.jobDetails.JobDetailsFragment;
+import com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,6 +52,8 @@ import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.navigation.NavDeepLinkBuilder;
 
 import static com.ntu.staizen.EasyTracker.Utilities.TRACKING_NOTIFICATION_CHANNEL_ID;
 
@@ -60,6 +66,10 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     private Authentication mAuthentication;
     private LocationCallback locationCallback;
     private PendingIntent pendingIntent;
+
+    private int interval = 10 * 60 * 1000;
+    private int fastestInterval = 5 * 60 * 1000;
+    private int maxWaitTime = 15 * 60 * 1000;
 
     public TrackingService() {
     }
@@ -76,14 +86,24 @@ public class TrackingService extends Service implements ResultCallback<LocationS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        EventBus.getDefault().register(this);
         mFireStore = FireStore.getInstance(getApplicationContext());
         mBoxHelper = BoxHelper.getInstance(getApplicationContext());
         mAuthentication = Authentication.getInstance(getApplicationContext());
 
+        if (SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, getApplicationContext())) {
+            String reference = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, getApplicationContext());
+            currentRunningJobReference = mFireStore.getReference().child("contractors/" + mAuthentication.getUID()).child("jobList/" + reference);
+        }
+
         Notification notification = null;
-        Intent trackingIntent = new Intent(this, TrackingService.class);
-        pendingIntent = PendingIntent.getActivity(this, 0, trackingIntent, 0);
+        Bundle arg = new Bundle();
+        arg.putString("job_uid", currentRunningJobReference.getKey());
+        pendingIntent = new NavDeepLinkBuilder(this.getBaseContext()).setComponentName(MainActivity.class)
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.jobDetails)
+                .setArguments(arg)
+                .createPendingIntent();
+//        pendingIntent = PendingIntent.getActivity(this, 0, trackingIntent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
@@ -101,9 +121,9 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         }
 
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(600000);
-        locationRequest.setFastestInterval(300000);
-        locationRequest.setMaxWaitTime(900000);
+        locationRequest.setInterval(interval);
+        locationRequest.setFastestInterval(fastestInterval);
+        locationRequest.setMaxWaitTime(maxWaitTime);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
@@ -152,20 +172,18 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         return START_STICKY;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleLocationChangedEvent(LocationChangedEvent event) {
-
-    }
-
     private Notification getNotification(String message) {
         Notification notification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notification = new Notification.Builder(this, TRACKING_NOTIFICATION_CHANNEL_ID)
+            NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+            bigTextStyle.setBigContentTitle("Tracking Location");
+            notification = new NotificationCompat.Builder(this, TRACKING_NOTIFICATION_CHANNEL_ID)
                     .setContentTitle("EasyTracker")
                     .setContentText(message)
                     .setSmallIcon(R.drawable.ic_wrench)
                     .setContentIntent(pendingIntent)
                     .setOnlyAlertOnce(true)
+                    .setStyle(bigTextStyle)
                     .build();
         } else {
 
