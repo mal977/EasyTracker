@@ -71,9 +71,6 @@ public class NewJobDetailsFragment extends Fragment {
 
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-
-
-
         jobDetailsModel = new ViewModelProvider(this).get(JobDetailsViewModel.class);
 
         locationManager = EasyTrackerManager.getInstance(getActivity());
@@ -93,32 +90,6 @@ public class NewJobDetailsFragment extends Fragment {
                 tvLatLon.setText("Lat: " + location.getLatitude() + " Lon: " + location.getLongitude());
             }
         });
-
-//        etDateTime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                final Calendar currCalendar = Calendar.getInstance();
-//                date = Calendar.getInstance();
-//
-//
-//                DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                        date.set(year, month, dayOfMonth);
-//                        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-//                            @Override
-//                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//                                date.set(Calendar.HOUR_OF_DAY, hourOfDay);
-//                                date.set(Calendar.MINUTE, minute);
-//                                etDateTime.setText(date.getTime().toString());
-//                            }
-//                        }, currCalendar.get(Calendar.HOUR_OF_DAY), currCalendar.get(Calendar.MINUTE), false);
-//                        timePickerDialog.show();
-//                    }
-//                }, currCalendar.get(Calendar.YEAR), currCalendar.get(Calendar.MONTH), currCalendar.get(Calendar.DAY_OF_MONTH));
-//                datePickerDialog.show();
-//            }
-//        });
 
         btnStartNewJob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,7 +121,7 @@ public class NewJobDetailsFragment extends Fragment {
         super.onStart();
 
         if (Utilities.isLocationEnabled(getContext())) {
-            locationManager.startLocationUpdates(getContext());
+            locationManager.startLocationUpdates(getContext(),5000);
         }
     }
 

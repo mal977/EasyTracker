@@ -9,6 +9,7 @@ import android.location.Location;
 public interface LocationCollectingInterface {
 
     void createLocationRequest();
+    void createLocationRequest(int value);
 
     void createLocationSettingsRequest();
 

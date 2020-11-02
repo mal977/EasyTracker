@@ -1,17 +1,25 @@
 package com.ntu.staizen.EasyTracker.manager;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
+import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.location.LocationCollectingImplementation;
+import com.ntu.staizen.EasyTracker.location.TrackingService;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 
@@ -21,12 +29,16 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import javax.annotation.Nullable;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+
+import static com.ntu.staizen.EasyTracker.Utilities.TRACKING_NOTIFICATION_CHANNEL_ID;
+
 /**
  * Created by Malcom on 11 Oct 2020
  * This class is responsible for managing location data and sending it to the appropriate jobs.
  */
 public class EasyTrackerManager {
-
     private static final String TAG = EasyTrackerManager.class.getSimpleName();
 
 
@@ -59,7 +71,6 @@ public class EasyTrackerManager {
         mBoxHelper = BoxHelper.getInstance(mContext);
         locationCollectingImplementation = new LocationCollectingImplementation(context);
 
-        EventBus.getDefault().register(this);
 
         if (SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext)) {
             String reference = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
@@ -67,10 +78,24 @@ public class EasyTrackerManager {
         }
     }
 
+    //Starts a foreground service to collect location updates.
     public void startLocationUpdates(Context context) {
         Log.d(TAG, "startLocationUpdates");
         if (!tracking) {
-            locationCollectingImplementation.createLocationRequest();
+            Intent intent = new Intent(mContext,TrackingService.class);
+            mContext.startService(intent);
+            tracking = true;
+
+        } else {
+            Log.d(TAG, "Already Tracking");
+        }
+    }
+
+    //Uses the locationCollectionImplementation to do short burst location collection.
+    public void startLocationUpdates(Context context, int interval) {
+        Log.d(TAG, "startLocationUpdates");
+        if (!tracking) {
+            locationCollectingImplementation.createLocationRequest(interval);
             locationCollectingImplementation.createLocationSettingsRequest();
             locationCollectingImplementation.startLocationUpdates();
             tracking = true;
@@ -129,34 +154,13 @@ public class EasyTrackerManager {
         if (isCurrentJobTracking()) {
             String uid = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
             jobData = BoxHelper.getInstance().getJobData(uid);
-            if(!tracking){
+            if (!tracking) {
                 startLocationUpdates(mContext);
             }
         }
         return jobData;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void handleLocationChangedEvent(LocationChangedEvent event) {
-        Log.d(TAG, "LocationChangedEvent Success");
-        if (event != null && event.getNewLocation() != null) {
-            Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
-        }
-        if (event.getNewLocation() != null) {
-            LatLng loc = new LatLng(event.getNewLocation().getLatitude(), event.getNewLocation().getLongitude());
-            LocationData locationData = new LocationData(System.currentTimeMillis(), loc.latitude, loc.longitude);
-            if (currentRunningJobReference == null) {
-//                SharedPreferences sharedPreferences = mContext.getSharedPreferences(Utilities.PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
-//                String storedRunningJobReference = sharedPreferences.getString("Current_Running_Job", "");
-//                if (storedRunningJobReference != null & !storedRunningJobReference.isEmpty()) {
-//                    Log.d(TAG, storedRunningJobReference);
-//                    mFireStore.sendLocationUpdateToFireStore(mAuthentication.getmAuth().getUid(), storedRunningJobReference, locationData);
-//                }
-            } else {
-                mFireStore.sendLocationUpdateToFireStore(currentRunningJobReference, locationData);
-            }
-        }
-    }
 
 }
 

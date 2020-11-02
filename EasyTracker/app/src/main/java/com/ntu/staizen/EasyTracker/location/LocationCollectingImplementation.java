@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.util.Log;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,7 +42,8 @@ public class LocationCollectingImplementation implements LocationCollectingInter
 
     private FusedLocationProviderClient mFusedLocationClient = null;
 
-    private int gpsTrackingInterval = 30000;     //In milliseconds
+    private int gpsMinTrackingInterval = 30000;     //In milliseconds
+    private int gpsMaxTrackingInterval = 60000;     //In milliseconds
 
     private boolean isTracking = false;
 
@@ -68,8 +68,17 @@ public class LocationCollectingImplementation implements LocationCollectingInter
     public void createLocationRequest() {
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(gpsTrackingInterval);
-        locationRequest.setFastestInterval(gpsTrackingInterval);
+        locationRequest.setInterval(gpsMinTrackingInterval);
+        locationRequest.setFastestInterval(gpsMinTrackingInterval);
+        locationRequest.setMaxWaitTime(gpsMaxTrackingInterval);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+    @Override
+    public void createLocationRequest(int interval) {
+
+        locationRequest = new LocationRequest();
+        locationRequest.setInterval(interval);
+        locationRequest.setFastestInterval(interval);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 

@@ -18,11 +18,7 @@ public class LocationData {
 
     @Id
     private long id=0;
-
-//    @Exclude
-//    @Convert(converter = DateTimeConverter.class, dbType = Long.class)
-//    public LocalDateTime dateTime;
-
+    private String jobID;
     private long dateTime;
     private double lat;
     private double lon;
@@ -34,7 +30,6 @@ public class LocationData {
         this.lon = lon;
         this.dateTime = dateTimeStamp;
     }
-
 
     @Exclude
     public long getId() {
@@ -68,44 +63,21 @@ public class LocationData {
     public void setDateTime(long dateTime) {
         this.dateTime = dateTime;
     }
-//    public LocalDateTime getDateTime() {
-//        return dateTime;
-//    }
-//
-//    public void setDateTime(LocalDateTime dateTime) {
-//        this.dateTime = dateTime;
-//    }
-
-//    public static class DateTimeConverter implements PropertyConverter<LocalDateTime, Long> {
-//
-//        @Override
-//        public LocalDateTime convertToEntityProperty(Long databaseValue) {
-//            if (databaseValue == null) {
-//                return null;
-//            }
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(databaseValue), TimeZone.getDefault().toZoneId());
-//                return localDateTime;
-//            } else {
-//                return null;
-//            }
-//        }
-//
-//        @Override
-//        public Long convertToDatabaseValue(LocalDateTime entityProperty) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                return entityProperty.now().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-//            } else {
-//                return null;
-//            }
-//        }
-//    }
 
     public String toString(){
         return("ID: " + id
+                + " JobID: " + jobID
                 + " DateTime: " + dateTime
                 + " Lat: " + lat
                 + " Lon: " + lon);
     }
 
+    @Exclude
+    public String getJobID() {
+        return jobID;
+    }
+
+    public void setJobID(String jobID) {
+        this.jobID = jobID;
+    }
 }

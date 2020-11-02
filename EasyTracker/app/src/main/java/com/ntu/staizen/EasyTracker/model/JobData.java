@@ -64,8 +64,6 @@ public class JobData {
         this.company = company;
     }
 
-
-
     public long getDateTimeStart() {
         return dateTimeStart;
     }
@@ -96,8 +94,6 @@ public class JobData {
         }
         location.add(locationData);
     }
-
-
 
     public String toString() {
         return ("ID: " + id

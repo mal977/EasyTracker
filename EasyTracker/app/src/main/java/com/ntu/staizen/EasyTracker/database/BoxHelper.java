@@ -6,6 +6,7 @@ import android.util.Log;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.JobData_;
 import com.ntu.staizen.EasyTracker.model.LocationData;
+import com.ntu.staizen.EasyTracker.model.LocationData_;
 import com.ntu.staizen.EasyTracker.model.MyObjectBox;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class BoxHelper {
      *
      * @param locationData - ArrayList of LocationData, when ID is null, objectbox automatically assigns an ID
      */
-    public void addLocationData(ArrayList<LocationData> locationData) {
+    public void addLocationDataList(ArrayList<LocationData> locationData) {
         Log.d(TAG, "addLocationData(LocationData locationData[])");
         try {
 
@@ -74,6 +75,34 @@ public class BoxHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addLocationData(LocationData locationData) {
+        Log.d(TAG, "addLocationData(LocationData locationData)");
+        try {
+
+            Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
+            locationDataBox.put(locationData);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<LocationData> getLocationDataMatchingJob(String jobID) {
+        Log.d(TAG, "getLocationDataMatchingJob(String jobID)");
+        ArrayList<LocationData> locationDataArrayList = new ArrayList<>();
+
+        try {
+
+            Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
+            locationDataArrayList = new ArrayList<>(locationDataBox.query().equal(LocationData_.jobID, jobID).build().find());
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return locationDataArrayList;
     }
 
     /**
@@ -137,13 +166,13 @@ public class BoxHelper {
         return jobDataArrayList;
     }
 
-    public void updateJobData(JobData jobData){
+    public void updateJobData(JobData jobData) {
         Log.d(TAG, "updateJobData(JobData jobData)");
 
-        try{
+        try {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
             jobDataBox.put(jobData);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

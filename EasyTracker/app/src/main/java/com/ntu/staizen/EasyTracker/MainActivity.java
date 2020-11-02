@@ -36,17 +36,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Help Me");
-        actionBar.hide();
-//        Authentication authentication = Authentication.getInstance(this);
-//        FirebaseAuth auth = authentication.getmAuth();
-//
-//
-//        ContractorInfo contractorInfo = new ContractorInfo();
-//        contractorInfo.setName("Malcom");
-//        contractorInfo.setPhoneNo("222222222");
-//        FireStore.getInstance(this).sendNewContractorToFireStore(auth.getCurrentUser().getUid(), contractorInfo, false);
-
         NavHostFragment navHostFragment = (NavHostFragment) this.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         NavController navController = navHostFragment.getNavController();
     }

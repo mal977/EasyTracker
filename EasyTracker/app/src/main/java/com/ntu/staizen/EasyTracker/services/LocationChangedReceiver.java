@@ -50,10 +50,6 @@ public class LocationChangedReceiver extends IntentService {
 
         if (location != null) {
             Log.d(TAG, "Location Changed " + location.toString());
-            Date currentDateTime = Calendar.getInstance().getTime();
-            DateFormat dateFormat = new SimpleDateFormat("E h:mm a");
-            Utilities.displayTrackingNotification(this, "Last Update: " +
-                    dateFormat.format(currentDateTime) + "\nCurrent Location Lat(" + location.getLatitude() + ") Lon(" + location.getLongitude() + ")");
             EventBus.getDefault().post(new LocationChangedEvent(location));
         } else {
             Log.d(TAG, "Location Changed Null ");

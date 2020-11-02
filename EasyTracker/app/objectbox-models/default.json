@@ -47,7 +47,7 @@
     },
     {
       "id": "2:1652377220734748186",
-      "lastPropertyId": "5:8745526119112116534",
+      "lastPropertyId": "6:5124208972225326866",
       "name": "LocationData",
       "properties": [
         {
@@ -73,6 +73,11 @@
           "name": "dateTime",
           "type": 6,
           "flags": 4
+        },
+        {
+          "id": "6:5124208972225326866",
+          "name": "jobID",
+          "type": 9
         }
       ],
       "relations": []

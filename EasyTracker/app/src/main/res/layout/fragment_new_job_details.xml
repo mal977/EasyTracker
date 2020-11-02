@@ -7,6 +7,15 @@
     android:background="@color/design_default_color_on_secondary"
     android:isScrollContainer="false">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_repeat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -63,7 +72,7 @@
                     android:id="@+id/tv_title_company_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/company_name"
                     android:textColor="@color/design_default_color_on_secondary"
                     android:textSize="24sp"
@@ -74,7 +83,6 @@
                     android:id="@+id/et_company_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:ems="10"
                     android:hint="@string/enter_company_name"
                     android:inputType="textPersonName"
@@ -97,7 +105,6 @@
                     android:id="@+id/et_time"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:clickable="true"
                     android:editable="false"
                     android:ems="10"
@@ -113,7 +120,7 @@
                     android:id="@+id/tv_title_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/location"
                     android:textColor="@color/design_default_color_on_secondary"
                     android:textSize="24sp"
