@@ -32,7 +32,7 @@ import java.util.Date;
 
 /**
  * Created by Malcom Teh on 01/11/2020
- *
+ * <p>
  * This fragment is responsible for displaying details of a job
  * Gives the user the ability to end a job.
  */
@@ -51,7 +51,7 @@ public class JobDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_job_details, container, false);
     }
 
@@ -60,7 +60,7 @@ public class JobDetailsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //ActionBar
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("Job Details");
         actionBar.show();
@@ -78,6 +78,10 @@ public class JobDetailsFragment extends Fragment {
         final TextView tvJobId = view.findViewById(R.id.tv_title_job_id);
         final Button btnEndJob = view.findViewById(R.id.btn_end_job);
 
+        LocationData locationData = jobDetailsModel.getCurrentLocationData().getValue();
+        if (locationData != null) {
+            tvLocation.setText("Lat: " + locationData.getLat() + " Lon: " + locationData.getLon());
+        }
         jobDetailsModel.getJobDetailStateMutableLiveData().observe(getViewLifecycleOwner(), new Observer<JobDetailState>() {
             @Override
             public void onChanged(JobDetailState jobDetailState) {
@@ -102,7 +106,7 @@ public class JobDetailsFragment extends Fragment {
                 jobDetailsModel.endJob(System.currentTimeMillis());
                 btnEndJob.setText("Job Ended");
                 btnEndJob.setEnabled(false);
-                btnEndJob.setBackground(ResourcesCompat.getDrawable(getResources(),R.drawable.custom_ripple_ended_job,null));
+                btnEndJob.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.custom_ripple_ended_job, null));
             }
         });
     }

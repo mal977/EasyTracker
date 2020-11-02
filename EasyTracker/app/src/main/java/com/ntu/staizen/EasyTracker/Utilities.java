@@ -26,7 +26,6 @@ import static android.app.Notification.FLAG_ONLY_ALERT_ONCE;
 
 public class Utilities {
     private static final String TAG = Utilities.class.getSimpleName();
-    public static String NOTIFICATION_CHANNEL_ID = "easy_tracker_notification_channel";
     public static String TRACKING_NOTIFICATION_CHANNEL_ID = "tracking_notification";
 
     public static boolean checkPermission(AppCompatActivity activity, String appPermission) {
@@ -43,7 +42,7 @@ public class Utilities {
         int locationMode = 0;
         String locationProviders;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
 
@@ -53,64 +52,26 @@ public class Utilities {
 
             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
-        }else{
+        } else {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
     }
 
-    public static String jobDateFormatter(Date date){
+    /**
+     * Takes in date
+     * returns formatted string representing date in hh:mm EEEE dd/MM/yyyy
+     * @param date
+     * @return
+     */
+    public static String jobDateFormatter(Date date) {
         String output = "";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm EEEE dd/MM/yyyy");
-        try{
+        try {
             output = simpleDateFormat.format(date);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }return output;
-    }
-
-    /**
-     * This method builds a notification to notify the user location updates
-     */
-    public static void displayTrackingNotification(Context context, String message) {
-
-        /**
-         * ToDo Add intent to action list
-         */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            Log.d(TAG, "Building Notification Channel");
-            CharSequence name = (NOTIFICATION_CHANNEL_ID);
-            String description = ("This channel is used to display Easy Tracker Notifications.");
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(TRACKING_NOTIFICATION_CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            notificationManager.createNotificationChannel(channel);
         }
-
-        //ToDo Update below code to bring user to job details page
-//        Intent intent = new Intent(context,MapsActivity.class);
-//        intent.putExtra("isNotification","true");
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
-        bigTextStyle.setBigContentTitle("Tracking Location");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, TRACKING_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_wrench)
-                .setContentTitle("Tracking Location")
-                .setContentText(message)
-                .setStyle(bigTextStyle)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//                .setContentIntent(pendingIntent);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-        // ToDo ID has to be unique code generated
-        Notification n = builder.build();
-        n.flags = FLAG_ONLY_ALERT_ONCE;
-        notificationManager.notify(1,n );
-
+        return output;
     }
-
 }

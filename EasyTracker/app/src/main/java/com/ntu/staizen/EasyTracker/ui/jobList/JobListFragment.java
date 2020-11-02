@@ -44,8 +44,6 @@ import java.util.ArrayList;
 public class JobListFragment extends Fragment {
     private static String TAG = JobListFragment.class.getSimpleName();
 
-    static int counter = 0;
-
     private JobListAdapter jobListAdapter;
     private RecyclerView jobListRecyclerView;
     private ArrayList<JobData> jobDataArrayList = new ArrayList<>();
@@ -95,11 +93,12 @@ public class JobListFragment extends Fragment {
         jobDetailsViewModel = new ViewModelProvider(getActivity()).get(JobDetailsViewModel.class);
         NavController navController = Navigation.findNavController(view);
         Authentication authentication = Authentication.getInstance(getContext());
-        FireStore fireStore = FireStore.getInstance(getContext());
-        if (authentication.getmAuth().getCurrentUser() == null) {
+        FireStore fireStore = FireStore.getInstance();
 
+        //If user isnt authenticated, direct to login fragment
+        if (authentication.getmAuth().getCurrentUser() == null) {
             navController.navigate(R.id.loginFragment);
-        } else {
+        } else {    //Get Contractor Info
             ContractorInfo contractorInfo = new ContractorInfo();
             contractorInfo.setPhoneNo(SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_PHONE_NUMBER, getActivity()));
             contractorInfo.setName(SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_USERNAME, getActivity()));
@@ -169,10 +168,8 @@ public class JobListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_job_list, container, false);
     }
-
 
     private void getLocationPermission() {
         /*

@@ -1,7 +1,5 @@
 package com.ntu.staizen.EasyTracker.ui.newJobDetails;
 
-import android.location.Location;
-
 import com.ntu.staizen.EasyTracker.model.JobData;
 
 import androidx.annotation.Nullable;

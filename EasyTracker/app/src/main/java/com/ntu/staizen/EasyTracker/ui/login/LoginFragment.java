@@ -110,9 +110,9 @@ public class LoginFragment extends Fragment {
                       );
             }
         };
+
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         phoneNumberEditText.addTextChangedListener(afterTextChangedListener);
-
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,15 +123,6 @@ public class LoginFragment extends Fragment {
                          getActivity());
             }
         });
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(
-                    getContext().getApplicationContext(),
-                    errorString,
-                    Toast.LENGTH_LONG).show();
-        }
     }
 
     @Override

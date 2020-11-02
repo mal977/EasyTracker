@@ -20,7 +20,6 @@ public class FireStore {
 
     private static final String TAG = FireStore.class.getSimpleName();
 
-    private Context mContext;
     private static FireStore instance;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mReference;
@@ -29,18 +28,14 @@ public class FireStore {
         return mReference;
     }
 
-    private boolean doesContractorExist = false;
-
-
-    public static synchronized FireStore getInstance(Context context) {
+    public static synchronized FireStore getInstance() {
         if (instance == null) {
-            instance = new FireStore(context.getApplicationContext());
+            instance = new FireStore();
         }
         return instance;
     }
 
-    public FireStore(Context context) {
-        this.mContext = context;
+    public FireStore() {
         mDatabase = FirebaseDatabase.getInstance();
         mDatabase.setPersistenceEnabled(true);
         mReference = mDatabase.getReference();
@@ -62,12 +57,10 @@ public class FireStore {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.getValue() == null) {
                         Log.d(TAG, "ContractorInfo does not exist, adding new contractorInfo: " + contractorInfo.toString() + " UID:" + UID);
-                        doesContractorExist = false;
                         mReference.removeEventListener(this);
                         sendNewContractorToFireStore(UID, contractorInfo, true);
                     } else {
                         Log.d(TAG, "Existing contractorInfo already exists");
-                        doesContractorExist = true;
                     }
                 }
 
@@ -83,6 +76,12 @@ public class FireStore {
         }
     }
 
+    /**
+     * Sends a new JobData to FireStore
+     * @param UID
+     * @param jobData
+     * @return
+     */
     public DatabaseReference sendNewJobToFireStore(String UID, JobData jobData) {
         Log.d(TAG, "Adding a new Job : " + jobData.toString() + " to UID : " + UID);
 
@@ -129,10 +128,8 @@ public class FireStore {
                 ContractorInfo fetchedInfo = snapshot.getValue(ContractorInfo.class);
                 if (fetchedInfo == null) {
                     mReference.removeEventListener(this);
-                    doesContractorExist = false;
                 } else {
                     Log.d(TAG, "Existing contractorInfo already exists: " + fetchedInfo.toString());
-                    doesContractorExist = true;
                 }
             }
 
@@ -142,5 +139,4 @@ public class FireStore {
             }
         };
     }
-
 }

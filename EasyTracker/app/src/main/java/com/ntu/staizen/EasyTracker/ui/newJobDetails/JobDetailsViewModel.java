@@ -60,7 +60,9 @@ public class JobDetailsViewModel extends ViewModel {
         BoxHelper boxHelper = BoxHelper.getInstance();
         mJobData = boxHelper.getJobData(UID);
         if(mJobData!=null){
-            currentLocationData.setValue(boxHelper.getLatestLocationDataMathingJob(UID));
+            if(boxHelper.getLatestLocationDataMathingJob(UID)!=null) {
+                currentLocationData.setValue(boxHelper.getLatestLocationDataMathingJob(UID));
+            }
         }
         jobDetailStateMutableLiveData.postValue(new JobDetailState(mJobData));
     }
@@ -84,6 +86,9 @@ public class JobDetailsViewModel extends ViewModel {
             Log.d(TAG, "New Location MainActivity: " + event.getNewLocation().toString());
         }
         if (event.getNewLocation() != null) {
+
+            // If we are not tracking for a job, and we receive a location update, update the current location, and stop location updates.
+            // Used to get location for new Job Fragment
             if(!EasyTrackerManager.getInstance().isCurrentJobTracking()){
                 EasyTrackerManager.getInstance().stopLocationUpdates();
             }

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
         Authentication authentication = Authentication.getInstance(this);
-        FireStore fireStore = FireStore.getInstance(this);
+        FireStore fireStore = FireStore.getInstance();
         BoxHelper boxHelper = BoxHelper.getInstance();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

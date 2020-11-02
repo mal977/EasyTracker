@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Malcom Teh on 01/11/2020
+ * Standard Adapter for recycler view
  */
 public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHolder> {
     public static final String TAG = RecyclerView.class.getSimpleName();

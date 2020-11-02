@@ -28,11 +28,9 @@ import android.widget.Toast;
 
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.Utilities;
-import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -42,7 +40,6 @@ public class NewJobDetailsFragment extends Fragment {
     private static String TAG = NewJobDetailsFragment.class.getSimpleName();
 
     private JobDetailsViewModel jobDetailsModel;
-
     private EasyTrackerManager locationManager;
 
     private TextView tvLatLon;
@@ -119,7 +116,6 @@ public class NewJobDetailsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
         if (Utilities.isLocationEnabled(getContext())) {
             locationManager.startLocationUpdates(getContext(),5000);
         }

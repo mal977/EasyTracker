@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 
 import javax.annotation.Nullable;
 
+/**
+ * This class helps facilitate the adding/deleting of shared preference
+ * Used to store contractor details, and running job info
+ */
 public class SharedPreferenceHelper {
 
     public static String KEY_USERNAME = "username";

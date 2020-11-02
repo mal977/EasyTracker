@@ -67,9 +67,12 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     private LocationCallback locationCallback;
     private PendingIntent pendingIntent;
 
-    private int interval = 10 * 60 * 1000;
-    private int fastestInterval = 5 * 60 * 1000;
-    private int maxWaitTime = 15 * 60 * 1000;
+//    private int interval = 10 * 60 * 1000;
+//    private int fastestInterval = 5 * 60 * 1000;
+//    private int maxWaitTime = 15 * 60 * 1000;
+    private int interval = 5 * 60 * 1000;
+    private int fastestInterval = 1 * 60 * 1000;
+    private int maxWaitTime = 10 * 60 * 1000;
 
     FusedLocationProviderClient mFusedLocationClient;
 
@@ -94,7 +97,7 @@ public class TrackingService extends Service implements ResultCallback<LocationS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mFireStore = FireStore.getInstance(getApplicationContext());
+        mFireStore = FireStore.getInstance();
         mBoxHelper = BoxHelper.getInstance(getApplicationContext());
         mAuthentication = Authentication.getInstance(getApplicationContext());
 
@@ -108,8 +111,7 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         arg.putString("job_uid", currentRunningJobReference.getKey());
         pendingIntent = new NavDeepLinkBuilder(this.getBaseContext()).setComponentName(MainActivity.class)
                 .setGraph(R.navigation.nav_graph)
-                .setDestination(R.id.jobDetails)
-                .setArguments(arg)
+                .setDestination(R.id.mainActivity)
                 .createPendingIntent();
 //        pendingIntent = PendingIntent.getActivity(this, 0, trackingIntent, 0);
 

@@ -9,6 +9,10 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * Created by Malcom Teh on 01/11/2020
+ * View Model holding jobList data
+ */
 public class JobListViewModel extends ViewModel {
     private static String TAG = JobListViewModel.class.getSimpleName();
 
@@ -32,7 +36,4 @@ public class JobListViewModel extends ViewModel {
         existingData.add(jobData);
         pastJobDataHistory.setValue(existingData);
     }
-
-
-
 }

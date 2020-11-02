@@ -67,11 +67,11 @@ public class EasyTrackerManager {
     public EasyTrackerManager(Context context) {
         this.mContext = context;
         mAuthentication = Authentication.getInstance(mContext);
-        mFireStore = FireStore.getInstance(mContext);
+        mFireStore = FireStore.getInstance();
         mBoxHelper = BoxHelper.getInstance(mContext);
         locationCollectingImplementation = new LocationCollectingImplementation(context);
 
-
+        //Check to see if a tracking job was stored in preference, if it does exist, set up the currentRunningJobReference
         if (SharedPreferenceHelper.doesValueExist(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext)) {
             String reference = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
             currentRunningJobReference = mFireStore.getReference().child("contractors/" + mAuthentication.getUID()).child("jobList/" + reference);
@@ -82,7 +82,7 @@ public class EasyTrackerManager {
     public void startLocationUpdates(Context context) {
         Log.d(TAG, "startLocationUpdates");
         if (!tracking) {
-            Intent intent = new Intent(mContext,TrackingService.class);
+            Intent intent = new Intent(mContext, TrackingService.class);
             mContext.startService(intent);
             tracking = true;
 
@@ -108,7 +108,7 @@ public class EasyTrackerManager {
         Log.d(TAG, "stopLocationUpdates()");
         if (tracking) {
             locationCollectingImplementation.stopLocationUpdates();
-            Intent intent = new Intent(mContext,TrackingService.class);
+            Intent intent = new Intent(mContext, TrackingService.class);
             mContext.stopService(intent);
             tracking = false;
         }
@@ -131,17 +131,19 @@ public class EasyTrackerManager {
     }
 
     public void endCurrentRunningJob(JobData jobData) {
-        if (mAuthentication != null) {
-            if (currentRunningJobReference == null) {
-                String reference = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
-                mFireStore.sendEndJobToFireStore(Authentication.getInstance(mContext).getmAuth().getUid(), reference, jobData.getDateTimeEnd());
-            } else {
-                mFireStore.sendEndJobToFireStore(currentRunningJobReference, jobData.getDateTimeEnd());
-            }
-            mBoxHelper.updateJobData(jobData);
-            SharedPreferenceHelper.removeValue(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
-            stopLocationUpdates();
+        if (mAuthentication == null) {
+            return;
         }
+        if (currentRunningJobReference == null) {
+            String reference = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
+            mFireStore.sendEndJobToFireStore(Authentication.getInstance(mContext).getmAuth().getUid(), reference, jobData.getDateTimeEnd());
+        } else {
+            mFireStore.sendEndJobToFireStore(currentRunningJobReference, jobData.getDateTimeEnd());
+        }
+        mBoxHelper.updateJobData(jobData);
+        SharedPreferenceHelper.removeValue(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
+        currentRunningJobReference = null;
+        stopLocationUpdates();
     }
 
     public boolean isCurrentJobTracking() {
@@ -149,6 +151,12 @@ public class EasyTrackerManager {
     }
 
 
+    /**
+     * Method call to check if a job was previously running, and to resume it.
+     * This is used when the app is killed
+     *
+     * @return
+     */
     @Nullable
     public JobData checkAndResumeTrackingJob() {
         Log.d(TAG, "checkAndResumeTrackingJob");
@@ -162,7 +170,5 @@ public class EasyTrackerManager {
         }
         return jobData;
     }
-
-
 }
 

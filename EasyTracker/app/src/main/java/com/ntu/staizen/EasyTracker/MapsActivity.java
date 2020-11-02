@@ -214,7 +214,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void handleFirebaseAuthenticatedEvent(FirebaseAuthenticatedEvent event) {
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");
         ContractorInfo contractorInfo = new ContractorInfo("MalcomNew", "69696969", null);
-        FireStore.getInstance(this).sendNewContractorToFireStore(mAuthentication.getUID(), contractorInfo, false);
+        FireStore.getInstance().sendNewContractorToFireStore(mAuthentication.getUID(), contractorInfo, false);
         EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
 //        locationManager.startNewJob(new JobData("MalcomCompany3", System.currentTimeMillis(),System.currentTimeMillis()+1000));
 

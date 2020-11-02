@@ -127,7 +127,7 @@ public class BoxHelper {
      */
     public LocationData getLatestLocationDataMathingJob(String jobUID) {
         Log.d(TAG, "getLatestLocationDataMathingJob(String jobUID)" + jobUID);
-        LocationData latestLocationData = new LocationData();
+        LocationData latestLocationData = null;
         try {
 
             Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
