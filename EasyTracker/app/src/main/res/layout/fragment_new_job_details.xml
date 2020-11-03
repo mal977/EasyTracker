@@ -7,14 +7,12 @@
     android:background="@color/design_default_color_on_secondary"
     android:isScrollContainer="false">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <android.widget.FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_repeat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@drawable/bg_repeat">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</android.widget.FrameLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -144,18 +142,18 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/btn_end_job"
-        style="@style/AppTheme.Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="86dp"
-        android:layout_marginEnd="86dp"
-        android:layout_marginBottom="62dp"
-        android:background="@drawable/custom_ripple_new_job"
-        android:text="@string/start_job"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+style="@style/AppTheme.Button"
+android:background="@drawable/custom_ripple_new_job"
+android:id="@+id/btn_end_job"
+android:layout_height="wrap_content"
+android:layout_marginBottom="62dp"
+android:layout_marginEnd="86dp"
+android:layout_marginStart="86dp"
+android:layout_width="0dp"
+android:text="@string/start_job"
+app:layout_constraintBottom_toBottomOf="parent"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
