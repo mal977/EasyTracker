@@ -32,6 +32,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+/**
+ * Created by Malcom on 1 Nov 2020
+ */
 public class LoginFragment extends Fragment {
     private static String TAG = LoginFragment.class.getSimpleName();
 

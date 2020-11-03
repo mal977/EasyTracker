@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.google.firebase.database.DatabaseReference;
 import com.ntu.staizen.EasyTracker.events.FirebaseAuthenticatedEvent;
 import com.ntu.staizen.EasyTracker.events.LocationChangedEvent;
@@ -111,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 mAuthentication.linkGoogleWithAnonymous(this, account.getIdToken());
             } catch (ApiException e) {
+                FirebaseCrashlytics.getInstance().recordException(e);
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
                 // ...
@@ -162,6 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationManager.startLocationUpdates(this);
             }
         } catch (SecurityException e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             Log.e(TAG, "Exception: " + e.getMessage());
         }
     }

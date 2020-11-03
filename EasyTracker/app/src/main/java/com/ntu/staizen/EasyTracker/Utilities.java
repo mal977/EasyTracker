@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.ntu.staizen.EasyTracker.services.LocationChangedReceiver;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class Utilities {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
 
             } catch (Settings.SettingNotFoundException e) {
+                FirebaseCrashlytics.getInstance().recordException(e);
                 e.printStackTrace();
             }
 
@@ -70,6 +72,7 @@ public class Utilities {
         try {
             output = simpleDateFormat.format(date);
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
         return output;

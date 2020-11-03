@@ -30,6 +30,8 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import com.google.firebase.crashlytics.internal.common.CrashlyticsCore;
 import com.google.firebase.database.DatabaseReference;
 import com.ntu.staizen.EasyTracker.MainActivity;
 import com.ntu.staizen.EasyTracker.R;
@@ -70,9 +72,10 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     //    private int interval = 10 * 60 * 1000;        // 10 Mins
 //    private int fastestInterval = 5 * 60 * 1000;      // 5 Mins
 //    private int maxWaitTime = 15 * 60 * 1000;     // 15 Mins
-    private int interval = 5 * 60 * 1000;       // 5 Mins
-    private int fastestInterval = 1 * 60 * 1000;        // 1 Min
-    private int maxWaitTime = 10 * 60 * 1000;       // 10 Mins
+    protected int interval = 5 * 60 * 1000;       // 5 Mins
+    protected int fastestInterval = 1 * 60 * 1000;        // 1 Min
+    protected int maxWaitTime = 10 * 60 * 1000;       // 10 Mins
+    protected boolean debug = false;
 
     FusedLocationProviderClient mFusedLocationClient;
 
@@ -97,6 +100,8 @@ public class TrackingService extends Service implements ResultCallback<LocationS
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        setTrackerSettingsFromPreference();
+
         mFireStore = FireStore.getInstance();
         mBoxHelper = BoxHelper.getInstance(getApplicationContext());
         mAuthentication = Authentication.getInstance(getApplicationContext());
@@ -206,6 +211,39 @@ public class TrackingService extends Service implements ResultCallback<LocationS
                     .build();
         }
         return notification;
+    }
+
+    private void setTrackerSettingsFromPreference(){
+        if(SharedPreferenceHelper.doesValueExist("debug",getApplicationContext())){
+            debug = SharedPreferenceHelper.getPreference("debug",getApplicationContext(), debug);
+        }
+        if(debug){
+            Log.d(TAG, "DEBUG MODE");
+            interval = 5000;
+            fastestInterval = 5000;
+            maxWaitTime = 5000;
+        }else {
+            try {
+                if (SharedPreferenceHelper.doesValueExist("interval", getApplicationContext())) {
+                    interval = Integer.parseInt(SharedPreferenceHelper.getPreference("interval", getApplicationContext())) * 60 * 1000;
+                    Log.d(TAG, "Interval: " + interval);
+                }
+                if (SharedPreferenceHelper.doesValueExist("max_interval", getApplicationContext())) {
+                    maxWaitTime = Integer.parseInt(SharedPreferenceHelper.getPreference("max_interval", getApplicationContext())) * 60 * 1000;
+                    Log.d(TAG, "MaxInterval: " + maxWaitTime);
+                }
+                if (SharedPreferenceHelper.doesValueExist("min_interval", getApplicationContext())) {
+                    fastestInterval = Integer.parseInt(SharedPreferenceHelper.getPreference("min_interval", getApplicationContext())) * 60 * 1000;
+                    Log.d(TAG, "Interval: " + fastestInterval);
+                }
+                if (fastestInterval > interval) {
+                    interval = fastestInterval;
+                }
+            }catch (Exception e){
+                FirebaseCrashlytics.getInstance().recordException(e);
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
