@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Tracking Settings">
+        <EditTextPreference
+            android:defaultValue="5"
+            android:inputType="number"
+            android:key="interval"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Set interval of Tracking Service"
+            android:title="Tracking Interval (min)" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="10"
+            android:inputType="numberSigned"
+            android:key="max_interval"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Set max interval of Tracking Service. Easy Tracker will try to deliver location updates within the specified time"
+            android:title="Tracking Max Interval (min)" />
+        <EditTextPreference
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="1"
+            android:inputType="numberSigned"
+            android:key="min_interval"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="Set min interval of Tracking Service. Easy Tracker will deliver location updates with the specified minimum delay"
+            android:title="Tracking Min Interval (min)" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Debug">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="debug"
+            android:summary="This turns on Debug Mode\nWARNING, debug mode sets intervals to 5seconds, Android OS DOES NOT LIKE THIS\nThere is a chance Android will kill the application"
+            android:title="Debug Mode" />
+    </PreferenceCategory>
+</PreferenceScreen>

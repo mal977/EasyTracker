@@ -1,5 +1,7 @@
 package com.ntu.staizen.EasyTracker.ui.jobList;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,15 +21,18 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
@@ -35,6 +41,7 @@ import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailState;
 import com.ntu.staizen.EasyTracker.ui.newJobDetails.JobDetailsViewModel;
+import com.ntu.staizen.EasyTracker.ui.settings.SettingsFragment;
 
 import java.util.ArrayList;
 
@@ -67,6 +74,10 @@ public class JobListFragment extends Fragment {
         EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getActivity());
         JobData jobData = locationManager.checkAndResumeTrackingJob();
         jobDetailsViewModel.setJobDetails(jobData);
+
+        if (!Utilities.isLocationEnabled(getContext())) {
+            Utilities.showGPSPrompt(getContext());
+        }
 
     }
 
@@ -119,6 +130,7 @@ public class JobListFragment extends Fragment {
         Button start_new_job = (Button) view.findViewById(R.id.btn_start_new_job);
         TextView tv_no_jobs = view.findViewById(R.id.tv_no_jobs);
         TextView tv_helloUser = view.findViewById(R.id.tv_title_hello);
+        ImageButton ib_settings = view.findViewById(R.id.ib_settings);
 
         tv_helloUser.setText("Hello " + SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_USERNAME, getContext()) + "!");
 
@@ -161,6 +173,13 @@ public class JobListFragment extends Fragment {
                 } else {
                     navController.navigate(JobListFragmentDirections.actionJobListFragmentToNewJobDetails());
                 }
+            }
+        });
+
+        ib_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(JobListFragmentDirections.actionJobListFragmentToSettingsFragment());
             }
         });
     }

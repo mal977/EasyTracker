@@ -3,6 +3,7 @@ package com.ntu.staizen.EasyTracker.database;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.JobData_;
 import com.ntu.staizen.EasyTracker.model.LocationData;
@@ -73,6 +74,7 @@ public class BoxHelper {
             }
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
     }
@@ -85,6 +87,7 @@ public class BoxHelper {
             locationDataBox.put(locationData);
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
     }
@@ -100,6 +103,7 @@ public class BoxHelper {
 
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
         return locationDataArrayList;
@@ -116,6 +120,7 @@ public class BoxHelper {
             Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
             locationDataArrayList.addAll(locationDataBox.getAll());
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
 
@@ -133,6 +138,7 @@ public class BoxHelper {
             Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
             latestLocationData = locationDataBox.query().equal(LocationData_.jobID, jobUID).orderDesc(LocationData_.dateTime).build().find().get(0);
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
 
@@ -147,6 +153,7 @@ public class BoxHelper {
             jobDataBox.put(jobData);
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
 
@@ -162,6 +169,7 @@ public class BoxHelper {
             jobData = jobDataBox.query().equal(JobData_.UID, UID).build().findFirst();
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
 
@@ -177,6 +185,7 @@ public class BoxHelper {
             jobDataArrayList = new ArrayList<>(jobDataBox.getAll());
 
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
 
@@ -190,6 +199,7 @@ public class BoxHelper {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
             jobDataBox.put(jobData);
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
     }

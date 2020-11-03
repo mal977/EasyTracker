@@ -5,18 +5,22 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.ntu.staizen.EasyTracker.services.LocationChangedReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -47,17 +51,30 @@ public class Utilities {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
 
             } catch (Settings.SettingNotFoundException e) {
+                FirebaseCrashlytics.getInstance().recordException(e);
                 e.printStackTrace();
             }
 
             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
         } else {
-            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-            return !TextUtils.isEmpty(locationProviders);
+            LocationManager locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+            return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
     }
 
+    public static void showGPSPrompt(Context context){
+        new AlertDialog.Builder(context)
+                .setMessage("Easy Tracker requires location updates to perform core functionality! Please enable your location services!")
+                .setPositiveButton("Enable Location", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
     /**
      * Takes in date
      * returns formatted string representing date in hh:mm EEEE dd/MM/yyyy
@@ -70,6 +87,7 @@ public class Utilities {
         try {
             output = simpleDateFormat.format(date);
         } catch (Exception e) {
+            FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
         }
         return output;

@@ -1,0 +1,13 @@
+Easy Tracker ChangeLog
+
+v1.0.1
+- Added setting screen and functionality
+  @Author Malcom
+- Removed unused elements in login screen
+  @Author Malcom
+- Fixed bug where app would get stuck on login screen with loading icon
+  @Author Malcom
+=============================================================================
+v1.0.0
+- Initial Version
+  @Author Malcom
