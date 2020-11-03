@@ -1,5 +1,7 @@
 package com.ntu.staizen.EasyTracker.ui.jobList;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +32,7 @@ import android.widget.TextView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
+import com.ntu.staizen.EasyTracker.Utilities;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 import com.ntu.staizen.EasyTracker.firebase.FireStore;
 import com.ntu.staizen.EasyTracker.manager.EasyTrackerManager;
@@ -69,6 +74,10 @@ public class JobListFragment extends Fragment {
         EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getActivity());
         JobData jobData = locationManager.checkAndResumeTrackingJob();
         jobDetailsViewModel.setJobDetails(jobData);
+
+        if (!Utilities.isLocationEnabled(getContext())) {
+            Utilities.showGPSPrompt(getContext());
+        }
 
     }
 
@@ -167,10 +176,10 @@ public class JobListFragment extends Fragment {
             }
         });
 
-        ib_settings.setOnClickListener(new View.OnClickListener(){
+        ib_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               navController.navigate(JobListFragmentDirections.actionJobListFragmentToSettingsFragment());
+                navController.navigate(JobListFragmentDirections.actionJobListFragmentToSettingsFragment());
             }
         });
     }
