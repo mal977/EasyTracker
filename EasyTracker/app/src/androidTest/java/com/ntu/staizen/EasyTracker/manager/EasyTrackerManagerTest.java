@@ -47,7 +47,6 @@ public class EasyTrackerManagerTest {
 //        Mockito.when(fireStore.getReference().child("contractors/" + authentication.getUID()).child("jobList/ML5HeJYUXlxrOCjJSBc")).thenReturn();
         easyTrackerManager = EasyTrackerManager.getInstance(context);
         assertEquals(easyTrackerManager.currentRunningJobReference, null);
-        SharedPreferenceHelper sharedPreferenceHelper = SharedPreferenceHelper.getInstance();
         assertEquals(easyTrackerManager.currentRunningJobReference.getKey(), "-RpkicsXc1uM4dj1PzYXoZMijYyH3");
 
     }

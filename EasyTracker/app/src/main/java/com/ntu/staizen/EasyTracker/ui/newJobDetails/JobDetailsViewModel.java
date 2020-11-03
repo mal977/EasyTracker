@@ -60,8 +60,8 @@ public class JobDetailsViewModel extends ViewModel {
         BoxHelper boxHelper = BoxHelper.getInstance();
         mJobData = boxHelper.getJobData(UID);
         if(mJobData!=null){
-            if(boxHelper.getLatestLocationDataMathingJob(UID)!=null) {
-                currentLocationData.setValue(boxHelper.getLatestLocationDataMathingJob(UID));
+            if(boxHelper.getLatestLocationDataMatchingJob(UID)!=null) {
+                currentLocationData.setValue(boxHelper.getLatestLocationDataMatchingJob(UID));
             }
         }
         jobDetailStateMutableLiveData.postValue(new JobDetailState(mJobData));

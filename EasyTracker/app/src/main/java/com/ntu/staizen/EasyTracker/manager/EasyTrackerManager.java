@@ -50,7 +50,7 @@ public class EasyTrackerManager {
     private LocationCollectingImplementation locationCollectingImplementation;
     private boolean tracking = false;
 
-    private DatabaseReference currentRunningJobReference = null;
+    protected DatabaseReference currentRunningJobReference = null;
 
     public static synchronized EasyTrackerManager getInstance(Context context) {
         if (instance == null) {

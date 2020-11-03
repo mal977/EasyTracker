@@ -1,10 +1,7 @@
 package com.ntu.staizen.EasyTracker.database;
 
-import android.util.Log;
-
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
-import com.ntu.staizen.EasyTracker.model.LocationData_;
 import com.ntu.staizen.EasyTracker.model.MyObjectBox;
 
 import org.junit.After;
@@ -20,6 +17,11 @@ import io.objectbox.DebugFlags;
 
 import static org.junit.Assert.*;
 
+/***
+ * @see com.ntu.staizen.EasyTracker.database.BoxHelper
+ * Created by Malcom on 3 Nov 2020
+ * This test suite ensures ObjectHelper functionality
+ */
 public class BoxHelperTest {
     private BoxHelper boxHelper;
 
@@ -79,6 +81,11 @@ public class BoxHelperTest {
         //Temporarily not Used
     }
 
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#addLocationData(LocationData)
+     * This tests the addLocationData method
+     * It adds a location data, and verifies if the stored LocationData is correct
+     */
     @Test
     public void addLocationData() {
         boxHelper.addLocationData(locationData1);
@@ -91,6 +98,11 @@ public class BoxHelperTest {
 
     }
 
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLocationDataMatchingJob(String)
+     * This tests the getLocationDataMatchingJob method
+     * It adds a arraylist of location data, and verifies if the stored LocationData is correct
+     */
     @Test
     public void getLocationDataMatchingJob() {
         boxHelper.addLocationData(locationData1);
@@ -110,18 +122,46 @@ public class BoxHelperTest {
         //Temporarily not Used
     }
 
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLatestLocationDataMatchingJob(String) (String)
+     * This tests the getLatestLocationDataMatchingJob method
+     * ensures only the most recent added location data matching a jobUID is returned
+     */
     @Test
-    public void getLatestLocationDataMathingJob() {
+    public void getLatestLocationDataMatchingJob() {
         // This test to make sure only the LATEST location data per matching job is returned
         boxHelper.addLocationData(locationData1);
         boxHelper.addLocationData(locationData2);
-        LocationData output = boxHelper.getLatestLocationDataMathingJob("1");
+        LocationData output = boxHelper.getLatestLocationDataMatchingJob("1");
         assertEquals(locationData2.getDateTime(), output.getDateTime());
         assertEquals(locationData2.getJobID(), output.getJobID());
         assertEquals(locationData2.getLat(), output.getLat(), 0);
         assertEquals(locationData2.getLon(), output.getLon(), 0);
+
+        output = boxHelper.getLatestLocationDataMatchingJob("expectedNull");
+        assertNull(output);
+
     }
 
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLatestLocationDataMatchingJob(String) (String)
+     * This tests the getLatestLocationDataMatchingJob method
+     * ensures only the most recent added location data matching a jobUID is returned
+     * this test checks for null value of non existing jobId
+     */
+    @Test
+    public void getLatestLocationDataMatchingJobExpectedNull() {
+
+        LocationData output = boxHelper.getLatestLocationDataMatchingJob("expectedNull");
+        assertNull(output);
+
+    }
+
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#addJobData(JobData)
+     * This tests the addJobData method
+     * add a job data and checks if it is correclty stored
+     */
     @Test
     public void addJobData() {
 
@@ -134,6 +174,12 @@ public class BoxHelperTest {
         assertEquals(jobData1.getUID(), output.getUID());
     }
 
+    /**
+     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getJobData(String)
+     * This tests the getJobData method
+     * gets a job data matching uid
+     * also ensures expected behavious, null is returned when no job is found
+     */
     @Test
     public void getJobData() {
         boxHelper.addJobData(jobData1);
@@ -147,11 +193,18 @@ public class BoxHelperTest {
         assertNull(output);
     }
 
+    /**
+     * @see BoxHelper#getAllJobData()
+     * This tests the getAllJobData method
+     * gets all job data
+     */
     @Test
     public void getAllJobData() {
+        ArrayList<JobData> output = boxHelper.getAllJobData();
+
         boxHelper.addJobData(jobData1);
         boxHelper.addJobData(jobData2);
-        ArrayList<JobData> output = boxHelper.getAllJobData();
+        output = boxHelper.getAllJobData();
         for (int i = 0; i < output.size(); i++
         ) {
             assertEquals(jobDataArrayList.get(i).getCompany(), output.get(i).getCompany());
@@ -161,6 +214,11 @@ public class BoxHelperTest {
         }
     }
 
+    /**
+     * @see BoxHelper#updateJobData(JobData)
+     * This tests the updateJobData method
+     * updates a job and ensures the data is correctly updated
+     */
     @Test
     public void updateJobData() {
         JobData testData = jobData1;

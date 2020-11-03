@@ -10,6 +10,7 @@ import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.model.LocationData_;
 import com.ntu.staizen.EasyTracker.model.MyObjectBox;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,8 @@ public class BoxHelper {
         return instance;
     }
 
-    public BoxHelper(){}
+    public BoxHelper() {
+    }
 
     private BoxHelper(@NonNull Context context) {
 
@@ -130,13 +132,16 @@ public class BoxHelper {
     /**
      * Gets the latest location data matching jobID
      */
-    public LocationData getLatestLocationDataMathingJob(String jobUID) {
+    public LocationData getLatestLocationDataMatchingJob(String jobUID) {
         Log.d(TAG, "getLatestLocationDataMathingJob(String jobUID)" + jobUID);
         LocationData latestLocationData = null;
         try {
 
             Box<LocationData> locationDataBox = mBoxStore.boxFor(LocationData.class);
-            latestLocationData = locationDataBox.query().equal(LocationData_.jobID, jobUID).orderDesc(LocationData_.dateTime).build().find().get(0);
+            ArrayList<LocationData> localDataArrayList = new ArrayList<>(locationDataBox.query().equal(LocationData_.jobID, jobUID).orderDesc(LocationData_.dateTime).build().find());
+            if (!localDataArrayList.isEmpty()) {
+                latestLocationData = localDataArrayList.get(0);
+            }
         } catch (Exception e) {
             FirebaseCrashlytics.getInstance().recordException(e);
             e.printStackTrace();
