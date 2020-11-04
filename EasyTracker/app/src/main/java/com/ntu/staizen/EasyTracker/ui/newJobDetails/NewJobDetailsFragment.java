@@ -34,6 +34,11 @@ import com.ntu.staizen.EasyTracker.model.LocationData;
 import java.util.Date;
 
 /**
+ * Created by Malcom
+ * This fragment allows the user to create a new job with its details
+ *
+ * Navigated from JobListFragment
+ * @see com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment
  *
  */
 public class NewJobDetailsFragment extends Fragment {
@@ -70,7 +75,6 @@ public class NewJobDetailsFragment extends Fragment {
         this.getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         jobDetailsModel = new ViewModelProvider(this).get(JobDetailsViewModel.class);
-
         locationManager = EasyTrackerManager.getInstance(getActivity());
 
         tvLatLon = view.findViewById(R.id.tv_lat_lon);
@@ -110,7 +114,6 @@ public class NewJobDetailsFragment extends Fragment {
                 }
             }
         });
-
     }
 
     @Override
@@ -127,5 +130,4 @@ public class NewJobDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_job_details, container, false);
     }
-
 }

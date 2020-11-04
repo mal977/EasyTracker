@@ -19,13 +19,13 @@ import com.ntu.staizen.EasyTracker.R;
 
 /**
  * Created by Malcom on 3 Nov 2020
+ * This settings fragment is primarily run by the preference utility
  */
 public class SettingsFragment extends PreferenceFragmentCompat {
 
 
     public SettingsFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,10 +67,4 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
     }
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_settings, container, false);
-//    }
 }
