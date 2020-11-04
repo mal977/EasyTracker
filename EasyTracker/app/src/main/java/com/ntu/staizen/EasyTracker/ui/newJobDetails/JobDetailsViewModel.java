@@ -28,7 +28,7 @@ public class JobDetailsViewModel extends ViewModel {
         return currentLocationData;
     }
 
-    private MutableLiveData<JobDetailState> jobDetailStateMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<JobDetailState> jobDetailStateMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<JobDetailState> getJobDetailStateMutableLiveData() {
         return jobDetailStateMutableLiveData;

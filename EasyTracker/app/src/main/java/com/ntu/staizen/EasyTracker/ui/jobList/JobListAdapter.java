@@ -26,7 +26,6 @@ public class JobListAdapter extends RecyclerView.Adapter<JobListAdapter.ViewHold
     public static final String TAG = RecyclerView.class.getSimpleName();
 
     private ArrayList<JobData> mJobList;
-    protected NavController navController;
 
     private Context context;
 

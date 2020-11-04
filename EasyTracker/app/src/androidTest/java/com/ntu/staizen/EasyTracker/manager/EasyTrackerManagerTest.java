@@ -38,18 +38,18 @@ public class EasyTrackerManagerTest {
     public void tearDown() throws Exception {
     }
 
-    @Test
-    public void getInstance() {
-//        sharedPreferenceHelper.setPreferences("running_job","-RpkicsXc1uM4dj1PzYXoZMijYyH3",context);
-//        Mockito.when(sharedPreferenceHelper.doesValueExist("running_job", context)).thenReturn(true);
-//        Mockito.when(SharedPreferenceHelper.getPreference("running_job", context)).thenReturn("-ML5HeJYUXlxrOCjJSBc");
-//        Mockito.when(authentication.getUID()).thenReturn("-RpkicsXc1uM4dj1PzYXoZMijYyH3 ");
-//        Mockito.when(fireStore.getReference().child("contractors/" + authentication.getUID()).child("jobList/ML5HeJYUXlxrOCjJSBc")).thenReturn();
-        easyTrackerManager = EasyTrackerManager.getInstance(context);
-        assertEquals(easyTrackerManager.currentRunningJobReference, null);
-        assertEquals(easyTrackerManager.currentRunningJobReference.getKey(), "-RpkicsXc1uM4dj1PzYXoZMijYyH3");
-
-    }
+//    @Test
+//    public void getInstance() {
+////        sharedPreferenceHelper.setPreferences("running_job","-RpkicsXc1uM4dj1PzYXoZMijYyH3",context);
+////        Mockito.when(sharedPreferenceHelper.doesValueExist("running_job", context)).thenReturn(true);
+////        Mockito.when(SharedPreferenceHelper.getPreference("running_job", context)).thenReturn("-ML5HeJYUXlxrOCjJSBc");
+////        Mockito.when(authentication.getUID()).thenReturn("-RpkicsXc1uM4dj1PzYXoZMijYyH3 ");
+////        Mockito.when(fireStore.getReference().child("contractors/" + authentication.getUID()).child("jobList/ML5HeJYUXlxrOCjJSBc")).thenReturn();
+//        easyTrackerManager = EasyTrackerManager.getInstance(context);
+//        assertEquals(easyTrackerManager.currentRunningJobReference, null);
+//        assertEquals(easyTrackerManager.currentRunningJobReference.getKey(), "-RpkicsXc1uM4dj1PzYXoZMijYyH3");
+//
+//    }
 
     @Test
     public void testGetInstance() {

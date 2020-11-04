@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.ntu.staizen.EasyTracker.MainActivity;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.SharedPreferenceHelper;
 import com.ntu.staizen.EasyTracker.Utilities;
@@ -55,22 +56,30 @@ public class JobListFragment extends Fragment {
     private RecyclerView jobListRecyclerView;
     private ArrayList<JobData> jobDataArrayList = new ArrayList<>();
 
-    private JobListViewModel jobListViewModel;
-    private JobDetailsViewModel jobDetailsViewModel;
+    protected JobListViewModel jobListViewModel;
+    protected JobDetailsViewModel jobDetailsViewModel;
 
     private boolean locationPermissionGranted = false;  //ToDo: Add flow for is user denies location request; maybe dont allow user to start job
-    private boolean isJobRunning = false;
+    protected boolean isJobRunning = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
-    public JobListFragment() {
+
+    protected boolean debug = false;
+
+    public JobListFragment(){
+    }
+
+    public JobListFragment(boolean debug) {
+        this.debug = debug;
     }
 
     @Override
     public void onStart() {
         super.onStart();
         jobListViewModel.updatePastJobHistory();
-        getLocationPermission();
-
+        if (!debug) {
+            getLocationPermission();
+        }
         EasyTrackerManager locationManager = EasyTrackerManager.getInstance(getActivity());
         JobData jobData = locationManager.checkAndResumeTrackingJob();
         jobDetailsViewModel.setJobDetails(jobData);
@@ -97,12 +106,14 @@ public class JobListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.hide();
+        if (getActivity().getClass() == MainActivity.class) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.hide();
+        }
 
         jobListViewModel = new ViewModelProvider(this).get(JobListViewModel.class);
         jobDetailsViewModel = new ViewModelProvider(getActivity()).get(JobDetailsViewModel.class);
-        NavController navController = Navigation.findNavController(view);
+        NavController navController = Navigation.findNavController(getView());
         Authentication authentication = Authentication.getInstance(getContext());
         FireStore fireStore = FireStore.getInstance();
 

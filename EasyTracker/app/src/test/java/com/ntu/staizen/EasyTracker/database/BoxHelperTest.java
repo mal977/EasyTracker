@@ -1,5 +1,6 @@
 package com.ntu.staizen.EasyTracker.database;
 
+import com.ntu.staizen.EasyTracker.database.BoxHelper;
 import com.ntu.staizen.EasyTracker.model.JobData;
 import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.model.MyObjectBox;
@@ -7,6 +8,8 @@ import com.ntu.staizen.EasyTracker.model.MyObjectBox;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,13 +18,15 @@ import io.objectbox.Box;
 import io.objectbox.BoxStore;
 import io.objectbox.DebugFlags;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-/***
+/**
+ * Created by Malcom Teh
+ * This test suite ensures correct functionality of BoxHelper class
  * @see com.ntu.staizen.EasyTracker.database.BoxHelper
- * Created by Malcom on 3 Nov 2020
- * This test suite ensures ObjectHelper functionality
  */
+@RunWith(JUnit4.class)
 public class BoxHelperTest {
     private BoxHelper boxHelper;
 
@@ -82,7 +87,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#addLocationData(LocationData)
+     * @see BoxHelper#addLocationData(LocationData)
      * This tests the addLocationData method
      * It adds a location data, and verifies if the stored LocationData is correct
      */
@@ -99,7 +104,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLocationDataMatchingJob(String)
+     * @see BoxHelper#getLocationDataMatchingJob(String)
      * This tests the getLocationDataMatchingJob method
      * It adds a arraylist of location data, and verifies if the stored LocationData is correct
      */
@@ -123,7 +128,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLatestLocationDataMatchingJob(String) (String)
+     * @see BoxHelper#getLatestLocationDataMatchingJob(String) (String)
      * This tests the getLatestLocationDataMatchingJob method
      * ensures only the most recent added location data matching a jobUID is returned
      */
@@ -144,7 +149,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getLatestLocationDataMatchingJob(String) (String)
+     * @see BoxHelper#getLatestLocationDataMatchingJob(String) (String)
      * This tests the getLatestLocationDataMatchingJob method
      * ensures only the most recent added location data matching a jobUID is returned
      * this test checks for null value of non existing jobId
@@ -158,7 +163,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#addJobData(JobData)
+     * @see BoxHelper#addJobData(JobData)
      * This tests the addJobData method
      * add a job data and checks if it is correclty stored
      */
@@ -175,7 +180,7 @@ public class BoxHelperTest {
     }
 
     /**
-     * @see com.ntu.staizen.EasyTracker.database.BoxHelper#getJobData(String)
+     * @see BoxHelper#getJobData(String)
      * This tests the getJobData method
      * gets a job data matching uid
      * also ensures expected behavious, null is returned when no job is found

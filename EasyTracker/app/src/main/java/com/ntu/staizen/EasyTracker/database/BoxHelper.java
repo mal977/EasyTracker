@@ -184,7 +184,7 @@ public class BoxHelper {
     @Nullable
     public ArrayList<JobData> getAllJobData() {
         Log.d(TAG, "getAllJobData()");
-        ArrayList<JobData> jobDataArrayList = null;
+        ArrayList<JobData> jobDataArrayList = new ArrayList<>();
         try {
             Box<JobData> jobDataBox = mBoxStore.boxFor(JobData.class);
             jobDataArrayList = new ArrayList<>(jobDataBox.getAll());

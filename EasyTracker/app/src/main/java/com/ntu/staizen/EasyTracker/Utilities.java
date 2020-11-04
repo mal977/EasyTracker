@@ -28,10 +28,21 @@ import androidx.core.app.NotificationManagerCompat;
 
 import static android.app.Notification.FLAG_ONLY_ALERT_ONCE;
 
+/**
+ * Created by Malcom Teh
+ * Helper class for miscellaneous helper methods
+ */
 public class Utilities {
     private static final String TAG = Utilities.class.getSimpleName();
     public static String TRACKING_NOTIFICATION_CHANNEL_ID = "tracking_notification";
 
+    /**
+     * Helps check if {@param appPermission} is enabled on the device.
+     * If the permission is not enabled, it uses the {@param activity} provided to request for the permissio
+     * @param activity Activity to request for permission is missing. Must implement AppCompatActivity
+     * @param appPermission Permission to check
+     * @return true if permission is enabled
+     */
     public static boolean checkPermission(AppCompatActivity activity, String appPermission) {
         int permissionEnabled = ActivityCompat.checkSelfPermission(activity, appPermission);
         if (permissionEnabled == PackageManager.PERMISSION_DENIED) {
@@ -42,6 +53,11 @@ public class Utilities {
         return true;
     }
 
+    /**
+     * Checks if location is enabled on device
+     * @param context Used to get LocationManager
+     * @return true if location services is enabled / false if not
+     */
     public static boolean isLocationEnabled(Context context) {
         int locationMode = 0;
         String locationProviders;
@@ -63,6 +79,11 @@ public class Utilities {
         }
     }
 
+    /**
+     * Creates a GPS prompt dialog, and displays to user. This dialog will bring the user to his settings screen to
+     * enable GPS
+     * @param context Used to build Dialog
+     */
     public static void showGPSPrompt(Context context){
         new AlertDialog.Builder(context)
                 .setMessage("Easy Tracker requires location updates to perform core functionality! Please enable your location services!")

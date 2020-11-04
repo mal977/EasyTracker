@@ -38,7 +38,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class LoginFragment extends Fragment {
     private static String TAG = LoginFragment.class.getSimpleName();
 
-    private LoginViewModel loginViewModel;
+    protected LoginViewModel loginViewModel;
 
     @Nullable
     @Override

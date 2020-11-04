@@ -28,7 +28,7 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String phoneNumber, Activity activity) {
         if (getLoginFormState().getValue() == null) {
-            setAuthenticated(0, "Please enter your details!");
+            setAuthenticated(0, activity.getString(R.string.please_enter_details));
             return;
         }
         if (getLoginFormState().getValue().isDataValid()) {
@@ -69,10 +69,12 @@ public class LoginViewModel extends ViewModel {
         if (phoneNumber == null) {
             return false;
         }
+        phoneNumber = phoneNumber.trim();
+
         if (phoneNumber.length() >= 8) {
-            return true;
+            return Patterns.PHONE.matcher(phoneNumber).matches();
         } else {
-            return !phoneNumber.trim().isEmpty();
+            return false;
         }
     }
 }
