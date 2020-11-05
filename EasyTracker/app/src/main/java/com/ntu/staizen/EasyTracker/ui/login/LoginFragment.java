@@ -142,6 +142,12 @@ public class LoginFragment extends Fragment {
 
     }
 
+    /**
+     * FireBase authenticated event
+     * @see <a href https://github.com/greenrobot/EventBus></a>
+     *
+     * @param event
+     */
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void handleFirebaseAuthenticatedEvent(FirebaseAuthenticatedEvent event) {
         Log.d(TAG, "FirebaseAuthenticatedEvent Success");

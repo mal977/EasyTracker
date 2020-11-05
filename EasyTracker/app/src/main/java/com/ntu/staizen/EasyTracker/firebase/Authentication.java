@@ -47,11 +47,19 @@ public class Authentication {
     public Authentication(Context context) {
         this.mContext = context;
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             isAuthenticated = true;
         }
     }
 
+    public FirebaseAuth getmAuth() {
+        return mAuth;
+    }
+
+    public String getUID() {
+        return mAuth.getUid();
+    }
+    
     /**
      * Signs in Anonymously
      *
@@ -69,7 +77,7 @@ public class Authentication {
                             mUser = mAuth.getCurrentUser();
                             SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_USERNAME, username, activity.getApplicationContext());
                             SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_PHONE_NUMBER, phonenumber, activity.getApplicationContext());
-                            FireStore.getInstance().sendNewContractorToFireStore(mUser.getUid(),new ContractorInfo(username,phonenumber,null),false);
+                            FireStore.getInstance().sendNewContractorToFireStore(mUser.getUid(), new ContractorInfo(username, phonenumber, null), false);
                             EventBus.getDefault().postSticky(new FirebaseAuthenticatedEvent(1));
 
                         } else {
@@ -127,14 +135,6 @@ public class Authentication {
                         });
             }
         }
-    }
-
-    public FirebaseAuth getmAuth() {
-        return mAuth;
-    }
-
-    public String getUID() {
-        return mAuth.getUid();
     }
 
 }

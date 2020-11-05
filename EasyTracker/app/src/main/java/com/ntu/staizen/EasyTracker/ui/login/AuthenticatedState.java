@@ -2,6 +2,9 @@ package com.ntu.staizen.EasyTracker.ui.login;
 
 import javax.annotation.Nullable;
 
+/**
+ * Created by Malcom
+ */
 public class AuthenticatedState {
 
     private Integer authenticatedStatus;    //0=FAILED, 1 = Sucesss

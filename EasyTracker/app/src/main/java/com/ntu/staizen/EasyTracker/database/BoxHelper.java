@@ -81,6 +81,12 @@ public class BoxHelper {
         }
     }
 
+    /**
+     * Add a locationData object to ObjectBox
+     * @see com.ntu.staizen.EasyTracker.model.LocationData
+     *
+     * @param locationData
+     */
     public void addLocationData(LocationData locationData) {
         Log.d(TAG, "addLocationData(LocationData locationData)");
         try {
@@ -94,6 +100,12 @@ public class BoxHelper {
         }
     }
 
+    /**
+     * Returns a matching location data with input jobUID
+     *
+     * @param jobID
+     * @return Returns empty array list if no matching uid or no location data found.
+     */
     public ArrayList<LocationData> getLocationDataMatchingJob(String jobID) {
         Log.d(TAG, "getLocationDataMatchingJob(String jobID)");
         ArrayList<LocationData> locationDataArrayList = new ArrayList<>();
@@ -150,6 +162,10 @@ public class BoxHelper {
         return latestLocationData;
     }
 
+    /**
+     * Adds jobData to Database
+     * @param jobData
+     */
     public void addJobData(JobData jobData) {
         Log.d(TAG, "addJobData(JobData jobData)" + jobData.toString());
 
@@ -164,6 +180,11 @@ public class BoxHelper {
 
     }
 
+    /**
+     * Returns JobData matching given UID
+     * @param UID
+     * @return
+     */
     @Nullable
     public JobData getJobData(String UID) {
         Log.d(TAG, "getJobData(String UID)" + UID);
@@ -181,6 +202,10 @@ public class BoxHelper {
         return jobData;
     }
 
+    /**
+     * Returns an arraylist of all jobData in Database
+     * @return
+     */
     @Nullable
     public ArrayList<JobData> getAllJobData() {
         Log.d(TAG, "getAllJobData()");
@@ -197,6 +222,10 @@ public class BoxHelper {
         return jobDataArrayList;
     }
 
+    /**
+     * Updates a matching jobdata in the Database
+     * @param jobData
+     */
     public void updateJobData(JobData jobData) {
         Log.d(TAG, "updateJobData(JobData jobData)");
 

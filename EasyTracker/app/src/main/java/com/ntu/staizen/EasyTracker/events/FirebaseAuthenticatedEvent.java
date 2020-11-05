@@ -4,6 +4,7 @@ import android.location.Location;
 
 /**
  * Created by Malcom Teh on 28/6/2017.
+ * Broadcasts when Firebase has authenticated user
  */
 
 public class FirebaseAuthenticatedEvent {

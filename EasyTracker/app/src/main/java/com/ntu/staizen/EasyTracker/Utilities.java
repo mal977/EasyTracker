@@ -39,7 +39,8 @@ public class Utilities {
     /**
      * Helps check if {@param appPermission} is enabled on the device.
      * If the permission is not enabled, it uses the {@param activity} provided to request for the permissio
-     * @param activity Activity to request for permission is missing. Must implement AppCompatActivity
+     *
+     * @param activity      Activity to request for permission is missing. Must implement AppCompatActivity
      * @param appPermission Permission to check
      * @return true if permission is enabled
      */
@@ -55,6 +56,7 @@ public class Utilities {
 
     /**
      * Checks if location is enabled on device
+     *
      * @param context Used to get LocationManager
      * @return true if location services is enabled / false if not
      */
@@ -74,7 +76,7 @@ public class Utilities {
             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
 
         } else {
-            LocationManager locationManager = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
             return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         }
     }
@@ -82,9 +84,10 @@ public class Utilities {
     /**
      * Creates a GPS prompt dialog, and displays to user. This dialog will bring the user to his settings screen to
      * enable GPS
+     *
      * @param context Used to build Dialog
      */
-    public static void showGPSPrompt(Context context){
+    public static void showGPSPrompt(Context context) {
         new AlertDialog.Builder(context)
                 .setMessage("Easy Tracker requires location updates to perform core functionality! Please enable your location services!")
                 .setPositiveButton("Enable Location", new DialogInterface.OnClickListener() {
@@ -96,9 +99,11 @@ public class Utilities {
                 .setNegativeButton("Cancel", null)
                 .show();
     }
+
     /**
      * Takes in date
      * returns formatted string representing date in hh:mm EEEE dd/MM/yyyy
+     *
      * @param date
      * @return
      */

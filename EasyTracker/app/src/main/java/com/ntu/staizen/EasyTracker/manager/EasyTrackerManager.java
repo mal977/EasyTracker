@@ -41,7 +41,6 @@ import static com.ntu.staizen.EasyTracker.Utilities.TRACKING_NOTIFICATION_CHANNE
 public class EasyTrackerManager {
     private static final String TAG = EasyTrackerManager.class.getSimpleName();
 
-
     private Context mContext;
     private static EasyTrackerManager instance;
     private Authentication mAuthentication;
@@ -79,7 +78,7 @@ public class EasyTrackerManager {
     }
 
     //Starts a foreground service to collect location updates.
-    public void startLocationUpdates(Context context) {
+    public void startLocationUpdates() {
         Log.d(TAG, "startLocationUpdates");
         if (!tracking) {
             Intent intent = new Intent(mContext, TrackingService.class);
@@ -122,7 +121,7 @@ public class EasyTrackerManager {
                 if (currentRunningJobReference != null) {
                     jobData.setUID(currentRunningJobReference.getKey());
                     mBoxHelper.addJobData(jobData);
-                    startLocationUpdates(mContext);
+                    startLocationUpdates();
                     SharedPreferenceHelper.setPreferences(SharedPreferenceHelper.KEY_RUNNING_JOB, currentRunningJobReference.getKey(), mContext);
                 }
             }
@@ -165,7 +164,7 @@ public class EasyTrackerManager {
             String uid = SharedPreferenceHelper.getPreference(SharedPreferenceHelper.KEY_RUNNING_JOB, mContext);
             jobData = BoxHelper.getInstance().getJobData(uid);
             if (!tracking) {
-                startLocationUpdates(mContext);
+                startLocationUpdates();
             }
         }
         return jobData;

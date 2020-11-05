@@ -11,21 +11,33 @@ import android.util.Patterns;
 import com.ntu.staizen.EasyTracker.R;
 import com.ntu.staizen.EasyTracker.firebase.Authentication;
 
+/**
+ * Created by Malcom Teh
+ * View model for LoginFragment
+ * <p>
+ * If you are unsure how this view model works
+ *
+ * @see <a href https://developer.android.com/topic/libraries/architecture/viewmodel></a>
+ */
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private MutableLiveData<AuthenticatedState> authenticated = new MutableLiveData<>();
 
-    MutableLiveData<AuthenticatedState> authenticated = new MutableLiveData<>();
-
-    LiveData<LoginFormState> getLoginFormState() {
+    public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<AuthenticatedState> getAuthenticatedState() {
+    public LiveData<AuthenticatedState> getAuthenticatedState() {
         return authenticated;
     }
 
-
+    /**
+     * This method checks if loginData is valid first, before Authenticating user
+     * @param username
+     * @param phoneNumber
+     * @param activity
+     */
     public void login(String username, String phoneNumber, Activity activity) {
         if (getLoginFormState().getValue() == null) {
             setAuthenticated(0, activity.getString(R.string.please_enter_details));
@@ -39,21 +51,37 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Updates loginData when user enters details
+     * @param username
+     * @param phoneNumber
+     */
     public void loginDataChanged(String username, String phoneNumber) {
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null));
         } else if (!isPhoneNumberValid(phoneNumber)) {
             loginFormState.setValue(new LoginFormState(null, R.string.invalid_phone_number));
-        }  else {
+        } else {
             loginFormState.setValue(new LoginFormState(true));
         }
     }
 
+    /**
+     * Sets Authenticated status
+     * @see com.ntu.staizen.EasyTracker.ui.login.AuthenticatedState
+     *
+     * @param authenticated
+     * @param errorMessage
+     */
     public void setAuthenticated(int authenticated, String errorMessage) {
         this.authenticated.setValue(new AuthenticatedState(authenticated, errorMessage));
     }
 
-    // A placeholder username validation check
+    /**
+     * Username validation method
+     * @param username
+     * @return
+     */
     private boolean isUserNameValid(String username) {
         if (username == null) {
             return false;
@@ -65,6 +93,11 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Phone number validation method
+     * @param phoneNumber
+     * @return
+     */
     private boolean isPhoneNumberValid(String phoneNumber) {
         if (phoneNumber == null) {
             return false;

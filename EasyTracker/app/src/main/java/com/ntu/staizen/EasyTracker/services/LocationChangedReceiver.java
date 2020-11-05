@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 
 /**
  * Created by Malcom Teh on 8/10/2020.
+ * <p>
+ * This service is used to receive location updates
  */
 
 public class LocationChangedReceiver extends IntentService {

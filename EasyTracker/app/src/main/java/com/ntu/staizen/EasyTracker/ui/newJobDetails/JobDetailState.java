@@ -4,6 +4,9 @@ import com.ntu.staizen.EasyTracker.model.JobData;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Created by Malcom
+ */
 public class JobDetailState {
 
     @Nullable
@@ -20,7 +23,6 @@ public class JobDetailState {
         this.companyName = companyName;
         this.start = start;
         this.end = end;
-
     }
 
     public JobDetailState(JobData jobData) {

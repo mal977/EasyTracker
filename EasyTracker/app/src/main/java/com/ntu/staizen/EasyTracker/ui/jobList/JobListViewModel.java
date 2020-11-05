@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModel;
 public class JobListViewModel extends ViewModel {
     private static String TAG = JobListViewModel.class.getSimpleName();
 
-    MutableLiveData<ArrayList<JobData>> pastJobDataHistory = new MutableLiveData<>();
+    protected MutableLiveData<ArrayList<JobData>> pastJobDataHistory = new MutableLiveData<>();
 
-    LiveData<ArrayList<JobData>> getJobDataState(){
+    public LiveData<ArrayList<JobData>> getJobDataState(){
         return pastJobDataHistory;
     }
 

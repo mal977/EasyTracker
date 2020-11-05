@@ -82,6 +82,7 @@ public class JobDetailsFragment extends Fragment {
         if (locationData != null) {
             tvLocation.setText("Lat: " + locationData.getLat() + " Lon: " + locationData.getLon());
         }
+
         jobDetailsModel.getJobDetailStateMutableLiveData().observe(getViewLifecycleOwner(), new Observer<JobDetailState>() {
             @Override
             public void onChanged(JobDetailState jobDetailState) {

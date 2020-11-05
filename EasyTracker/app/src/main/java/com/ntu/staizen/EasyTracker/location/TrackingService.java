@@ -46,10 +46,6 @@ import com.ntu.staizen.EasyTracker.model.LocationData;
 import com.ntu.staizen.EasyTracker.ui.jobDetails.JobDetailsFragment;
 import com.ntu.staizen.EasyTracker.ui.jobList.JobListFragment;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -59,6 +55,16 @@ import androidx.navigation.NavDeepLinkBuilder;
 
 import static com.ntu.staizen.EasyTracker.Utilities.TRACKING_NOTIFICATION_CHANNEL_ID;
 
+/**
+ * Created by Malcom Teh
+ *
+ * This is a foreground service which starts and collects location services.
+ *
+ * Due to the nature of Android Gps Location Updates, this is the best way to collect location updates
+ * reliably in the background.
+ *
+ * @see <a href https://developer.android.com/about/versions/oreo/background-location-limits></a>
+ */
 public class TrackingService extends Service implements ResultCallback<LocationSettingsResult> {
     private static final String TAG = TrackingService.class.getSimpleName();
 
@@ -68,16 +74,15 @@ public class TrackingService extends Service implements ResultCallback<LocationS
     private Authentication mAuthentication;
     private LocationCallback locationCallback;
     private PendingIntent pendingIntent;
+    private FusedLocationProviderClient mFusedLocationClient;
 
-    //    private int interval = 10 * 60 * 1000;        // 10 Mins
+//    private int interval = 10 * 60 * 1000;        // 10 Mins
 //    private int fastestInterval = 5 * 60 * 1000;      // 5 Mins
 //    private int maxWaitTime = 15 * 60 * 1000;     // 15 Mins
     protected int interval = 5 * 60 * 1000;       // 5 Mins
     protected int fastestInterval = 1 * 60 * 1000;        // 1 Min
     protected int maxWaitTime = 10 * 60 * 1000;       // 10 Mins
     protected boolean debug = false;
-
-    FusedLocationProviderClient mFusedLocationClient;
 
     public TrackingService() {
     }
@@ -213,6 +218,9 @@ public class TrackingService extends Service implements ResultCallback<LocationS
         return notification;
     }
 
+    /**
+     * Retrieves tracker settings from sharedPreference if values exists
+     */
     private void setTrackerSettingsFromPreference(){
         if(SharedPreferenceHelper.doesValueExist("debug",getApplicationContext())){
             debug = SharedPreferenceHelper.getPreference("debug",getApplicationContext(), debug);
