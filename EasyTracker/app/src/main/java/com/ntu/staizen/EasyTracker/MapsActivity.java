@@ -161,7 +161,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (locationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 EasyTrackerManager locationManager = EasyTrackerManager.getInstance(this);
-                locationManager.startLocationUpdates(this);
+                locationManager.startLocationUpdates();
             }
         } catch (SecurityException e) {
             FirebaseCrashlytics.getInstance().recordException(e);
