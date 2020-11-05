@@ -1,5 +1,6 @@
 package com.ntu.staizen.EasyTracker.ui.jobList;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -47,7 +48,7 @@ import com.ntu.staizen.EasyTracker.ui.settings.SettingsFragment;
 import java.util.ArrayList;
 
 /**
- *
+ * Created by Malcom
  */
 public class JobListFragment extends Fragment {
     private static String TAG = JobListFragment.class.getSimpleName();
@@ -59,7 +60,7 @@ public class JobListFragment extends Fragment {
     protected JobListViewModel jobListViewModel;
     protected JobDetailsViewModel jobDetailsViewModel;
 
-    private boolean locationPermissionGranted = false;  //ToDo: Add flow for is user denies location request; maybe dont allow user to start job
+    private boolean locationPermissionGranted = false;  //ToDo: Optional Add flow for if user denies location request; maybe dont allow user to start job
     protected boolean isJobRunning = false;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
@@ -179,14 +180,21 @@ public class JobListFragment extends Fragment {
         start_new_job.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!locationPermissionGranted){
+                    getLocationPermission();
+                    return;
+                }
                 if (isJobRunning) {
+                    // Navigate to JobDetail fragment to show current tracking job
                     navController.navigate(JobListFragmentDirections.actionJobListFragmentToJobDetails(jobDetailsViewModel.getUID()));
                 } else {
+                    // Navigate to newJobDetail fragment to start new job
                     navController.navigate(JobListFragmentDirections.actionJobListFragmentToNewJobDetails());
                 }
             }
         });
 
+        // Settings Button
         ib_settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,10 +221,7 @@ public class JobListFragment extends Fragment {
             locationPermissionGranted = true;
 
         } else {
-
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            showLocationServicesDialog(getContext());
         }
     }
 
@@ -234,4 +239,26 @@ public class JobListFragment extends Fragment {
             }
         }
     }
+
+    /**
+     * This will be called when user denies location services
+     * Meant to show dialog stressing how the user must enable location services for app to work
+     *
+     * @param context
+     */
+    private void showLocationServicesDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setMessage("Easy Tracker requires location updates to perform core functionality! Please allow us access to your location services!")
+                .setPositiveButton("Ok!", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
 }
