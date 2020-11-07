@@ -149,7 +149,7 @@ public class JobListFragment extends Fragment {
         jobListViewModel.getJobDataState().observe(getViewLifecycleOwner(), new Observer<ArrayList<JobData>>() {
             @Override
             public void onChanged(ArrayList<JobData> vmJobDataArrayList) {
-                if (vmJobDataArrayList == null) {
+                if (vmJobDataArrayList == null | vmJobDataArrayList.isEmpty()) {
                     tv_no_jobs.setVisibility(View.VISIBLE);
                 } else {
                     tv_no_jobs.setVisibility(View.GONE);
