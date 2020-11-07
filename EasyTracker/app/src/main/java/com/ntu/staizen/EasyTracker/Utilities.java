@@ -109,7 +109,7 @@ public class Utilities {
      */
     public static String jobDateFormatter(Date date) {
         String output = "";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm EEEE dd/MM/yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a EEEE dd/MM/yyyy");
         try {
             output = simpleDateFormat.format(date);
         } catch (Exception e) {
