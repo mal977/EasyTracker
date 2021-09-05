@@ -9,7 +9,7 @@ This repository holds the mobile component of the system. Built using Android. T
 * **Contractor Details Logging for Records**
 * **Contractor Work Start and End Session**
 * **Users create accounts and are authenticated using Google Firebase**
-* **Keep track and visualise past job details**
+* **Keep track and visualise past job details. fetching job infro from BackEnd**
 
 ### [UML] Architecture Diagram ###
 ![Architecture Diagram](images/architecture_diagram.jpg)
