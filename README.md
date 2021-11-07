@@ -18,7 +18,7 @@ Easy Tracker Android follows the conventional [MVVM Architecture](https://develo
 ![Communication Diagram](https://user-images.githubusercontent.com/12322435/140654755-5e0d668f-ae81-4e3c-87d8-c316d78475a9.png)
 
 ## Gallery ##
-![](https://user-images.githubusercontent.com/12322435/140654762-f11cc962-26af-436b-8626-4e369694a2b4.png |width=200)
+![](https://user-images.githubusercontent.com/12322435/140654762-f11cc962-26af-436b-8626-4e369694a2b4.png | width=200)
 
 <img src="images/app1.jpg" width="200"/> <img src="images/app2.jpg" width="200"/>
 <img src="images/app3.jpg" width="200"/> <img src="images/app4.jpg" width="200"/> 
